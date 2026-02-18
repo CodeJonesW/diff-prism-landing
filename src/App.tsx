@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 
-const GITHUB_URL = "https://github.com/willjasen/diffprism";
+const GITHUB_URL = "https://github.com/CodeJonesW/diffprism";
 const INSTALL_CMD = "npm install -g diffprism";
 
 function CopyIcon() {
