@@ -124,64 +124,11 @@ function DemoWindow() {
             <div className="demo-dot" />
             <div className="demo-dot" />
           </div>
-          <div className="demo-content">
-            <div className="line hunk">
-              <span className="gutter"></span>
-              <span>@@ -12,8 +12,14 @@ export function authenticate(req, res, next) {"{"}</span>
-            </div>
-            <div className="line ctx">
-              <span className="gutter">12</span>
-              <span>{"  const token = req.headers.authorization;"}</span>
-            </div>
-            <div className="line ctx">
-              <span className="gutter">13</span>
-              <span>{"  if (!token) {"}</span>
-            </div>
-            <div className="line del">
-              <span className="gutter">14</span>
-              <span>{"−   return res.status(401).send('Unauthorized');"}</span>
-            </div>
-            <div className="line add">
-              <span className="gutter">14</span>
-              <span>{"＋   return res.status(401).json({"}</span>
-            </div>
-            <div className="line add">
-              <span className="gutter">15</span>
-              <span>{"＋     error: 'UNAUTHORIZED',"}</span>
-            </div>
-            <div className="line add">
-              <span className="gutter">16</span>
-              <span>{"＋     message: 'Authentication required',"}</span>
-            </div>
-            <div className="line add">
-              <span className="gutter">17</span>
-              <span>{"＋   });"}</span>
-            </div>
-            <div className="line ctx">
-              <span className="gutter">18</span>
-              <span>{"  }"}</span>
-            </div>
-            <div className="line ctx">
-              <span className="gutter">19</span>
-              <span>{"  try {"}</span>
-            </div>
-            <div className="line del">
-              <span className="gutter">20</span>
-              <span>{"−   const decoded = jwt.verify(token, SECRET);"}</span>
-            </div>
-            <div className="line add">
-              <span className="gutter">20</span>
-              <span>{"＋   const decoded = jwt.verify(token, config.jwtSecret);"}</span>
-            </div>
-            <div className="line add">
-              <span className="gutter">21</span>
-              <span>{"＋   req.user = { id: decoded.sub, role: decoded.role };"}</span>
-            </div>
-            <div className="line ctx">
-              <span className="gutter">22</span>
-              <span>{"    next();"}</span>
-            </div>
-          </div>
+          <img
+            src="/diffprism-ss.png"
+            alt="DiffPrism review UI showing a diff with file sidebar, syntax-highlighted changes, and approve/reject buttons"
+            className="demo-screenshot"
+          />
         </div>
       </div>
     </section>
