@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./App.css";
 
 const GITHUB_URL = "https://github.com/CodeJonesW/diffprism";
+const NPM_URL = "https://www.npmjs.com/package/diffprism";
 const INSTALL_CMD = "npm install -g diffprism";
 
 function CopyIcon() {
@@ -30,6 +31,14 @@ function GitHubIcon() {
   );
 }
 
+function NpmIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M0 0v16h16V0H0zm13.2 13.2H8V5.6H4.8v7.6H2.8V2.8h10.4v10.4z" />
+    </svg>
+  );
+}
+
 function Nav() {
   return (
     <nav className="nav">
@@ -46,6 +55,10 @@ function Nav() {
           <Link to="/why">Why DiffPrism</Link>
           <a href="#features">Features</a>
           <a href="#how-it-works">How it works</a>
+          <a href={NPM_URL} className="btn-github" target="_blank" rel="noopener">
+            <NpmIcon />
+            npm
+          </a>
           <a href={GITHUB_URL} className="btn-github" target="_blank" rel="noopener">
             <GitHubIcon />
             GitHub
@@ -289,6 +302,10 @@ function Footer() {
           DiffPrism is open source under the MIT License.{" "}
           <a href={GITHUB_URL} target="_blank" rel="noopener">
             GitHub
+          </a>
+          {" · "}
+          <a href={NPM_URL} target="_blank" rel="noopener">
+            npm
           </a>
         </p>
       </div>
