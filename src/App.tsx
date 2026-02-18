@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./App.css";
 
 const GITHUB_URL = "https://github.com/CodeJonesW/diffprism";
@@ -42,6 +43,7 @@ function Nav() {
           DiffPrism
         </a>
         <div className="nav-links">
+          <Link to="/why">Why DiffPrism</Link>
           <a href="#features">Features</a>
           <a href="#how-it-works">How it works</a>
           <a href={GITHUB_URL} className="btn-github" target="_blank" rel="noopener">

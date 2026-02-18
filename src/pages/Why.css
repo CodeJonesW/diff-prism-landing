@@ -1,0 +1,227 @@
+/* ── Why Page ── */
+
+.why-page {
+  padding: 7rem 0 2rem;
+}
+
+.why-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.why-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  background: rgba(248, 81, 73, 0.1);
+  border: 1px solid rgba(248, 81, 73, 0.2);
+  border-radius: 100px;
+  color: var(--red-text);
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.why-header h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.why-header .accent {
+  color: var(--accent);
+}
+
+.why-lead {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── Sections ── */
+
+.why-section {
+  max-width: 680px;
+  margin: 0 auto 3.5rem;
+}
+
+.why-section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.why-section p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.why-section p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Examples ── */
+
+.why-examples {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.why-example {
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.example-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.why-example p {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 0;
+}
+
+/* ── Callout ── */
+
+.why-callout {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.5rem;
+  background: rgba(88, 166, 255, 0.06);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+}
+
+.why-callout p {
+  color: var(--text);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+/* ── Points ── */
+
+.why-points {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.why-point {
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.why-point h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.why-point p {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+/* ── Workflow ── */
+
+.why-workflow {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.workflow-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.workflow-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  background: rgba(88, 166, 255, 0.1);
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  border-radius: 50%;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.workflow-step strong {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.workflow-step p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0;
+}
+
+/* ── CTA ── */
+
+.why-cta {
+  max-width: 680px;
+  margin: 2rem auto 0;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.why-cta h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.why-cta p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.why-cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 768px) {
+  .why-header h1 {
+    font-size: 2rem;
+  }
+
+  .why-examples {
+    grid-template-columns: 1fr;
+  }
+}
