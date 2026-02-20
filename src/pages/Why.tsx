@@ -34,6 +34,7 @@ function Nav() {
         </Link>
         <div className="nav-links">
           <Link to="/">Home</Link>
+          <Link to="/blog">Blog</Link>
           <a href={NPM_URL} className="btn-github" target="_blank" rel="noopener">
             <NpmIcon />
             npm

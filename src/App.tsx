@@ -53,6 +53,7 @@ function Nav() {
         </a>
         <div className="nav-links">
           <Link to="/why">Why DiffPrism</Link>
+          <Link to="/blog">Blog</Link>
           <a href="#features">Features</a>
           <a href="#how-it-works">How it works</a>
           <a href={NPM_URL} className="btn-github" target="_blank" rel="noopener">
