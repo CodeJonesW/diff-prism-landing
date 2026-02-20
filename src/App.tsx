@@ -4,7 +4,7 @@ import "./App.css";
 
 const GITHUB_URL = "https://github.com/CodeJonesW/diffprism";
 const NPM_URL = "https://www.npmjs.com/package/diffprism";
-const INSTALL_CMD = "npm install -g diffprism";
+const INSTALL_CMD = "npx diffprism setup";
 
 function CopyIcon() {
   return (
@@ -82,15 +82,16 @@ function Hero() {
   return (
     <section className="hero">
       <div className="container">
-        <span className="hero-badge">Open source &middot; Local-first</span>
+        <span className="hero-badge">Open source &middot; Local-first &middot; v0.11</span>
         <h1>
           Code review for
           <br />
           <span className="accent">agent-generated</span> changes
         </h1>
         <p className="hero-sub">
-          Review AI-written diffs in a browser-based viewer. Runs locally from
-          your CLI or directly inside Claude Code.
+          Type <code>/review</code> in Claude Code and a browser-based diff viewer
+          opens instantly. Inline commenting, review briefings, and structured
+          decisions that flow back to the agent.
         </p>
         <div className="hero-actions">
           <a href="#how-it-works" className="btn-primary">
@@ -126,7 +127,7 @@ function DemoWindow() {
             <div className="demo-dot" />
           </div>
           <img
-            src="/diffprism-ss.png"
+            src="/ui-progress.png"
             alt="DiffPrism review UI showing a diff with file sidebar, syntax-highlighted changes, and approve/reject buttons"
             className="demo-screenshot"
           />
@@ -138,40 +139,40 @@ function DemoWindow() {
 
 const features = [
   {
-    icon: "~",
-    title: "Unified diff viewer",
+    icon: "/",
+    title: "Claude Code /review",
     description:
-      "Syntax-highlighted diffs with line numbers, hunk headers, and word-level change detection.",
+      "One command setup. Type /review in Claude Code and DiffPrism opens your changes in the browser via MCP.",
   },
   {
-    icon: ">",
-    title: "CLI + MCP",
+    icon: "~",
+    title: "Syntax-highlighted diffs",
     description:
-      "Run from the terminal with diffprism review or let Claude Code trigger it via MCP tool.",
+      "Unified diff viewer with line numbers, hunk headers, and language-aware syntax highlighting powered by refractor.",
+  },
+  {
+    icon: "+",
+    title: "Inline commenting",
+    description:
+      "Click any line to leave a comment. Tag as must_fix, suggestion, question, or nitpick. Comments flow back to the agent.",
   },
   {
     icon: "#",
     title: "Review briefing",
     description:
-      "Automatic summary of what changed: files modified, lines added/removed, impact analysis.",
+      "Automatic analysis: complexity scoring, affected modules, test coverage gaps, pattern flags, and dependency changes.",
+  },
+  {
+    icon: "?",
+    title: "Agent reasoning",
+    description:
+      "See why the agent made each change. Claude's reasoning is displayed alongside the diff for full context.",
   },
   {
     icon: "!",
-    title: "Approve or reject",
+    title: "Three-way decisions",
     description:
-      "One-click approve or request changes. Results flow back to the calling agent.",
-  },
-  {
-    icon: "@",
-    title: "Local-first",
-    description:
-      "Runs entirely on your machine. No data leaves your computer. No accounts or sign-ups.",
-  },
-  {
-    icon: "*",
-    title: "Open source",
-    description:
-      "MIT licensed. Inspect the code, contribute, or fork it for your own workflow.",
+      "Approve, request changes, or approve with comments. Structured JSON results flow back to the calling agent.",
   },
 ];
 
@@ -201,24 +202,34 @@ function HowItWorks() {
   return (
     <section className="how-it-works" id="how-it-works">
       <div className="container">
-        <h2>Three steps to review</h2>
+        <h2>Up and running in one command</h2>
         <div className="steps">
           <div className="step">
             <div className="step-number">1</div>
-            <h3>Install</h3>
-            <p>Install DiffPrism globally from npm.</p>
-            <code>npm i -g diffprism</code>
+            <h3>Setup</h3>
+            <p>
+              Configures MCP server, permissions, and
+              the /review skill for Claude Code.
+            </p>
+            <code>npx diffprism setup</code>
           </div>
           <div className="step">
             <div className="step-number">2</div>
-            <h3>Run</h3>
-            <p>Point it at your staged changes or any git ref.</p>
-            <code>diffprism review --staged</code>
+            <h3>Review</h3>
+            <p>
+              Type /review in Claude Code or run
+              from the CLI with any git ref.
+            </p>
+            <code>/review</code>
           </div>
           <div className="step">
             <div className="step-number">3</div>
-            <h3>Review</h3>
-            <p>A browser window opens with your diff. Approve or request changes.</p>
+            <h3>Decide</h3>
+            <p>
+              Comment inline, check the briefing,
+              then approve or request changes.
+            </p>
+            <code>{"{ decision: \"approved\" }"}</code>
           </div>
         </div>
       </div>

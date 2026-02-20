@@ -209,14 +209,23 @@ export function Why() {
             <h2>This is what DiffPrism is for</h2>
             <p>
               DiffPrism opens a browser-based diff viewer the moment an agent
-              finishes writing code. You see exactly what changed — syntax
-              highlighted, with a summary of files touched and impact analysis.
-              You approve or reject, and the result flows back to the agent.
+              finishes writing code. You see syntax-highlighted diffs with a
+              review briefing — complexity scores, affected modules, test
+              coverage gaps, and pattern flags. Click any line to leave an
+              inline comment tagged as must_fix, suggestion, question, or
+              nitpick.
             </p>
             <p>
-              It runs from the CLI or directly inside Claude Code via MCP. No
-              accounts, no cloud services, no data leaving your machine. Just
-              you, the diff, and a decision.
+              It integrates directly into Claude Code. Run{" "}
+              <code>npx diffprism setup</code> once and type{" "}
+              <code>/review</code> whenever you want to inspect changes.
+              Claude's reasoning for each change is shown alongside the diff.
+              Your decision — approve, request changes, or approve with
+              comments — flows back to the agent as structured JSON.
+            </p>
+            <p>
+              No accounts, no cloud services, no data leaving your machine.
+              Just you, the diff, and a decision.
             </p>
             <div className="why-workflow">
               <div className="workflow-step">
@@ -229,10 +238,10 @@ export function Why() {
               <div className="workflow-step">
                 <span className="workflow-num">2</span>
                 <div>
-                  <strong>DiffPrism opens the diff</strong>
+                  <strong>Type /review</strong>
                   <p>
-                    Browser window shows exactly what changed, with a review
-                    briefing.
+                    Browser opens with the diff, review briefing, and agent
+                    reasoning. Leave inline comments on any line.
                   </p>
                 </div>
               </div>
@@ -241,8 +250,8 @@ export function Why() {
                 <div>
                   <strong>You decide</strong>
                   <p>
-                    Approve and the agent continues. Reject and it course
-                    corrects. Either way, you know what shipped.
+                    Approve, request changes, or approve with comments. Your
+                    structured review flows back to Claude as JSON.
                   </p>
                 </div>
               </div>

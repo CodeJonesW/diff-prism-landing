@@ -1,3 +1,15 @@
+/* ── Inline code ── */
+
+.inline-code {
+  display: inline;
+  padding: 0.15em 0.4em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: var(--accent);
+}
+
 /* ── Layout ── */
 
 .container {
@@ -331,6 +343,13 @@
 .step {
   text-align: center;
   counter-increment: step;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step p {
+  flex: 1;
 }
 
 .step-number {
