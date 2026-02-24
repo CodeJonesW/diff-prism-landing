@@ -426,124 +426,166 @@
   font-size: 0.85rem;
 }
 
-/* ── Watch Mode ── */
+/* ── Review Modes ── */
 
-.watch-mode {
+.modes {
   padding: 4rem 0;
 }
 
-.watch-mode h2 {
+.modes h2 {
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 2.5rem;
+  margin-bottom: 0.75rem;
 }
 
-.watch-badge {
-  display: inline-block;
-  padding: 0.3rem 0.8rem;
-  background: rgba(46, 160, 67, 0.1);
-  border: 1px solid rgba(46, 160, 67, 0.2);
-  border-radius: 100px;
-  color: var(--green-text);
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.watch-mode .watch-badge {
+.modes-badge {
   display: block;
   width: fit-content;
   margin: 0 auto 1rem;
+  padding: 0.3rem 0.8rem;
+  background: rgba(88, 166, 255, 0.1);
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  border-radius: 100px;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
-.watch-comparison {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+.modes-sub {
+  text-align: center;
+  color: var(--text-secondary);
   margin-bottom: 2.5rem;
+  font-size: 1.05rem;
 }
 
-.watch-before,
-.watch-after {
+.modes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.mode-card {
   padding: 1.5rem;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: border-color 0.2s;
 }
 
-.watch-after {
+.mode-card:hover {
+  border-color: var(--text-secondary);
+}
+
+.mode-card-highlight {
   border-color: var(--green);
 }
 
-.comparison-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-  color: var(--text-secondary);
+.mode-card-highlight:hover {
+  border-color: var(--green-text);
 }
 
-.watch-after .comparison-label {
+.mode-new-badge {
+  position: absolute;
+  top: -10px;
+  right: 12px;
+  padding: 0.15rem 0.6rem;
+  background: rgba(46, 160, 67, 0.15);
+  border: 1px solid rgba(46, 160, 67, 0.3);
+  border-radius: 100px;
+  color: var(--green-text);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.mode-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.mode-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(88, 166, 255, 0.1);
+  color: var(--accent);
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.mode-card-highlight .mode-icon {
+  background: rgba(46, 160, 67, 0.1);
   color: var(--green-text);
 }
 
-.comparison-steps {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+.mode-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.comparison-steps li {
+.mode-desc {
   font-size: 0.9rem;
   color: var(--text-secondary);
   line-height: 1.5;
-  padding-left: 1.25rem;
-  position: relative;
+  flex: 1;
 }
 
-.comparison-steps li::before {
-  position: absolute;
-  left: 0;
-  color: var(--text-secondary);
-}
-
-.watch-before .comparison-steps li::before {
-  content: "×";
-  color: var(--red-text);
-}
-
-.watch-after .comparison-steps li::before {
-  content: "✓";
+.mode-card code {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(22, 27, 34, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.8rem;
   color: var(--green-text);
+  width: fit-content;
 }
 
-.watch-props {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.watch-prop {
-  padding: 1.25rem;
+.modes-callout {
+  padding: 1.5rem;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
+  text-align: center;
 }
 
-.watch-prop h4 {
-  font-size: 0.95rem;
+.modes-callout h3 {
+  font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.5rem;
 }
 
-.watch-prop p {
-  font-size: 0.85rem;
+.modes-callout p {
+  font-size: 0.9rem;
   color: var(--text-secondary);
   line-height: 1.5;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.modes-callout-screenshot {
+  margin-top: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.modes-callout-screenshot img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* ── Architecture Flow ── */
@@ -692,11 +734,7 @@
     display: none;
   }
 
-  .watch-comparison {
-    grid-template-columns: 1fr;
-  }
-
-  .watch-props {
+  .modes-grid {
     grid-template-columns: 1fr;
   }
 

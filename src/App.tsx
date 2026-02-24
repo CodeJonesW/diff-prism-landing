@@ -54,7 +54,7 @@ function Nav() {
         <div className="nav-links">
           <Link to="/why">Why DiffPrism</Link>
           <Link to="/blog">Blog</Link>
-          <a href="#watch-mode">Watch Mode</a>
+          <a href="#modes">Modes</a>
           <a href="#features">Features</a>
           <a href="#how-it-works">How it works</a>
           <a href={NPM_URL} className="btn-github" target="_blank" rel="noopener">
@@ -83,15 +83,15 @@ function Hero() {
   return (
     <section className="hero">
       <div className="container">
-        <span className="hero-badge">Open source &middot; Local-first &middot; Watch Mode</span>
+        <span className="hero-badge">Open source &middot; Local-first &middot; Multi-agent</span>
         <h1>
           Code review for
           <br />
           <span className="accent">agent-generated</span> changes
         </h1>
         <p className="hero-sub">
-          Review while the agent works. DiffPrism Watch keeps a browser tab open
-          that auto-refreshes diffs and analysis as files change.
+          Review agent changes in a browser UI before they become PRs.
+          One agent or many running in parallel — DiffPrism scales with your workflow.
         </p>
         <div className="hero-actions">
           <a href="#how-it-works" className="btn-primary">
@@ -139,22 +139,28 @@ function DemoWindow() {
 
 const features = [
   {
+    icon: "::",
+    title: "Multi-session dashboard",
+    description:
+      "Run diffprism server and review multiple Claude Code sessions from one browser tab. Status badges, branch info, change stats — click to switch.",
+  },
+  {
     icon: ">>",
     title: "Watch Mode",
     description:
-      "Run once, review continuously. Watch mode auto-refreshes diffs in the browser as files change — no manual re-runs needed.",
+      "Run once, review continuously. Diffs auto-refresh in the browser as files change — stay in flow while the agent iterates.",
+  },
+  {
+    icon: "||",
+    title: "Split diff view",
+    description:
+      "Toggle between unified and side-by-side diffs. Language-aware syntax highlighting with line numbers and hunk headers.",
   },
   {
     icon: "/",
     title: "Claude Code /review",
     description:
       "One command setup. Type /review in Claude Code and DiffPrism opens your changes in the browser via MCP.",
-  },
-  {
-    icon: "~",
-    title: "Syntax-highlighted diffs",
-    description:
-      "Unified diff viewer with line numbers, hunk headers, and language-aware syntax highlighting powered by refractor.",
   },
   {
     icon: "+",
@@ -169,6 +175,18 @@ const features = [
       "Automatic analysis: complexity scoring, affected modules, test coverage gaps, pattern flags, and dependency changes.",
   },
   {
+    icon: "^",
+    title: "Keyboard shortcuts",
+    description:
+      "Navigate files with j/k, cycle file status with s, open the hotkey guide with ?. Stay on the keyboard the whole review.",
+  },
+  {
+    icon: "?",
+    title: "Agent reasoning",
+    description:
+      "Collapsible panel showing why the agent made each change. Understand the intent before you approve.",
+  },
+  {
     icon: "!",
     title: "Three-way decisions",
     description:
@@ -176,48 +194,59 @@ const features = [
   },
 ];
 
-function WatchMode() {
+function ReviewModes() {
   return (
-    <section className="watch-mode" id="watch-mode">
+    <section className="modes" id="modes">
       <div className="container">
-        <span className="watch-badge">New</span>
-        <h2>Review while the agent works</h2>
-        <div className="watch-comparison">
-          <div className="watch-before">
-            <div className="comparison-label">Without Watch</div>
-            <ul className="comparison-steps">
-              <li>Run /review manually each time</li>
-              <li>Review changes, close the tab</li>
-              <li>Agent keeps working, repeat the loop</li>
-              <li>Context lost between reviews</li>
-            </ul>
+        <span className="modes-badge">Three ways to review</span>
+        <h2>Scales with your workflow</h2>
+        <p className="modes-sub">
+          From quick one-off checks to multi-agent orchestration, pick the mode that fits.
+        </p>
+        <div className="modes-grid">
+          <div className="mode-card">
+            <div className="mode-header">
+              <span className="mode-icon">/</span>
+              <h3>Ephemeral</h3>
+            </div>
+            <p className="mode-desc">
+              One browser tab per review, auto-closes after your decision. Good for one-off reviews.
+            </p>
+            <code>diffprism review</code>
           </div>
-          <div className="watch-after">
-            <div className="comparison-label">With Watch</div>
-            <ul className="comparison-steps">
-              <li>Run once, diffs auto-update in the browser</li>
-              <li>Review state persists across changes</li>
-              <li>Comment and submit without leaving the tab</li>
-              <li>Stay in flow while the agent iterates</li>
-            </ul>
+          <div className="mode-card">
+            <div className="mode-header">
+              <span className="mode-icon">{">>"}</span>
+              <h3>Watch</h3>
+            </div>
+            <p className="mode-desc">
+              Persistent tab, diffs auto-update every second as files change. Good for active development with a single agent.
+            </p>
+            <code>diffprism watch --staged</code>
+          </div>
+          <div className="mode-card mode-card-highlight">
+            <span className="mode-new-badge">New</span>
+            <div className="mode-header">
+              <span className="mode-icon">::</span>
+              <h3>Global Server</h3>
+            </div>
+            <p className="mode-desc">
+              Persistent server accepts reviews from multiple Claude Code sessions in one browser tab. Good for worktrees and parallel agents.
+            </p>
+            <code>diffprism server</code>
           </div>
         </div>
-        <div className="watch-props">
-          <div className="watch-prop">
-            <h4>Zero manual intervention</h4>
-            <p>Diffs refresh automatically as the agent writes code. No re-running commands.</p>
-          </div>
-          <div className="watch-prop">
-            <h4>Persistent review state</h4>
-            <p>Comments, scroll position, and file selection survive across updates.</p>
-          </div>
-          <div className="watch-prop">
-            <h4>Claude Code native</h4>
-            <p>MCP tool + stop hook integration. The agent knows when you submit a review.</p>
-          </div>
-          <div className="watch-prop">
-            <h4>Submit and stay</h4>
-            <p>Send your decision back to the agent and keep watching the next round of changes.</p>
+        <div className="modes-callout">
+          <h3>Run three Claude Code sessions in parallel. Review them all from one tab.</h3>
+          <p>
+            The global server presents a session dashboard — showing all pending reviews with status badges,
+            branch names, file counts, and change stats. Click any session to review, then switch to the next.
+          </p>
+          <div className="modes-callout-screenshot">
+            <img
+              src="/multi-sessions.png"
+              alt="DiffPrism multi-session dashboard showing multiple concurrent code reviews with status badges, branch info, and file counts"
+            />
           </div>
         </div>
       </div>
@@ -229,22 +258,22 @@ function ArchitectureFlow() {
   return (
     <section className="arch-flow">
       <div className="container">
-        <h2>How Watch Mode connects</h2>
-        <p className="arch-subtitle">Three actors, zero config.</p>
+        <h2>How it connects</h2>
+        <p className="arch-subtitle">Multiple agents, one review surface, zero config.</p>
         <div className="arch-diagram">
           <div className="arch-actor">
             <div className="arch-actor-icon">$</div>
-            <h4>Terminal</h4>
-            <p>diffprism watch polls git diff</p>
+            <h4>Claude Code</h4>
+            <p>One or many sessions</p>
           </div>
           <div className="arch-arrow">
-            <span className="arch-arrow-label">MCP + stop hook</span>
+            <span className="arch-arrow-label">MCP auto-routes</span>
             <div className="arch-arrow-line" />
           </div>
           <div className="arch-actor">
             <div className="arch-actor-icon">{">_"}</div>
-            <h4>Claude Code</h4>
-            <p>update_review_context MCP tool</p>
+            <h4>DiffPrism Server</h4>
+            <p>HTTP + WebSocket on localhost</p>
           </div>
           <div className="arch-arrow">
             <span className="arch-arrow-label">WebSocket</span>
@@ -253,21 +282,21 @@ function ArchitectureFlow() {
           <div className="arch-actor">
             <div className="arch-actor-icon">{"{ }"}</div>
             <h4>Browser</h4>
-            <p>Live diffs, preserves state</p>
+            <p>Session dashboard with live updates</p>
           </div>
         </div>
         <div className="arch-details">
           <div>
-            <code>diffprism watch --staged</code>
-            <p>WS + HTTP server, polls git diff on an interval</p>
+            <code>diffprism server</code>
+            <p>Persistent HTTP + WS server, auto-detected by MCP clients</p>
           </div>
           <div>
-            <code>update_review_context</code>
-            <p>MCP tool that pushes context from the agent to the UI</p>
+            <code>~/.diffprism/server.json</code>
+            <p>MCP finds the running server and routes reviews automatically</p>
           </div>
           <div>
-            <code>ws://localhost</code>
-            <p>Browser receives real-time updates, no page reloads</p>
+            <code>diffprism server status | stop</code>
+            <p>Check active sessions or shut down the server gracefully</p>
           </div>
         </div>
       </div>
@@ -314,19 +343,19 @@ function HowItWorks() {
           </div>
           <div className="step">
             <div className="step-number">2</div>
-            <h3>Watch</h3>
+            <h3>Choose your mode</h3>
             <p>
-              Start watch mode and diffs auto-update as
-              files change. Or use /review for one-shot.
+              /review for one-shot, watch for live
+              single-agent, or server for multi-session.
             </p>
-            <code>diffprism watch --staged</code>
+            <code>diffprism server</code>
           </div>
           <div className="step">
             <div className="step-number">3</div>
             <h3>Decide</h3>
             <p>
               Comment inline, check the briefing,
-              then approve or request changes. Submit and stay.
+              then approve or request changes.
             </p>
             <code>{"{ decision: \"approved\" }"}</code>
           </div>
@@ -341,7 +370,7 @@ function CTA() {
     <section className="cta">
       <div className="container">
         <div className="cta-box">
-          <h2>Ready to try Watch Mode?</h2>
+          <h2>Ready to review agent code?</h2>
           <p>One command to install, one command to start.</p>
           <a href={GITHUB_URL} className="btn-primary" target="_blank" rel="noopener">
             View on GitHub
@@ -377,7 +406,7 @@ export function App() {
       <Nav />
       <Hero />
       <DemoWindow />
-      <WatchMode />
+      <ReviewModes />
       <ArchitectureFlow />
       <Features />
       <HowItWorks />
