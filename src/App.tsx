@@ -83,15 +83,15 @@ function Hero() {
   return (
     <section className="hero">
       <div className="container">
-        <span className="hero-badge">Open source &middot; Local-first &middot; Multi-agent</span>
+        <span className="hero-badge">Open source &middot; Local-first &middot; Agent-native</span>
         <h1>
           Code review for
           <br />
           <span className="accent">agent-generated</span> changes
         </h1>
         <p className="hero-sub">
-          Review agent changes in a browser UI before they become PRs.
-          One agent or many running in parallel — DiffPrism scales with your workflow.
+          Agents check their own work with headless review tools, then open a browser UI
+          for your sign-off. One session or many in parallel — DiffPrism scales with your workflow.
         </p>
         <div className="hero-actions">
           <a href="#how-it-works" className="btn-primary">
@@ -142,7 +142,13 @@ const features = [
     icon: "::",
     title: "Multi-session dashboard",
     description:
-      "Run diffprism server and review multiple Claude Code sessions from one browser tab. Status badges, branch info, change stats — click to switch.",
+      "Run diffprism server and review multiple Claude Code sessions from one browser tab. Status badges, branch info, desktop notifications — click to switch.",
+  },
+  {
+    icon: "~",
+    title: "Agent self-review",
+    description:
+      "Agents call analyze_diff to catch console.logs, security issues, missing tests, and high complexity before requesting human review. Cleaner diffs by the time you open the browser.",
   },
   {
     icon: ">>",
@@ -175,6 +181,12 @@ const features = [
       "Automatic analysis: complexity scoring, affected modules, test coverage gaps, pattern flags, and dependency changes.",
   },
   {
+    icon: "->",
+    title: "Quick actions",
+    description:
+      "Approve & Commit or Approve, Commit & PR directly from the review UI. One click from review to merged — no extra confirmation step.",
+  },
+  {
     icon: "^",
     title: "Keyboard shortcuts",
     description:
@@ -188,9 +200,15 @@ const features = [
   },
   {
     icon: "!",
-    title: "Three-way decisions",
+    title: "Review decisions",
     description:
-      "Approve, request changes, or approve with comments. Structured JSON results flow back to the calling agent.",
+      "Approve, request changes, approve with comments, or dismiss. Structured JSON results — including post-review actions — flow back to the agent.",
+  },
+  {
+    icon: "[]",
+    title: "File status tracking",
+    description:
+      "Mark each file as reviewed, approved, or needs changes. Track your progress through large diffs without losing your place.",
   },
 ];
 
