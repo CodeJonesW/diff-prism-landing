@@ -54,7 +54,7 @@ function Nav() {
         <div className="nav-links">
           <Link to="/why">Why DiffPrism</Link>
           <Link to="/blog">Blog</Link>
-          <a href="#modes">Modes</a>
+          <a href="#workflows">Workflows</a>
           <a href="#features">Features</a>
           <a href="#how-it-works">How it works</a>
           <a href={NPM_URL} className="btn-github" target="_blank" rel="noopener">
@@ -90,8 +90,8 @@ function Hero() {
           <span className="accent">agent-generated</span> changes
         </h1>
         <p className="hero-sub">
-          Agents check their own work with headless review tools, then open a browser UI
-          for your sign-off. One session or many in parallel — DiffPrism scales with your workflow.
+          Zero-config daemon auto-starts in the background. Agents self-review their changes,
+          then you sign off in the browser — one session or many in parallel.
         </p>
         <div className="hero-actions">
           <a href="#how-it-works" className="btn-primary">
@@ -139,22 +139,40 @@ function DemoWindow() {
 
 const features = [
   {
+    icon: "{}",
+    title: "Auto-start daemon",
+    description:
+      "Server starts automatically the first time any client needs it. No manual setup, no background process to manage — it just works.",
+  },
+  {
     icon: "::",
     title: "Multi-session dashboard",
     description:
-      "Run diffprism server and review multiple Claude Code sessions from one browser tab. Status badges, branch info, desktop notifications — click to switch.",
+      "Review multiple Claude Code sessions from one browser tab. Status badges, branch info, desktop notifications — click to switch.",
   },
   {
     icon: "~",
     title: "Agent self-review",
     description:
-      "Agents call analyze_diff to catch console.logs, security issues, missing tests, and high complexity before requesting human review. Cleaner diffs by the time you open the browser.",
+      "Agents call analyze_diff to catch console.logs, security issues, missing tests, and high complexity before requesting human review.",
   },
   {
-    icon: ">>",
-    title: "Watch Mode",
+    icon: "PR",
+    title: "GitHub PR review",
     description:
-      "Run once, review continuously. Diffs auto-refresh in the browser as files change — stay in flow while the agent iterates.",
+      "Review any GitHub pull request in DiffPrism's full UI. Optionally post the review decision back to GitHub.",
+  },
+  {
+    icon: "@",
+    title: "Multi-agent annotations",
+    description:
+      "Specialized agents — security, performance, convention — annotate the same review session with structured findings for the human reviewer.",
+  },
+  {
+    icon: "->",
+    title: "Quick actions",
+    description:
+      "Approve & Commit or Approve, Commit & PR directly from the review UI. One click from review to merged — no extra confirmation step.",
   },
   {
     icon: "||",
@@ -166,7 +184,7 @@ const features = [
     icon: "/",
     title: "Claude Code /review",
     description:
-      "One command setup. Type /review in Claude Code and DiffPrism opens your changes in the browser via MCP.",
+      "One command setup. Type /review in Claude Code and DiffPrism opens your changes in the browser via MCP. Server auto-starts in the background.",
   },
   {
     icon: "+",
@@ -181,12 +199,6 @@ const features = [
       "Automatic analysis: complexity scoring, affected modules, test coverage gaps, pattern flags, and dependency changes.",
   },
   {
-    icon: "->",
-    title: "Quick actions",
-    description:
-      "Approve & Commit or Approve, Commit & PR directly from the review UI. One click from review to merged — no extra confirmation step.",
-  },
-  {
     icon: "^",
     title: "Keyboard shortcuts",
     description:
@@ -198,66 +210,63 @@ const features = [
     description:
       "Collapsible panel showing why the agent made each change. Understand the intent before you approve.",
   },
-  {
-    icon: "!",
-    title: "Review decisions",
-    description:
-      "Approve, request changes, approve with comments, or dismiss. Structured JSON results — including post-review actions — flow back to the agent.",
-  },
-  {
-    icon: "[]",
-    title: "File status tracking",
-    description:
-      "Mark each file as reviewed, approved, or needs changes. Track your progress through large diffs without losing your place.",
-  },
 ];
 
-function ReviewModes() {
+function Workflows() {
   return (
-    <section className="modes" id="modes">
+    <section className="modes" id="workflows">
       <div className="container">
-        <span className="modes-badge">Three ways to review</span>
+        <span className="modes-badge">One architecture, zero config</span>
         <h2>Scales with your workflow</h2>
         <p className="modes-sub">
-          From quick one-off checks to multi-agent orchestration, pick the mode that fits.
+          A background daemon auto-starts on first use. Every review — CLI, MCP, or GitHub PR — routes through the same HTTP API.
         </p>
         <div className="modes-grid">
           <div className="mode-card">
             <div className="mode-header">
               <span className="mode-icon">/</span>
-              <h3>Ephemeral</h3>
+              <h3>Single review</h3>
             </div>
             <p className="mode-desc">
-              One browser tab per review, auto-closes after your decision. Good for one-off reviews.
+              Agent calls open_review, browser opens with the diff, you approve or request changes. Server auto-starts in the background.
             </p>
-            <code>diffprism review</code>
+            <code>/review</code>
           </div>
           <div className="mode-card">
             <div className="mode-header">
-              <span className="mode-icon">{">>"}</span>
-              <h3>Watch</h3>
-            </div>
-            <p className="mode-desc">
-              Persistent tab, diffs auto-update every second as files change. Good for active development with a single agent.
-            </p>
-            <code>diffprism watch --staged</code>
-          </div>
-          <div className="mode-card mode-card-highlight">
-            <span className="mode-new-badge">New</span>
-            <div className="mode-header">
               <span className="mode-icon">::</span>
-              <h3>Global Server</h3>
+              <h3>Multi-agent</h3>
             </div>
             <p className="mode-desc">
-              Persistent server accepts reviews from multiple Claude Code sessions in one browser tab. Good for worktrees and parallel agents.
+              Run multiple Claude Code sessions — in worktrees, branches, or repos. All reviews appear in one browser tab with a session dashboard.
             </p>
-            <code>diffprism server</code>
+            <code>Multiple sessions → one tab</code>
+          </div>
+          <div className="mode-card">
+            <div className="mode-header">
+              <span className="mode-icon">~</span>
+              <h3>Agent self-review</h3>
+            </div>
+            <p className="mode-desc">
+              Agents call analyze_diff to check their own work before requesting human review. Catches console.logs, security issues, missing tests automatically.
+            </p>
+            <code>{"analyze_diff → fix → review"}</code>
+          </div>
+          <div className="mode-card">
+            <div className="mode-header">
+              <span className="mode-icon">PR</span>
+              <h3>GitHub PR review</h3>
+            </div>
+            <p className="mode-desc">
+              Review any GitHub PR in DiffPrism's full UI with briefing and analysis. Optionally post the review decision back to GitHub.
+            </p>
+            <code>{"review_pr(\"owner/repo#123\")"}</code>
           </div>
         </div>
         <div className="modes-callout">
           <h3>Run three Claude Code sessions in parallel. Review them all from one tab.</h3>
           <p>
-            The global server presents a session dashboard — showing all pending reviews with status badges,
+            The session dashboard shows all pending reviews with status badges,
             branch names, file counts, and change stats. Click any session to review, then switch to the next.
           </p>
           <div className="modes-callout-screenshot">
@@ -281,17 +290,17 @@ function ArchitectureFlow() {
         <div className="arch-diagram">
           <div className="arch-actor">
             <div className="arch-actor-icon">$</div>
-            <h4>Claude Code</h4>
-            <p>One or many sessions</p>
+            <h4>Agents & CLI</h4>
+            <p>MCP tools or diffprism review</p>
           </div>
           <div className="arch-arrow">
-            <span className="arch-arrow-label">MCP auto-routes</span>
+            <span className="arch-arrow-label">HTTP API</span>
             <div className="arch-arrow-line" />
           </div>
           <div className="arch-actor">
             <div className="arch-actor-icon">{">_"}</div>
-            <h4>DiffPrism Server</h4>
-            <p>HTTP + WebSocket on localhost</p>
+            <h4>Auto-start Daemon</h4>
+            <p>Starts on first use, runs in background</p>
           </div>
           <div className="arch-arrow">
             <span className="arch-arrow-label">WebSocket</span>
@@ -305,16 +314,16 @@ function ArchitectureFlow() {
         </div>
         <div className="arch-details">
           <div>
-            <code>diffprism server</code>
-            <p>Persistent HTTP + WS server, auto-detected by MCP clients</p>
+            <code>ensureServer()</code>
+            <p>Daemon auto-starts on first use — no manual setup needed</p>
           </div>
           <div>
-            <code>~/.diffprism/server.json</code>
-            <p>MCP finds the running server and routes reviews automatically</p>
+            <code>~/.diffprism/server.log</code>
+            <p>Daemon output captured to log file, safe for MCP stdio</p>
           </div>
           <div>
             <code>diffprism server status | stop</code>
-            <p>Check active sessions or shut down the server gracefully</p>
+            <p>Check active sessions or shut down the daemon gracefully</p>
           </div>
         </div>
       </div>
@@ -361,21 +370,21 @@ function HowItWorks() {
           </div>
           <div className="step">
             <div className="step-number">2</div>
-            <h3>Choose your mode</h3>
+            <h3>Agent works</h3>
             <p>
-              /review for one-shot, watch for live
-              single-agent, or server for multi-session.
+              Agent writes code, optionally self-reviews
+              with analyze_diff to catch issues early.
             </p>
-            <code>diffprism server</code>
+            <code>{"analyze_diff → fix → clean"}</code>
           </div>
           <div className="step">
             <div className="step-number">3</div>
-            <h3>Decide</h3>
+            <h3>You decide</h3>
             <p>
-              Comment inline, check the briefing,
-              then approve or request changes.
+              /review opens the browser — comment inline,
+              check the briefing, approve or request changes.
             </p>
-            <code>{"{ decision: \"approved\" }"}</code>
+            <code>/review</code>
           </div>
         </div>
       </div>
@@ -389,7 +398,7 @@ function CTA() {
       <div className="container">
         <div className="cta-box">
           <h2>Ready to review agent code?</h2>
-          <p>One command to install, one command to start.</p>
+          <p>One command setup. Server auto-starts. Review in your browser.</p>
           <a href={GITHUB_URL} className="btn-primary" target="_blank" rel="noopener">
             View on GitHub
           </a>
@@ -424,7 +433,7 @@ export function App() {
       <Nav />
       <Hero />
       <DemoWindow />
-      <ReviewModes />
+      <Workflows />
       <ArchitectureFlow />
       <Features />
       <HowItWorks />
