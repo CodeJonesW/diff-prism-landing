@@ -127,7 +127,7 @@ function DemoWindow() {
             <div className="demo-dot" />
           </div>
           <img
-            src="/ui-progress.png"
+            src="/ui-progress-1.png"
             alt="DiffPrism review UI showing a diff with file sidebar, syntax-highlighted changes, and approve/reject buttons"
             className="demo-screenshot"
           />
