@@ -54,6 +54,7 @@ function Nav() {
         <div className="nav-links">
           <Link to="/why">Why DiffPrism</Link>
           <Link to="/blog">Blog</Link>
+          <Link to="/context">Context</Link>
           <a href="#workflows">Workflows</a>
           <a href="#features">Features</a>
           <a href="#how-it-works">How it works</a>
@@ -353,6 +354,68 @@ function Features() {
   );
 }
 
+function ProjectContext() {
+  return (
+    <section className="context-section" id="context">
+      <div className="container">
+        <span className="modes-badge">Coming soon</span>
+        <h2>Reviews that understand your project</h2>
+        <p className="modes-sub">
+          Most AI review tools only see the diff. DiffPrism understands your entire codebase —
+          architecture, conventions, import graph, related files — so suggestions
+          match how your team actually writes code.
+        </p>
+        <div className="context-flow">
+          <div className="context-flow-row">
+            <div className="context-flow-card">
+              <span className="context-flow-label">PR opens</span>
+              <p>Agent fetches the diff and changed file list from GitHub</p>
+            </div>
+            <div className="context-flow-arrow" />
+            <div className="context-flow-card context-flow-card-accent">
+              <span className="context-flow-label">Context layer</span>
+              <p>Queries architecture, conventions, related files, and import graph for the repo</p>
+            </div>
+            <div className="context-flow-arrow" />
+            <div className="context-flow-card">
+              <span className="context-flow-label">Informed review</span>
+              <p>Suggestions reference your patterns, not generic best practices</p>
+            </div>
+          </div>
+        </div>
+        <div className="context-examples">
+          <div className="context-example">
+            <div className="context-example-label">Without context</div>
+            <p>"Consider adding error handling to this function."</p>
+          </div>
+          <div className="context-example context-example-good">
+            <div className="context-example-label">With project context</div>
+            <p>"This bypasses the tryCatch() wrapper used in every other route handler. See src/middleware/error.ts."</p>
+          </div>
+        </div>
+        <div className="context-capabilities">
+          <div className="context-cap">
+            <code>get_architecture</code>
+            <p>Language, frameworks, directory structure, entry points</p>
+          </div>
+          <div className="context-cap">
+            <code>get_conventions</code>
+            <p>Naming patterns, test patterns, import style, tooling</p>
+          </div>
+          <div className="context-cap">
+            <code>get_related_files</code>
+            <p>Import graph + vector similarity to find affected files</p>
+          </div>
+          <div className="context-cap">
+            <code>search_codebase</code>
+            <p>Semantic search across all indexed code chunks</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HowItWorks() {
   return (
     <section className="how-it-works" id="how-it-works">
@@ -436,6 +499,7 @@ export function App() {
       <Workflows />
       <ArchitectureFlow />
       <Features />
+      <ProjectContext />
       <HowItWorks />
       <CTA />
       <Footer />

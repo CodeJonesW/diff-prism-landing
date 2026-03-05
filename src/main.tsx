@@ -5,6 +5,7 @@ import "./index.css";
 import { App } from "./App.tsx";
 import { Why } from "./pages/Why.tsx";
 import { Blog } from "./pages/Blog.tsx";
+import { Context } from "./pages/Context.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -12,6 +13,7 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/why" element={<Why />} />
+        <Route path="/context" element={<Context />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:slug" element={<Blog />} />
       </Routes>

@@ -710,6 +710,148 @@
   line-height: 1.4;
 }
 
+/* ── Project Context ── */
+
+.context-section {
+  padding: 4rem 0;
+}
+
+.context-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.context-flow {
+  margin-bottom: 2.5rem;
+}
+
+.context-flow-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.context-flow-card {
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-align: center;
+  min-width: 200px;
+  max-width: 240px;
+}
+
+.context-flow-card-accent {
+  border-color: rgba(88, 166, 255, 0.3);
+  background: rgba(88, 166, 255, 0.05);
+}
+
+.context-flow-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.context-flow-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.context-flow-arrow {
+  width: 40px;
+  height: 2px;
+  background: var(--border);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.context-flow-arrow::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -4px;
+  border: 5px solid transparent;
+  border-left-color: var(--border);
+}
+
+.context-examples {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.context-example {
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.context-example-good {
+  border-color: rgba(46, 160, 67, 0.3);
+  background: rgba(46, 160, 67, 0.05);
+}
+
+.context-example-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.context-example-good .context-example-label {
+  color: var(--green-text);
+}
+
+.context-example p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.context-example-good p {
+  color: var(--text);
+}
+
+.context-capabilities {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.context-cap {
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.context-cap code {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--green-text);
+  margin-bottom: 0.5rem;
+}
+
+.context-cap p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
 /* ── Responsive ── */
 
 @media (max-width: 768px) {
@@ -764,5 +906,38 @@
 
   .arch-details {
     grid-template-columns: 1fr;
+  }
+
+  .context-flow-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .context-flow-arrow {
+    width: 2px;
+    height: 30px;
+  }
+
+  .context-flow-arrow::after {
+    right: auto;
+    left: -4px;
+    top: auto;
+    bottom: -1px;
+    border: 5px solid transparent;
+    border-top-color: var(--border);
+    border-left-color: transparent;
+  }
+
+  .context-flow-card {
+    min-width: auto;
+    max-width: none;
+  }
+
+  .context-examples {
+    grid-template-columns: 1fr;
+  }
+
+  .context-capabilities {
+    grid-template-columns: 1fr 1fr;
   }
 }

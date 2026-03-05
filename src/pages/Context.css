@@ -1,0 +1,410 @@
+/* ── Context Page ── */
+
+.ctx-page {
+  padding: 7rem 0 2rem;
+}
+
+.ctx-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.ctx-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  background: rgba(210, 168, 255, 0.1);
+  border: 1px solid rgba(210, 168, 255, 0.2);
+  border-radius: 100px;
+  color: var(--purple);
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.ctx-header h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.5rem;
+}
+
+.ctx-header .accent {
+  color: var(--accent);
+}
+
+.ctx-lead {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+}
+
+.ctx-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── Sections ── */
+
+.ctx-section {
+  max-width: 680px;
+  margin: 0 auto 3.5rem;
+}
+
+.ctx-section h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.ctx-section p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.ctx-section p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Before / After Comparison ── */
+
+.ctx-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.ctx-compare-card {
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.ctx-compare-card-good {
+  border-color: rgba(46, 160, 67, 0.3);
+  background: rgba(46, 160, 67, 0.03);
+}
+
+.ctx-compare-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.ctx-compare-label-good {
+  color: var(--green-text);
+}
+
+.ctx-compare-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.ctx-compare-item:last-child {
+  margin-bottom: 0;
+}
+
+.ctx-compare-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+.ctx-compare-generic {
+  background: rgba(139, 148, 158, 0.1);
+  color: var(--text-secondary);
+}
+
+.ctx-compare-specific {
+  background: rgba(46, 160, 67, 0.1);
+  color: var(--green-text);
+}
+
+.ctx-compare-item p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
+.ctx-compare-card-good .ctx-compare-item p {
+  color: var(--text);
+}
+
+/* ── How It Works Steps ── */
+
+.ctx-how-steps {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.ctx-how-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.ctx-how-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  background: rgba(210, 168, 255, 0.1);
+  border: 1px solid rgba(210, 168, 255, 0.2);
+  border-radius: 50%;
+  color: var(--purple);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.ctx-how-step strong {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.ctx-how-step p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0;
+  line-height: 1.5;
+}
+
+/* ── Tools Grid ── */
+
+.ctx-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.ctx-tool-card {
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.ctx-tool-card:hover {
+  border-color: var(--text-secondary);
+}
+
+.ctx-tool-card code {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--purple);
+  margin-bottom: 0.5rem;
+}
+
+.ctx-tool-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+/* ── Architecture Grid ── */
+
+.ctx-arch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.ctx-arch-item {
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.ctx-arch-item strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--accent);
+  margin-bottom: 0.35rem;
+}
+
+.ctx-arch-item p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 0;
+}
+
+/* ── Pricing ── */
+
+.ctx-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.ctx-pricing-card {
+  padding: 2rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.ctx-pricing-card-accent {
+  border-color: rgba(210, 168, 255, 0.3);
+  background: rgba(210, 168, 255, 0.03);
+  position: relative;
+}
+
+.ctx-pricing-card-accent::before {
+  content: "Popular";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.15rem 0.6rem;
+  background: rgba(210, 168, 255, 0.15);
+  border: 1px solid rgba(210, 168, 255, 0.3);
+  border-radius: 100px;
+  color: var(--purple);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.ctx-pricing-tier {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.ctx-pricing-price {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+.ctx-pricing-price span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.ctx-pricing-features {
+  list-style: none;
+  text-align: left;
+}
+
+.ctx-pricing-features li {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.ctx-pricing-features li:last-child {
+  border-bottom: none;
+}
+
+.ctx-pricing-features li::before {
+  content: "\2713";
+  color: var(--green-text);
+  margin-right: 0.5rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.ctx-pricing-note {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* ── CTA ── */
+
+.ctx-cta {
+  max-width: 680px;
+  margin: 2rem auto 0;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.ctx-cta h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.ctx-cta p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.ctx-cta-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 768px) {
+  .ctx-header h1 {
+    font-size: 2rem;
+  }
+
+  .ctx-comparison {
+    grid-template-columns: 1fr;
+  }
+
+  .ctx-tools-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctx-arch-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ctx-pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}
