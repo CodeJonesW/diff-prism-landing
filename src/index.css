@@ -7,16 +7,30 @@
 }
 
 :root {
-  --bg: #0d1117;
-  --surface: #161b22;
-  --border: #30363d;
-  --text: #e6edf3;
-  --text-secondary: #8b949e;
-  --accent: #58a6ff;
+  --bg: #07090e;
+  --bg-elevated: #0c0f16;
+  --surface: #111520;
+  --surface-hover: #161c2a;
+  --border: #1e2536;
+  --border-subtle: #161c2a;
+  --border-accent: rgba(99, 171, 255, 0.2);
+  --text: #e8ecf4;
+  --text-secondary: #7a849b;
+  --text-tertiary: #4e5670;
+  --accent: #63abff;
+  --accent-bright: #8ac4ff;
+  --accent-dim: rgba(99, 171, 255, 0.12);
+  --accent-glow: rgba(99, 171, 255, 0.06);
   --green: #2ea043;
   --green-text: #7ee787;
+  --green-dim: rgba(126, 231, 135, 0.1);
   --red-text: #f85149;
-  --purple: #d2a8ff;
+  --red-dim: rgba(248, 81, 73, 0.08);
+  --yellow-text: #d4a72c;
+  --yellow-dim: rgba(212, 167, 44, 0.08);
+  --purple: #c9a0ff;
+  --gradient-hero: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99, 171, 255, 0.08) 0%, transparent 60%);
+  --gradient-section: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(99, 171, 255, 0.04) 0%, transparent 50%);
 }
 
 html {
@@ -24,7 +38,7 @@ html {
 }
 
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
@@ -43,5 +57,50 @@ a:hover {
 
 code,
 pre {
-  font-family: "JetBrains Mono", monospace;
+  font-family: "IBM Plex Mono", monospace;
 }
+
+/* ── Entrance animations ── */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-in {
+  animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+.animate-delay-5 { animation-delay: 0.5s; }
+.animate-delay-6 { animation-delay: 0.6s; }

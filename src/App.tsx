@@ -18,9 +18,9 @@ function Nav() {
       <div className="container nav-inner">
         <a href="/" className="nav-brand">
           <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-            <rect width="32" height="32" rx="6" fill="#161b22" />
-            <path d="M8 10h16M8 16h12M8 22h8" stroke="#58a6ff" strokeWidth="2.5" strokeLinecap="round" />
-            <circle cx="26" cy="16" r="3" fill="#2ea043" opacity="0.8" />
+            <rect width="32" height="32" rx="8" fill="#111520" />
+            <path d="M8 10h16M8 16h12M8 22h8" stroke="#63abff" strokeWidth="2.5" strokeLinecap="round" />
+            <circle cx="26" cy="16" r="3" fill="#7ee787" opacity="0.9" />
           </svg>
           DiffPrism
         </a>
@@ -137,7 +137,8 @@ function HowItWorks() {
   return (
     <section className="how-it-works" id="how-it-works">
       <div className="container">
-        <h2>How it works</h2>
+        <span className="section-label">How it works</span>
+        <h2>Three steps to pattern-aware reviews</h2>
         <div className="steps">
           <div className="step">
             <div className="step-number">1</div>
@@ -178,6 +179,7 @@ function WhatMakesItDifferent() {
   return (
     <section className="differentiators">
       <div className="container">
+        <span className="section-label">Why DiffPrism</span>
         <h2>AI review tools don't know your codebase. DiffPrism does.</h2>
         <p className="differentiators-sub">
           Most AI reviewers see only the diff. DiffPrism indexes your entire repo
@@ -281,9 +283,10 @@ function Features() {
   return (
     <section className="features" id="features">
       <div className="container">
-        <h2>Features</h2>
+        <span className="section-label">Features</span>
+        <h2>Everything you need. Nothing you don't.</h2>
         <p className="features-sub">
-          Everything you need for pattern-aware PR reviews. Nothing you don't.
+          Pattern-aware PR reviews with zero configuration.
         </p>
         <div className="features-grid">
           {features.map((f) => (
@@ -303,6 +306,7 @@ function Architecture() {
   return (
     <section className="arch-flow">
       <div className="container">
+        <span className="section-label">Architecture</span>
         <h2>Under the hood</h2>
         <p className="arch-subtitle">
           Cloudflare Workers all the way down. Webhook to review in ~10 seconds.
@@ -364,28 +368,68 @@ function Pricing() {
   return (
     <section className="pricing" id="pricing">
       <div className="container">
-        <h2>Pricing</h2>
-        <p className="pricing-sub">Start free. Scale when you need to.</p>
+        <span className="section-label">Pricing</span>
+        <h2>Start free. Scale when you need to.</h2>
+        <p className="pricing-sub">
+          No credit card required. Upgrade when your team needs more.
+        </p>
         <div className="pricing-grid">
           <div className="pricing-card">
             <h3>Free</h3>
             <div className="pricing-price">$0</div>
+            <p className="pricing-desc">For trying DiffPrism on a project</p>
             <ul className="pricing-features">
-              <li>10 reviews / month</li>
-              <li>5 context chunks per review</li>
-              <li>1 repo</li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                10 reviews / month
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                5 context chunks per review
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                1 repository
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                AST-aware indexing
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                Severity-tagged comments
+              </li>
             </ul>
             <a href={GITHUB_APP_URL} className="btn-secondary" target="_blank" rel="noopener">
               Install free
             </a>
           </div>
           <div className="pricing-card pricing-card-highlight">
+            <span className="pricing-popular">Popular</span>
             <h3>Pro</h3>
             <div className="pricing-price">$19<span>/mo</span></div>
+            <p className="pricing-desc">For developers shipping daily</p>
             <ul className="pricing-features">
-              <li>100 reviews / month</li>
-              <li>15 context chunks per review</li>
-              <li>Unlimited repos</li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                100 reviews / month
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                15 context chunks per review
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                Unlimited repositories
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                Incremental re-indexing
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                Priority support
+              </li>
             </ul>
             <a href={GITHUB_APP_URL} className="btn-primary" target="_blank" rel="noopener">
               Get Pro
@@ -394,15 +438,87 @@ function Pricing() {
           <div className="pricing-card">
             <h3>Team</h3>
             <div className="pricing-price">$49<span>/mo</span></div>
+            <p className="pricing-desc">For teams that need unlimited reviews</p>
             <ul className="pricing-features">
-              <li>Unlimited reviews</li>
-              <li>20 context chunks per review</li>
-              <li>Unlimited repos</li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                Unlimited reviews
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                20 context chunks per review
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                Unlimited repositories
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                Incremental re-indexing
+              </li>
+              <li>
+                <span className="pricing-check">&#10003;</span>
+                Priority support
+              </li>
             </ul>
             <a href={GITHUB_APP_URL} className="btn-secondary" target="_blank" rel="noopener">
               Get Team
             </a>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const faqItems = [
+  {
+    q: "How does the free tier work?",
+    a: "Install the GitHub App, and you get 10 reviews per month on 1 repo. No credit card, no trial expiration. The free tier is permanent.",
+  },
+  {
+    q: "What counts as a review?",
+    a: "Each time you comment /review on a PR, that's one review. If you re-trigger /review on the same PR after pushing new commits, that counts as an additional review.",
+  },
+  {
+    q: "What are context chunks?",
+    a: "When DiffPrism reviews a PR, it pulls related code from your repo to give Claude context. Each chunk is a function or class from your codebase. More chunks means deeper pattern awareness.",
+  },
+  {
+    q: "Is my code stored?",
+    a: "Code chunks are stored as vector embeddings in a per-repo index — isolated from other repos. The embeddings are used for semantic search only. Raw source code is fetched from GitHub at review time and not persisted.",
+  },
+  {
+    q: "Does DiffPrism review every PR automatically?",
+    a: "No. Reviews are on-demand only. You comment /review when you want one. No automatic noise on every push or PR open.",
+  },
+  {
+    q: "How long does indexing take?",
+    a: "Initial indexing takes about 15 seconds for a mid-size TypeScript project. After that, only changed files are re-indexed when you push to your default branch.",
+  },
+  {
+    q: "Can I use DiffPrism on private repos?",
+    a: "Yes. All plans support private repositories. The GitHub App requests only the permissions it needs to read code and post review comments.",
+  },
+  {
+    q: "What languages are supported?",
+    a: "DiffPrism works with any language GitHub supports. AST-aware chunking currently has enhanced support for TypeScript, JavaScript, Python, Go, and Rust. Other languages fall back to intelligent line-based chunking.",
+  },
+];
+
+function FAQ() {
+  return (
+    <section className="faq" id="faq">
+      <div className="container">
+        <span className="section-label">FAQ</span>
+        <h2>Frequently asked questions</h2>
+        <div className="faq-grid">
+          {faqItems.map((item) => (
+            <div className="faq-item" key={item.q}>
+              <h3>{item.q}</h3>
+              <p>{item.a}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -415,7 +531,7 @@ function CTA() {
       <div className="container">
         <div className="cta-box">
           <h2>Reviews that understand your code</h2>
-          <p>Install DiffPrism on your repo. First 10 reviews are free.</p>
+          <p>Install DiffPrism on your repo. First 10 reviews are free every month.</p>
           <a href={GITHUB_APP_URL} className="btn-primary" target="_blank" rel="noopener">
             <GitHubIcon />
             Install on GitHub
@@ -452,6 +568,7 @@ export function App() {
       <Features />
       <Architecture />
       <Pricing />
+      <FAQ />
       <CTA />
       <Footer />
     </>
