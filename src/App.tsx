@@ -52,16 +52,16 @@ function Hero() {
   return (
     <section className="hero">
       <div className="container">
-        <span className="hero-badge">Local-first &middot; Multi-session &middot; Open source</span>
+        <span className="hero-badge">MCP-native &middot; AI-powered &middot; Open source</span>
         <h1>
-          Review what your
+          Review PRs with
           <br />
-          <span className="accent">agents built</span>
+          <span className="accent">AI superpowers</span>
         </h1>
         <p className="hero-sub">
-          DiffPrism gives you a browser-based review dashboard for agent-generated code.
-          Spin up multiple AI coding sessions, review them all from one place,
-          and ship with structured decisions.
+          Paste a GitHub PR URL. See the diff in your browser.
+          Ask your AI tool questions about any line, file, or change.
+          Findings appear inline on the diff in real-time.
         </p>
         <div className="hero-actions">
           <a href={NPM_URL} className="btn-primary" target="_blank" rel="noopener">
@@ -92,67 +92,87 @@ function DemoSection() {
                 <path d="M1.5 3.25a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zm5.677-.177L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm0 9.5a.75.75 0 100 1.5.75.75 0 000-1.5z" />
               </svg>
             </span>
-            <span className="demo-pr-title">DiffPrism Review Dashboard</span>
-            <span className="demo-pr-number">3 active sessions</span>
+            <span className="demo-pr-title">PR #457: Add block-no-verify PreToolUse hook</span>
+            <span className="demo-pr-number">tupe12334 &middot; add-block-no-verify</span>
           </div>
 
-          <div className="demo-sessions">
-            <div className="demo-session demo-session-active">
-              <div className="demo-session-status demo-status-review" />
-              <div className="demo-session-info">
-                <span className="demo-session-title">feat: add retry logic to API client</span>
-                <span className="demo-session-meta">feature/api-retry &middot; 4 files &middot; +87 -12</span>
-              </div>
-              <span className="demo-session-badge demo-badge-review">in review</span>
+          {/* Diff view mock */}
+          <div className="demo-diff-view">
+            <div className="demo-diff-file">
+              <span className="demo-diff-file-icon">M</span>
+              <span>.claude/settings.json</span>
+              <span className="demo-diff-stats"><span className="demo-stat-add">+12</span> <span className="demo-stat-del">-0</span></span>
             </div>
-            <div className="demo-session">
-              <div className="demo-session-status demo-status-pending" />
-              <div className="demo-session-info">
-                <span className="demo-session-title">fix: resolve auth token refresh race condition</span>
-                <span className="demo-session-meta">fix/auth-race &middot; 2 files &middot; +23 -8</span>
+            <div className="demo-diff-lines">
+              <div className="demo-diff-line demo-diff-context">
+                <span className="demo-line-num">3</span>
+                <span className="demo-line-num">3</span>
+                <code>{"  \"hooks\": {"}</code>
               </div>
-              <span className="demo-session-badge demo-badge-pending">pending</span>
-            </div>
-            <div className="demo-session">
-              <div className="demo-session-status demo-status-approved" />
-              <div className="demo-session-info">
-                <span className="demo-session-title">refactor: extract shared validation utils</span>
-                <span className="demo-session-meta">refactor/validation &middot; 6 files &middot; +142 -89</span>
+              <div className="demo-diff-line demo-diff-add">
+                <span className="demo-line-num"></span>
+                <span className="demo-line-num">4</span>
+                <code>{"    \"PreToolUse\": ["}</code>
               </div>
-              <span className="demo-session-badge demo-badge-approved">approved</span>
+              <div className="demo-diff-line demo-diff-add">
+                <span className="demo-line-num"></span>
+                <span className="demo-line-num">5</span>
+                <code>{"      {"}</code>
+              </div>
+              <div className="demo-diff-line demo-diff-add">
+                <span className="demo-line-num"></span>
+                <span className="demo-line-num">6</span>
+                <code>{'        "matcher": "Bash(--no-verify)",'}</code>
+              </div>
+              <div className="demo-diff-line demo-diff-add">
+                <span className="demo-line-num"></span>
+                <span className="demo-line-num">7</span>
+                <code>{'        "action": "block"'}</code>
+              </div>
             </div>
-          </div>
 
-          <div className="demo-review-pane">
-            <div className="demo-comment demo-comment-review">
-              <div className="demo-comment-body">
-                <div className="demo-inline-comment demo-severity-red">
-                  <div className="demo-inline-file">src/api/client.ts:47</div>
-                  <p>
-                    <strong>Must fix:</strong> This catch block swallows the error silently.
-                    The retry logic needs to propagate the final error after exhausting attempts.
-                  </p>
-                </div>
-                <div className="demo-inline-comment demo-severity-yellow">
-                  <div className="demo-inline-file">src/api/client.ts:31</div>
-                  <p>
-                    <strong>Suggestion:</strong> The retry delay is hardcoded to 1000ms.
-                    Consider exponential backoff to avoid overwhelming the server on sustained failures.
-                  </p>
-                </div>
-                <div className="demo-inline-comment demo-severity-green">
-                  <div className="demo-inline-file">src/api/client.ts:15</div>
-                  <p>
-                    <strong>Looks good:</strong> Clean use of <code>AbortController</code> for
-                    timeout handling. Consistent with the rest of the API layer.
-                  </p>
-                </div>
+            {/* AI annotation inline */}
+            <div className="demo-ai-annotation">
+              <div className="demo-ai-annotation-header">
+                <span className="demo-ai-badge">AI</span>
+                <span className="demo-ai-label">ai-reviewer via add_review_comment</span>
               </div>
+              <p>
+                This hook blocks <code>--no-verify</code> in Bash commands, which prevents
+                skipping git hooks. Good security practice. Consider also blocking{" "}
+                <code>--no-gpg-sign</code> to enforce commit signing.
+              </p>
             </div>
           </div>
         </div>
+
+        {/* Terminal mock below */}
+        <div className="demo-terminal">
+          <div className="demo-terminal-header">
+            <div className="demo-terminal-dots">
+              <span /><span /><span />
+            </div>
+            <span className="demo-terminal-title">Claude Code</span>
+          </div>
+          <div className="demo-terminal-body">
+            <div className="demo-terminal-line">
+              <span className="demo-prompt">{">"}</span>
+              <span className="demo-input">Is the hook matcher pattern correct?</span>
+            </div>
+            <div className="demo-terminal-line demo-terminal-tool">
+              <span className="demo-tool-icon">{"~>"}</span>
+              <span>diffprism <span className="demo-tool-name">get_file_context</span> <span className="demo-tool-args">(file: ".claude/settings.json")</span></span>
+            </div>
+            <div className="demo-terminal-line demo-terminal-response">
+              <span>The matcher <code>"Bash(--no-verify)"</code> will match any Bash tool use containing
+              the <code>--no-verify</code> flag. This correctly catches <code>git commit --no-verify</code>,
+              <code>git push --no-verify</code>, and similar.</span>
+            </div>
+          </div>
+        </div>
+
         <p className="demo-caption">
-          Multiple agents, one dashboard. Review every session before it ships.
+          You see the diff. Your AI sees the full codebase. Review together.
         </p>
       </div>
     </section>
@@ -164,34 +184,35 @@ function HowItWorks() {
     <section className="how-it-works" id="how-it-works">
       <div className="container">
         <span className="section-label">How it works</span>
-        <h2>From install to reviewing in under a minute</h2>
+        <h2>From PR URL to AI-powered review</h2>
         <div className="steps">
           <div className="step">
             <div className="step-number">1</div>
-            <h3>Install</h3>
+            <h3>Install & setup</h3>
             <p>
-              One command to install, one command to integrate with Claude Code.
-              DiffPrism registers as an MCP server and adds the <code>/review</code> skill automatically.
+              Install DiffPrism globally and run setup to register the MCP server
+              with Claude Code or Cursor. One command.
             </p>
             <code>diffprism setup</code>
           </div>
           <div className="step">
             <div className="step-number">2</div>
-            <h3>Work</h3>
+            <h3>Open a PR</h3>
             <p>
-              Run multiple Claude Code sessions across worktrees, branches, or projects.
-              Each agent works independently. When they're ready for review, DiffPrism catches it.
+              Paste any GitHub PR URL. DiffPrism fetches the diff, auto-detects
+              your local clone via <code>git remote</code> matching, and opens the
+              browser UI.
             </p>
-            <code>Agents call /review</code>
+            <code>diffprism review {"<PR URL>"}</code>
           </div>
           <div className="step">
             <div className="step-number">3</div>
-            <h3>Review</h3>
+            <h3>Ask your AI</h3>
             <p>
-              All sessions appear in one browser dashboard. Review diffs with syntax highlighting,
-              leave inline comments, approve or request changes. The agent acts on your decision.
+              Your AI tool calls MCP tools to get PR context, read full files from
+              your local repo, and post findings that appear inline on the diff.
             </p>
-            <code>Approve & ship</code>
+            <code>14 MCP tools</code>
           </div>
         </div>
       </div>
@@ -204,58 +225,58 @@ function WhatMakesItDifferent() {
     <section className="differentiators">
       <div className="container">
         <span className="section-label">Why DiffPrism</span>
-        <h2>You shouldn't have to read diffs in a terminal.</h2>
+        <h2>Your AI sees the whole codebase, not just the diff.</h2>
         <p className="differentiators-sub">
-          AI agents write code fast. Reviewing it shouldn't be the bottleneck.
-          DiffPrism gives you a real review UI that keeps up with your workflow.
+          GitHub shows you the changed lines. DiffPrism gives your AI tool the full context
+          to understand why those lines changed and whether they're correct.
         </p>
         <div className="diff-grid">
           <div className="diff-card">
-            <span className="diff-icon">{"[]"}</span>
-            <h3>Multi-session</h3>
+            <span className="diff-icon">{"~>"}</span>
+            <h3>MCP-powered</h3>
             <p>
-              Run 3 agents on 3 tasks. Review them all from one persistent dashboard
-              instead of context-switching between terminals.
+              14 tools for your AI to explore PRs: get file diffs, read full files
+              from your local clone, post inline findings, track user focus.
             </p>
           </div>
           <div className="diff-card">
             <span className="diff-icon">{"><"}</span>
-            <h3>Local-first</h3>
+            <h3>Local repo context</h3>
             <p>
-              Everything runs on your machine. No code leaves your laptop.
-              A background server manages sessions and serves the review UI.
+              Your AI reads the full file via <code>git show</code>, not just the
+              diff hunks. It understands imports, function signatures, and surrounding code.
             </p>
           </div>
           <div className="diff-card">
             <span className="diff-icon">{"!!"}</span>
-            <h3>Structured decisions</h3>
+            <h3>Live annotations</h3>
             <p>
-              Approve, request changes, or dismiss. Typed inline comments — must_fix, suggestion,
-              question, nitpick. The agent reads your decision and acts on it.
+              AI findings appear as inline annotations on the diff in real-time.
+              Your AI calls <code>add_review_comment</code> and it shows up instantly.
             </p>
           </div>
           <div className="diff-card">
             <span className="diff-icon">{"<>"}</span>
             <h3>Syntax-highlighted diffs</h3>
             <p>
-              Unified or split view with full syntax highlighting.
-              Click any line to comment. Keyboard shortcuts for fast navigation.
+              Unified or split view with full syntax highlighting via refractor.
+              Keyboard shortcuts for file navigation.
             </p>
           </div>
           <div className="diff-card">
-            <span className="diff-icon">{"~>"}</span>
-            <h3>MCP-native</h3>
+            <span className="diff-icon">{"[]"}</span>
+            <h3>No vendor lock-in</h3>
             <p>
-              Integrates with Claude Code via MCP. Agents can open reviews,
-              push annotations, flag files for attention, and poll for your decision.
+              No Anthropic SDK baked in. Works with Claude Code, Cursor, or
+              any MCP-compatible AI tool. Bring your own AI.
             </p>
           </div>
           <div className="diff-card">
             <span className="diff-icon">{"++"}</span>
-            <h3>Deterministic analysis</h3>
+            <h3>Auto-detect local repo</h3>
             <p>
-              Complexity scores, security pattern flags, test coverage gaps, and
-              module impact — computed locally with no AI, before you even open the diff.
+              Run the server from your clone. DiffPrism matches <code>git remote -v</code>
+              against the PR's repo and connects automatically.
             </p>
           </div>
         </div>
@@ -269,37 +290,37 @@ const features = [
     icon: "/",
     title: "One-command setup",
     description:
-      "diffprism setup registers the MCP server, configures permissions, and installs the /review skill for Claude Code. Works globally or per-project.",
+      "diffprism setup registers the MCP server, configures permissions, and installs the /review skill. Works globally or per-project.",
+  },
+  {
+    icon: "PR",
+    title: "GitHub PR review",
+    description:
+      "Paste any PR URL — full or shorthand (owner/repo#123). The diff loads in the browser with syntax highlighting, file browser, and briefing bar.",
+  },
+  {
+    icon: "{}",
+    title: "14 MCP tools",
+    description:
+      "get_pr_context, get_file_diff, get_file_context, add_review_comment, get_user_focus, analyze_diff, and more. Your AI has everything it needs.",
+  },
+  {
+    icon: "AI",
+    title: "AI annotations",
+    description:
+      "Your AI posts findings via MCP. They appear as inline annotations on the diff in real-time — concerns, suggestions, and questions right on the code.",
   },
   {
     icon: "[]",
     title: "Multi-session dashboard",
     description:
-      "All active review sessions in one browser tab. Status badges, file counts, and branch info at a glance. Desktop notifications when new reviews arrive.",
-  },
-  {
-    icon: "{}",
-    title: "9 MCP tools",
-    description:
-      "open_review, get_review_result, analyze_diff, add_annotation, flag_for_attention, and more. Agents can self-review, annotate findings, and wait for human decisions.",
-  },
-  {
-    icon: "!!",
-    title: "Typed inline comments",
-    description:
-      "Four comment types: must_fix, suggestion, question, nitpick. Your agent reads the structured decision and knows exactly what to fix.",
-  },
-  {
-    icon: "<>",
-    title: "GitHub PR review",
-    description:
-      "Review pull requests with the full DiffPrism UI. Post comments back to GitHub. Works with diffprism review owner/repo#123.",
+      "Also works for local agent review. Run multiple Claude Code sessions, review them all from one persistent dashboard.",
   },
   {
     icon: "->",
     title: "Watch mode",
     description:
-      "Diffs update in real-time as the agent iterates. No need to re-open the browser — the review UI stays in sync via WebSocket.",
+      "Diffs update in real-time as agents iterate. The review UI stays in sync via WebSocket. No refresh needed.",
   },
 ];
 
@@ -310,7 +331,7 @@ function Features() {
         <span className="section-label">Features</span>
         <h2>Everything you need. Nothing you don't.</h2>
         <p className="features-sub">
-          A focused review tool for agent-generated code.
+          PR review with AI context. Local agent review. One tool.
         </p>
         <div className="features-grid">
           {features.map((f) => (
@@ -333,13 +354,13 @@ function Architecture() {
         <span className="section-label">Architecture</span>
         <h2>Under the hood</h2>
         <p className="arch-subtitle">
-          A persistent local server that bridges your agents and a browser-based review UI.
+          Your browser shows the diff. Your AI reads the code. MCP connects them.
         </p>
         <div className="arch-diagram">
           <div className="arch-actor">
             <div className="arch-actor-icon">{">_"}</div>
-            <h4>Claude Code</h4>
-            <p>Agent calls /review via MCP</p>
+            <h4>AI Tool</h4>
+            <p>Claude Code, Cursor, or any MCP client</p>
           </div>
           <div className="arch-arrow">
             <span className="arch-arrow-label">MCP</span>
@@ -348,7 +369,7 @@ function Architecture() {
           <div className="arch-actor">
             <div className="arch-actor-icon">DP</div>
             <h4>DiffPrism Server</h4>
-            <p>HTTP + WebSocket daemon</p>
+            <p>HTTP + WebSocket + MCP server</p>
           </div>
           <div className="arch-arrow">
             <span className="arch-arrow-label">WS</span>
@@ -356,31 +377,22 @@ function Architecture() {
           </div>
           <div className="arch-actor">
             <div className="arch-actor-icon">UI</div>
-            <h4>Review UI</h4>
-            <p>Browser-based diff viewer</p>
-          </div>
-          <div className="arch-arrow">
-            <span className="arch-arrow-label">Decision</span>
-            <div className="arch-arrow-line" />
-          </div>
-          <div className="arch-actor">
-            <div className="arch-actor-icon">{">_"}</div>
-            <h4>Agent acts</h4>
-            <p>Commits, fixes, or opens PR</p>
+            <h4>Browser UI</h4>
+            <p>Diff viewer + annotations</p>
           </div>
         </div>
         <div className="arch-details">
           <div>
-            <code>Global server</code>
-            <p>Auto-starts on first review, manages all sessions, cleans up stale state</p>
+            <code>GitHub API</code>
+            <p>Fetches PR metadata and unified diff from any public or private repo</p>
           </div>
           <div>
-            <code>WebSocket sync</code>
-            <p>Real-time updates between agents and the review UI — diffs, annotations, decisions</p>
+            <code>Local repo</code>
+            <p>Reads full files via git show for complete context — not just diff hunks</p>
           </div>
           <div>
-            <code>Structured output</code>
-            <p>ReviewResult JSON with decision, typed comments, and file statuses the agent can parse</p>
+            <code>Real-time sync</code>
+            <p>AI findings, user focus, and diff updates stream over WebSocket</p>
           </div>
         </div>
       </div>
@@ -396,28 +408,28 @@ function CLI() {
         <h2>Works how you'd expect</h2>
         <div className="cli-grid">
           <div className="cli-example">
-            <code className="cli-cmd">diffprism review</code>
-            <p>Review your working copy (staged + unstaged changes)</p>
-          </div>
-          <div className="cli-example">
-            <code className="cli-cmd">diffprism review --staged</code>
-            <p>Review only staged changes</p>
-          </div>
-          <div className="cli-example">
-            <code className="cli-cmd">diffprism review HEAD~3</code>
-            <p>Review the last 3 commits</p>
-          </div>
-          <div className="cli-example">
-            <code className="cli-cmd">diffprism review main..feature</code>
-            <p>Review a branch diff</p>
+            <code className="cli-cmd">diffprism review https://github.com/org/repo/pull/123</code>
+            <p>Review a GitHub PR with full AI context</p>
           </div>
           <div className="cli-example">
             <code className="cli-cmd">diffprism review owner/repo#123</code>
-            <p>Review a GitHub pull request</p>
+            <p>Shorthand PR format works too</p>
           </div>
           <div className="cli-example">
-            <code className="cli-cmd">diffprism setup --global</code>
-            <p>One-command Claude Code integration</p>
+            <code className="cli-cmd">diffprism review --staged</code>
+            <p>Review staged local changes</p>
+          </div>
+          <div className="cli-example">
+            <code className="cli-cmd">diffprism review HEAD~3..HEAD</code>
+            <p>Review a commit range</p>
+          </div>
+          <div className="cli-example">
+            <code className="cli-cmd">diffprism setup</code>
+            <p>One-command MCP integration with Claude Code</p>
+          </div>
+          <div className="cli-example">
+            <code className="cli-cmd">diffprism server</code>
+            <p>Start the background server (or let it auto-start)</p>
           </div>
         </div>
       </div>
@@ -428,27 +440,27 @@ function CLI() {
 const faqItems = [
   {
     q: "What is DiffPrism?",
-    a: "A local-first code review tool for agent-generated changes. It opens a browser-based review UI where you can inspect diffs, leave inline comments, and make structured decisions that your AI agent acts on.",
+    a: "A code review tool that connects your AI assistant to GitHub PRs. Paste a PR URL, see the diff in a browser UI, and use Claude Code or Cursor to ask questions. Your AI gets full codebase context via MCP tools.",
   },
   {
-    q: "How does multi-session work?",
-    a: "A persistent background server manages all review sessions. Multiple Claude Code instances (across worktrees, branches, or projects) submit reviews to the same server. You see all sessions in one browser dashboard.",
+    q: "How does the AI integration work?",
+    a: "DiffPrism runs an MCP server with 14 tools. Your AI tool (Claude Code, Cursor) calls these tools to get PR context, read files, and post findings. No Anthropic SDK — it works with any MCP-compatible client.",
   },
   {
     q: "Does my code leave my machine?",
-    a: "No. DiffPrism runs entirely locally. The server, UI, and analysis all run on your machine. The only external calls are if you choose to review or post to a GitHub PR.",
+    a: "No. DiffPrism runs entirely locally. The server, UI, and analysis all run on your machine. The only external calls are to GitHub's API to fetch PR data.",
   },
   {
-    q: "How does it integrate with Claude Code?",
-    a: "Run diffprism setup to register as an MCP server. This gives Claude Code 9 tools for opening reviews, pushing annotations, and polling for your decisions. It also installs a /review skill.",
+    q: "How does local repo context work?",
+    a: "Run the server from within your local clone. DiffPrism matches git remote -v against the PR's repo. Your AI can then read full files via git show — not just diff hunks.",
   },
   {
-    q: "Can I use it without Claude Code?",
-    a: "Yes. The CLI works standalone — diffprism review opens the browser UI for any git diff. The MCP integration is optional.",
+    q: "Does it work for local changes too?",
+    a: "Yes. DiffPrism also supports reviewing local git diffs (staged, unstaged, commit ranges) with a multi-session dashboard. The original agent review workflow is fully supported.",
   },
   {
-    q: "What does the analysis include?",
-    a: "Deterministic (no AI) analysis: complexity scores per file, security pattern flags (hardcoded secrets, SQL injection, XSS), test coverage gaps, affected modules, and breaking change detection.",
+    q: "What AI tools are supported?",
+    a: "Any MCP-compatible tool: Claude Code, Cursor, or custom MCP clients. No vendor lock-in. DiffPrism provides the context layer — bring your own AI.",
   },
   {
     q: "Is it free?",
@@ -456,7 +468,7 @@ const faqItems = [
   },
   {
     q: "What languages are supported?",
-    a: "DiffPrism works with any language that git can diff. Syntax highlighting covers all major languages via refractor. The deterministic analysis has enhanced support for TypeScript, JavaScript, Python, Go, and Rust.",
+    a: "DiffPrism works with any language that git can diff. Syntax highlighting covers all major languages. The analysis has enhanced support for TypeScript, JavaScript, Python, Go, and Rust.",
   },
 ];
 
@@ -484,8 +496,8 @@ function CTA() {
     <section className="cta">
       <div className="container">
         <div className="cta-box">
-          <h2>Stop reading diffs in your terminal</h2>
-          <p>Install DiffPrism and review agent-generated code the way it deserves.</p>
+          <h2>Review PRs like you have a second brain</h2>
+          <p>Install DiffPrism and let your AI read the code you're reviewing.</p>
           <div className="hero-actions">
             <a href={NPM_URL} className="btn-primary" target="_blank" rel="noopener">
               <TerminalIcon />
@@ -510,7 +522,7 @@ function Footer() {
     <footer className="footer">
       <div className="container">
         <p>
-          DiffPrism &mdash; code review for the age of agents.{" "}
+          DiffPrism &mdash; AI-powered code review for GitHub PRs.{" "}
           <a href={GITHUB_URL} target="_blank" rel="noopener">
             GitHub
           </a>

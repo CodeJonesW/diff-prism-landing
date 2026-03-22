@@ -378,6 +378,247 @@
   font-weight: 500;
 }
 
+/* ── Demo Diff View ── */
+
+.demo-diff-view {
+  border-top: 1px solid var(--border);
+}
+
+.demo-diff-file {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.5rem;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.demo-diff-file-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--yellow-dim);
+  color: var(--yellow-text);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.demo-diff-stats {
+  margin-left: auto;
+  font-size: 0.72rem;
+}
+
+.demo-stat-add {
+  color: var(--green-text);
+}
+
+.demo-stat-del {
+  color: var(--red-text);
+}
+
+.demo-diff-lines {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  line-height: 1.7;
+}
+
+.demo-diff-line {
+  display: flex;
+  align-items: stretch;
+  padding: 0 1.5rem 0 0;
+}
+
+.demo-line-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 40px;
+  padding: 0 0.5rem;
+  color: var(--text-tertiary);
+  font-size: 0.72rem;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.demo-diff-line code {
+  flex: 1;
+  padding: 0 0.5rem;
+  white-space: pre;
+}
+
+.demo-diff-context {
+  background: var(--bg);
+}
+
+.demo-diff-add {
+  background: rgba(63, 185, 80, 0.08);
+}
+
+.demo-diff-add code {
+  color: var(--green-text);
+}
+
+.demo-diff-add .demo-line-num:last-of-type {
+  color: var(--green-text);
+}
+
+/* ── Demo AI Annotation ── */
+
+.demo-ai-annotation {
+  margin: 0.75rem 1.5rem 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-dim);
+}
+
+.demo-ai-annotation-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.demo-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.demo-ai-label {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.demo-ai-annotation p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.demo-ai-annotation code {
+  font-size: 0.78rem;
+  padding: 0.12rem 0.4rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ── Demo Terminal ── */
+
+.demo-terminal {
+  margin-top: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.2);
+}
+
+.demo-terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+}
+
+.demo-terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.demo-terminal-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.demo-terminal-title {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.demo-terminal-body {
+  padding: 1.25rem 1.5rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.demo-terminal-line {
+  margin-bottom: 0.5rem;
+}
+
+.demo-terminal-line:last-child {
+  margin-bottom: 0;
+}
+
+.demo-prompt {
+  color: var(--green-text);
+  margin-right: 0.5rem;
+  font-weight: 600;
+}
+
+.demo-input {
+  color: var(--text);
+}
+
+.demo-terminal-tool {
+  color: var(--text-tertiary);
+}
+
+.demo-tool-icon {
+  color: var(--accent);
+  margin-right: 0.5rem;
+  font-weight: 600;
+}
+
+.demo-tool-name {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.demo-tool-args {
+  color: var(--text-tertiary);
+}
+
+.demo-terminal-response {
+  color: var(--text-secondary);
+  padding-left: 1rem;
+  border-left: 2px solid var(--border-subtle);
+}
+
+.demo-terminal-response code {
+  font-size: 0.78rem;
+  padding: 0.12rem 0.4rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
 /* ── Demo Sessions ── */
 
 .demo-sessions {
