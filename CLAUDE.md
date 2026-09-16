@@ -31,7 +31,21 @@ npm run dev        # Dev server (localhost:5173)
 npm run build      # Production build → dist/
 ```
 
-Cloudflare Pages auto-deploys from `main`. Build command: `npm run build`, output dir: `dist`.
+Deploys are a **Direct Upload** Pages project (`diffprism-landing`), driven by
+`.github/workflows/deploy.yml` — push to `main` builds and uploads `dist/`.
+
+This project has no Cloudflare Git integration and cannot gain one: a Direct
+Upload project can never be converted to Git integration. The GitHub Action is
+how push-to-deploy works here. Changing it means recreating the project and
+re-attaching `diffprism.com`.
+
+Required repo secrets: `CLOUDFLARE_API_TOKEN` (Account → Cloudflare Pages →
+Edit) and `CLOUDFLARE_ACCOUNT_ID`.
+
+To deploy by hand: `npm run build && npx wrangler pages deploy dist --project-name=diffprism-landing`
+
+`public/_redirects` (`/*  /index.html  200`) is what makes the react-router
+routes (`/why`, `/context`, `/blog`) work on deep links. Do not delete it.
 
 ## Conventions
 
