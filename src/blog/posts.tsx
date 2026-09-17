@@ -206,6 +206,138 @@ export const posts: BlogPost[] = [
     ),
   },
   {
+    slug: "from-working-v1-to-production-ready",
+    title: "From a working v1 to production ready",
+    date: "2026-08-16",
+    summary:
+      "Agents are good at getting a feature to work. Review is where I find the small stuff that makes it ready to merge. DiffPrism makes that loop a lot shorter.",
+    content: () => (
+      <>
+        <p>
+          Coding agents are pretty good at getting to a working v1. I describe
+          the feature, the agent builds it, the tests pass, and it runs. That
+          part keeps getting better.
+        </p>
+        <p>
+          But working isn&apos;t the same as ready to merge. When I sit down to
+          review, I almost always find a list of small things. None of them
+          break anything. All of them matter once the code has to live in the
+          repo for a while.
+        </p>
+
+        <h2>What Review Turns Up</h2>
+        <p>It&apos;s usually the same handful of things.</p>
+        <ul>
+          <li>
+            <strong>Code that&apos;s hard to read.</strong> The logic works, but
+            one function does three jobs, or a name doesn&apos;t say what the
+            thing is. I have to read it twice to follow it.
+          </li>
+          <li>
+            <strong>Too many comments.</strong> Agents like to narrate. There&apos;s
+            a comment above every block saying what the next line does. Some of
+            them help. A lot of them just need to go.
+          </li>
+          <li>
+            <strong>Duplicate utility functions.</strong> The agent writes a new
+            helper to format a date or build a URL. But the repo already has one
+            in a utils folder. Now there are two, and they&apos;ll drift apart.
+          </li>
+          <li>
+            <strong>Solutions built from scratch.</strong> The project already
+            uses a component library, or a package that handles this exact
+            thing. The agent writes its own modal or its own retry logic
+            anyway.
+          </li>
+        </ul>
+        <p>
+          Each one is a small fix. But there are a lot of them, and they add up
+          across every agent session.
+        </p>
+
+        <h2>The Slow Way</h2>
+        <p>
+          Without a review tool, the loop for this is long. The agent finishes,
+          I open the diff, and I start writing notes. Then I go back to the
+          terminal and type them all out. Something like, in{" "}
+          <code>src/lib/api.ts</code> around line 40, use the existing fetch
+          helper. Every note needs a file path and a line number so the agent
+          can find the spot.
+        </p>
+        <p>
+          That&apos;s slow, and it&apos;s easy to miss a note. And if I want to
+          know why the agent did something, that turns into a back and forth
+          in the terminal, away from the code I&apos;m asking about.
+        </p>
+
+        <h2>Reviewing in the Diff</h2>
+        <p>
+          DiffPrism shortens that loop. When the agent commits, the commit gate
+          opens the diff in DiffPrism and the agent waits for me. I&apos;m the
+          reviewer from the start, and the agent that wrote the code is still
+          around.
+        </p>
+        <p>
+          So I just comment on the line. No file paths, no line numbers. The
+          comment is already attached to the code it&apos;s about. The agent
+          reads it and replies in the thread.
+        </p>
+        <p>Those threads end up being a few different kinds of conversation.</p>
+        <ul>
+          <li>
+            <strong>Asking for a change.</strong> Use the date helper in utils
+            here. The agent makes the change, and the diff updates.
+          </li>
+          <li>
+            <strong>Asking why.</strong> Sometimes the agent had a good reason.
+            Sometimes it didn&apos;t, and asking is how I find out.
+          </li>
+          <li>
+            <strong>Learning something.</strong> Every so often the answer
+            teaches me something about a config flag or an API I hadn&apos;t
+            used. I&apos;d rather learn that in the review than skip past it.
+          </li>
+          <li>
+            <strong>Making a suggestion.</strong> Not every comment has to be a
+            demand. I can float an idea, and the agent can tell me if it fits
+            or why it might not.
+          </li>
+        </ul>
+
+        <h2>A Shorter Loop</h2>
+        <p>
+          The fixes themselves don&apos;t change. It&apos;s still the same
+          pruning, renaming, and swapping in the helper that already exists.
+          What changes is how long each one takes. A comment on a line takes a
+          few seconds. The agent makes the edit. I read the result right there.
+        </p>
+        <p>
+          And it all happens before the commit. So the version that lands in
+          the repo is the cleaned up one, not the v1 plus a follow up PR full
+          of tweaks.
+        </p>
+        <p>
+          I think that&apos;s where agents and review fit together best. The
+          agent gets it working fast. The review gets it to something I&apos;d
+          want to maintain.
+        </p>
+
+        <h2>How to Try It</h2>
+        <p>
+          Install with <code>npm install -g diffprism</code>. Run{" "}
+          <code>diffprism setup</code> to connect Claude Code, then{" "}
+          <code>diffprism hook install</code> in your repo. The next big commit
+          your agent makes will open in DiffPrism for review.
+        </p>
+        <p>
+          Cheers,
+          <br />
+          Will
+        </p>
+      </>
+    ),
+  },
+  {
     slug: "the-missing-layer-in-ai-code-review",
     title: "The missing layer in AI code review",
     date: "2026-02-20",
