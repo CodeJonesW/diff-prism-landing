@@ -10,6 +10,147 @@ export interface BlogPost {
 
 export const posts: BlogPost[] = [
   {
+    slug: "reviewing-a-day-of-parallel-agents",
+    title: "Reviewing a day of parallel agents",
+    date: "2026-09-16",
+    summary:
+      "Plan a few tasks in Claude Code, hand them to agents, and go answer Slack. DiffPrism holds each commit until you've read it, and keeps the agent around to answer your questions on the diff.",
+    content: () => (
+      <>
+        <p>
+          A day with coding agents doesn't look like one long session. It looks
+          like a handful of tasks running at once, and a lot of other work in
+          between. This post walks through that day and where DiffPrism fits
+          into it.
+        </p>
+
+        <h2>Plans First</h2>
+        <p>
+          You open Claude Code with three things on the list. A signup form on
+          the landing page. The backend that form needs. And a bug where opening
+          Find closes the help sheet.
+        </p>
+        <p>
+          You don't start with code. You go task by task and make a plan for
+          each one. Switching between them is cheap at this stage, since a plan
+          is just text. You read it, push back on the parts that are wrong, and
+          move to the next task.
+        </p>
+
+        <h2>Hand It Off</h2>
+        <p>
+          Once the plans look right, each task gets its own agent session on its
+          own branch. Three agents, three branches. And then you leave them
+          alone.
+        </p>
+
+        <h2>While They Work</h2>
+        <p>
+          There's a Slack thread from a teammate waiting on an answer, so you
+          answer it. A deploy went out this morning, so you open the canary logs
+          and make sure it's healthy before it rolls out wider.
+        </p>
+        <p>
+          None of that means watching a terminal. The agents don't need you
+          until they're done, and DiffPrism is how you find out they're done.
+        </p>
+
+        <h2>Agents Finish One by One</h2>
+        <p>
+          Earlier you ran <code>diffprism hook install</code> in the repo. So
+          when an agent finishes and runs <code>git commit</code>, the
+          pre-commit hook holds the commit. It opens the staged diff in
+          DiffPrism and waits for your decision. The agent waits with it. Small
+          commits pass straight through, and you set that threshold.
+        </p>
+        <p>
+          The agents don't finish at the same time. One lands, then a few
+          minutes later another. Each one shows up in the sidebar marked In
+          Review. You don't have to catch the moment. When you're done with
+          Slack, you switch to the DiffPrism tab in Chrome and everything that's
+          ready is sitting there.
+        </p>
+        <figure className="blog-figure">
+          <img
+            src="/blog/parallel-agent-workflow/sessions-ready.png"
+            alt="DiffPrism dashboard with three sessions in review in the sidebar and a six-file diff open"
+            loading="lazy"
+          />
+          <figcaption>
+            Every review in one sidebar, whether it came from the commit gate
+            or a pull request.
+          </figcaption>
+        </figure>
+
+        <h2>Ask on the Line</h2>
+        <p>
+          You click into the Find fix. The header gives you a quick briefing
+          first: how many modules the change touches, and what's untested. Then
+          in <code>MapScreen.tsx</code> you hit a deleted block, and it isn't
+          obvious why it's gone. So you leave a comment on the line: why are we
+          removing this?
+        </p>
+        <figure className="blog-figure">
+          <img
+            src="/blog/parallel-agent-workflow/question-thread.png"
+            alt="A comment on a removed line in MapScreen.tsx asking why it was removed, waiting for the agent to reply"
+            loading="lazy"
+          />
+          <figcaption>
+            The question sits on the line it's about, waiting on the agent that
+            wrote it.
+          </figcaption>
+        </figure>
+        <p>
+          The agent that wrote the change is still around. Your question
+          interrupts its wait, so it reads the thread and answers right there.
+          Turns out the block didn't go away. It moved a few lines down, out of
+          the state updater, so the same branch can close the shell's sheets
+          too.
+        </p>
+        <div className="blog-callout">
+          <p>
+            You don't copy the line into a terminal. You don't go hunt for the
+            session that wrote it. You ask in the diff and the answer shows up
+            in the diff.
+          </p>
+        </div>
+
+        <h2>Comments, Fixes, Approve</h2>
+        <p>
+          From there it's a normal review. You leave a few more comments. Some
+          are questions, some are changes you want. When you request changes,
+          they go straight back to the agent that made them. It makes the fixes,
+          and the diff updates live while it works.
+        </p>
+        <p>
+          You read what changed and approve. On a pre-commit review, that lets
+          the commit through. On a pull request, it posts a real GitHub review,
+          and you pick which of your threads go public. Then you move on to the
+          next session in the sidebar.
+        </p>
+
+        <h2>Why This Shape Works</h2>
+        <p>
+          Running several agents isn't the hard part. Keeping track of what each
+          one did is. The commit gate means nothing lands without you reading
+          it. The sidebar means you review when you're ready, not when the agent
+          happens to finish. And the thread means the agent that wrote the code
+          is right there to explain it.
+        </p>
+
+        <h2>Try It</h2>
+        <p>
+          Install with <code>npm install -g diffprism</code>, run{" "}
+          <code>diffprism setup</code> to connect Claude Code, then{" "}
+          <code>diffprism hook install</code> in your repo. The next big commit
+          your agent makes will open in DiffPrism. For pull requests, run{" "}
+          <code>diffprism review owner/repo#123</code>.
+        </p>
+      </>
+    ),
+  },
+  {
     slug: "diffprism-is-now-a-github-app",
     title: "DiffPrism is now a GitHub App",
     date: "2026-03-08",
