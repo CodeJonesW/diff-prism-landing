@@ -14,97 +14,125 @@ export const posts: BlogPost[] = [
     title: "Reviewing a day of parallel agents",
     date: "2026-09-16",
     summary:
-      "Plan a few tasks in Claude Code, hand them to agents, and go answer Slack. DiffPrism holds each commit until you've read it, and keeps the agent around to answer your questions on the diff.",
+      "I planned three tasks in Claude Code, handed them to agents, and went back to Slack. DiffPrism put their local commits and a GitHub pull request in one sidebar, and the agents answered my questions right on the diff.",
     content: () => (
       <>
         <p>
-          A day with coding agents doesn't look like one long session. It looks
-          like a handful of tasks running at once, and a lot of other work in
-          between. This post walks through that day and where DiffPrism fits
-          into it.
+          My coding days don't look like one long session anymore. They look
+          like three agents running at once while I do other stuff. Here's what
+          one of those days looked like in my Radius repo, with DiffPrism in the
+          loop.
         </p>
 
         <h2>Plans First</h2>
         <p>
-          You open Claude Code with three things on the list. A signup form on
+          I opened Claude Code with three things on the list. A signup form on
           the landing page. The backend that form needs. And a bug where opening
-          Find closes the help sheet.
+          Find closed the help sheet.
         </p>
         <p>
-          You don't start with code. You go task by task and make a plan for
-          each one. Switching between them is cheap at this stage, since a plan
-          is just text. You read it, push back on the parts that are wrong, and
-          move to the next task.
-        </p>
-
-        <h2>Hand It Off</h2>
-        <p>
-          Once the plans look right, each task gets its own agent session on its
-          own branch. Three agents, three branches. And then you leave them
-          alone.
+          I didn't start with code. I went task by task and made a plan with
+          Claude for each one. Switching between tasks is cheap at this point,
+          since a plan is just text. I read it, pushed back on the parts that
+          were wrong, and moved on to the next one.
         </p>
 
-        <h2>While They Work</h2>
+        <h2>Handing It Off</h2>
         <p>
-          There's a Slack thread from a teammate waiting on an answer, so you
-          answer it. A deploy went out this morning, so you open the canary logs
-          and make sure it's healthy before it rolls out wider.
-        </p>
-        <p>
-          None of that means watching a terminal. The agents don't need you
-          until they're done, and DiffPrism is how you find out they're done.
+          Once the plans looked right, I started an agent session for each task.
+          Each one got its own branch. Three agents, three branches. Then I left
+          them alone.
         </p>
 
-        <h2>Agents Finish One by One</h2>
+        <h2>While They Worked</h2>
         <p>
-          Earlier you ran <code>diffprism hook install</code> in the repo. So
-          when an agent finishes and runs <code>git commit</code>, the
-          pre-commit hook holds the commit. It opens the staged diff in
-          DiffPrism and waits for your decision. The agent waits with it. Small
-          commits pass straight through, and you set that threshold.
+          I had Slack messages waiting, so I answered those. A deploy had gone
+          out earlier, so I opened the canary logs and made sure it was healthy.
         </p>
         <p>
-          The agents don't finish at the same time. One lands, then a few
-          minutes later another. Each one shows up in the sidebar marked In
-          Review. You don't have to catch the moment. When you're done with
-          Slack, you switch to the DiffPrism tab in Chrome and everything that's
-          ready is sitting there.
+          None of that meant watching a terminal. The agents didn't need me
+          until they were done. And DiffPrism is how I found out they were done.
+        </p>
+
+        <h2>Agents Finishing One by One</h2>
+        <p>
+          I'd already run <code>diffprism hook install</code> in the repo. So
+          when an agent finished and ran <code>git commit</code>, the pre-commit
+          hook held the commit. It opened the staged diff in DiffPrism and
+          waited for my decision. The agent waited too. Small commits pass
+          straight through, and you set that threshold.
+        </p>
+        <p>
+          They didn't finish at the same time. One landed, then a few minutes
+          later another. Each one showed up in the sidebar marked In Review. I
+          didn't have to catch the moment. When I was done with Slack, I
+          switched to the DiffPrism tab in Chrome and they were sitting there.
+        </p>
+
+        <h2>Two Kinds of Sessions, One Sidebar</h2>
+        <p>
+          DiffPrism has two workflows. The difference is where my review goes.
+        </p>
+        <p>
+          <strong>Local agent changes.</strong> This is code on my machine that
+          hasn't been committed yet. The commit gate opens it, and the agent
+          that wrote it is waiting on me. Everything I send goes to that agent.
+          Questions, feedback, requested changes. Nothing leaves my machine. I
+          can approve, approve with comments, request changes, or dismiss. When
+          I approve, the commit goes through.
+        </p>
+        <p>
+          <strong>Remote pull requests.</strong> This is code that's already up
+          on GitHub. I open one with{" "}
+          <code>diffprism review owner/repo#123</code>. DiffPrism fetches the
+          diff and finds my local clone, so the agent can read whole files and
+          not just the changed lines. I can still ask the agent questions on
+          any line. But my decision goes to GitHub. Approve, request changes, or
+          comment posts a real review on the PR. My threads with the agent stay
+          private unless I tick the ones I want posted as inline comments.
+        </p>
+        <p>
+          The Find fix was already up as a pull request, so I opened it that
+          way. That meant the sidebar had both kinds at once. Two pre-commit
+          reviews for the signup work, and PR #362 for the Find fix. Same list,
+          same diff view, same threads. The review bar at the bottom is what
+          changes, since one decision goes back to an agent and the other goes
+          to GitHub.
         </p>
         <figure className="blog-figure">
           <img
             src="/blog/parallel-agent-workflow/sessions-ready.png"
-            alt="DiffPrism dashboard with three sessions in review in the sidebar and a six-file diff open"
+            alt="DiffPrism dashboard with two pre-commit reviews and one pull request review in the sidebar, with the pull request open"
             loading="lazy"
           />
           <figcaption>
-            Every review in one sidebar, whether it came from the commit gate
-            or a pull request.
+            Two local pre-commit reviews and one GitHub pull request, side by
+            side.
           </figcaption>
         </figure>
 
-        <h2>Ask on the Line</h2>
+        <h2>Asking on the Line</h2>
         <p>
-          You click into the backend session. The header gives you a quick
-          briefing first: three modules touched, one new dependency, two
-          untested changes. The files are sorted by how much attention they
-          need. The new signup endpoint is marked critical. The README and
-          config changes are notable. A new <code>tsconfig.json</code> is
-          mechanical, and you could approve that whole group at once.
+          I clicked into the backend session first. The header gives a quick
+          briefing. Three modules touched, one new dependency, two untested
+          changes. The files are sorted by how much attention they need. The
+          signup endpoint was marked critical. The README and config changes
+          were notable. A new <code>tsconfig.json</code> was mechanical, and I
+          could've approved that whole group at once.
         </p>
         <p>
-          But one line in that tsconfig isn't obvious to you:{" "}
-          <code>"noEmit": true</code>. So you leave a comment on it: what does
-          this key/value pair do?
+          But one line in that tsconfig wasn't obvious to me,{" "}
+          <code>"noEmit": true</code>. So I left a comment on it asking what it
+          does.
         </p>
         <p>
-          The agent that wrote the change is still waiting on your decision.
-          Your question interrupts that wait, so it reads the thread and answers
-          right there. It explains that <code>noEmit</code> tells{" "}
-          <code>tsc</code> to type-check only and write no JavaScript. The
-          tsconfig only exists so <code>npm run typecheck</code> can check the
-          signup function against the Cloudflare Workers types. Wrangler does
-          the real build at deploy, so any output from <code>tsc</code> would
-          just be clutter.
+          The agent was still waiting on my decision. My question interrupted
+          that wait, so it read the thread and answered right there.{" "}
+          <code>noEmit</code> tells <code>tsc</code> to type-check only and
+          write no JavaScript. The tsconfig only exists so{" "}
+          <code>npm run typecheck</code> can check the signup function against
+          the Cloudflare Workers types. Wrangler does the real build at deploy,
+          so anything <code>tsc</code> wrote out would just be clutter.
         </p>
         <figure className="blog-figure">
           <img
@@ -113,20 +141,21 @@ export const posts: BlogPost[] = [
             loading="lazy"
           />
           <figcaption>
-            A question on the line, and the agent's answer in the same thread.
+            I asked on the line. The agent answered in the same thread.
           </figcaption>
         </figure>
         <div className="blog-callout">
           <p>
-            You don't copy the line into a terminal. You don't go hunt for the
-            session that wrote it. You ask in the diff and the answer shows up
-            in the diff.
+            I didn't copy the line into a terminal. I didn't go find the session
+            that wrote it. I asked in the diff and the answer showed up in the
+            diff.
           </p>
         </div>
         <p>
-          Pull requests work the same way. In the Find fix, a block in{" "}
-          <code>MapScreen.tsx</code> got deleted, and it isn't obvious why. So
-          you ask on that line too, and the question waits there for the agent.
+          Then I switched over to PR #362. Threads work the same way there. A
+          block in <code>MapScreen.tsx</code> got deleted and I couldn't tell
+          why. So I asked on that line too, and the question sat there waiting
+          for the agent.
         </p>
         <figure className="blog-figure">
           <img
@@ -134,41 +163,44 @@ export const posts: BlogPost[] = [
             alt="A comment on a removed line in MapScreen.tsx asking why it was removed, waiting for the agent to reply"
             loading="lazy"
           />
-          <figcaption>
-            The same thread on a pull request, waiting on the agent.
-          </figcaption>
+          <figcaption>Same kind of thread, on a pull request.</figcaption>
         </figure>
 
         <h2>Comments, Fixes, Approve</h2>
         <p>
-          From there it's a normal review. You leave a few more comments. Some
-          are questions, some are changes you want. When you request changes,
-          they go straight back to the agent that made them. It makes the fixes,
-          and the diff updates live while it works.
+          Back in the backend review, I left a few more comments. Some
+          were questions and some were changes I wanted. Requested changes go
+          straight back to the agent that made them. It makes the fixes, and the
+          diff updates live while it works.
         </p>
         <p>
-          You read what changed and approve. On a pre-commit review, that lets
-          the commit through. On a pull request, it posts a real GitHub review,
-          and you pick which of your threads go public. Then you move on to the
-          next session in the sidebar.
-        </p>
-
-        <h2>Why This Shape Works</h2>
-        <p>
-          Running several agents isn't the hard part. Keeping track of what each
-          one did is. The commit gate means nothing lands without you reading
-          it. The sidebar means you review when you're ready, not when the agent
-          happens to finish. And the thread means the agent that wrote the code
-          is right there to explain it.
+          Once the fixes looked right, I approved and the commit went through.
+          Then I went back to PR #362, and the review I submitted there landed
+          on GitHub. Then I moved on to the next session in the sidebar.
         </p>
 
-        <h2>Try It</h2>
+        <h2>Keeping Track of Three Agents</h2>
         <p>
-          Install with <code>npm install -g diffprism</code>, run{" "}
+          For me, running a few agents at once isn't the hard part. Keeping
+          track of what each one did is. The commit gate means nothing lands
+          without me reading it. The sidebar holds local changes and pull
+          requests together, so I review when I'm ready, not whenever an agent
+          happens to finish. And the agent that wrote the code is still around
+          to explain it.
+        </p>
+
+        <h2>How to Try It</h2>
+        <p>
+          Install with <code>npm install -g diffprism</code>. Run{" "}
           <code>diffprism setup</code> to connect Claude Code, then{" "}
           <code>diffprism hook install</code> in your repo. The next big commit
           your agent makes will open in DiffPrism. For pull requests, run{" "}
           <code>diffprism review owner/repo#123</code>.
+        </p>
+        <p>
+          Cheers,
+          <br />
+          Will
         </p>
       </>
     ),
