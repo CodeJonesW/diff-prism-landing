@@ -36,7 +36,7 @@ function Nav() {
         <div className="nav-links">
           <Link to="/why">Why DiffPrism</Link>
           <Link to="/blog">Blog</Link>
-          <a href="#how-it-works">How it works</a>
+          <a href="#how-it-works">Workflows</a>
           <a href="#features">Features</a>
           <a href={GITHUB_URL} className="btn-github" target="_blank" rel="noopener">
             <GitHubIcon />
@@ -52,16 +52,16 @@ function Hero() {
   return (
     <section className="hero">
       <div className="container">
-        <span className="hero-badge">MCP-native &middot; AI-powered &middot; Open source</span>
+        <span className="hero-badge">Open source &middot; Runs on your machine &middot; Claude Code &amp; Cursor</span>
         <h1>
-          Review PRs with
+          Catch it before the commit.
           <br />
-          <span className="accent">AI superpowers</span>
+          <span className="accent">Discuss it before the merge.</span>
         </h1>
         <p className="hero-sub">
-          Paste a GitHub PR URL. See the diff in your browser.
-          Ask your AI tool questions about any line, file, or change.
-          Findings appear inline on the diff in real-time.
+          DiffPrism puts AI-written code in front of you at the two moments that matter:
+          when your agent is about to commit, and when a pull request is waiting on you.
+          Read the diff, ask the agent about any line, and get the answer right there in the thread.
         </p>
         <div className="hero-actions">
           <a href={NPM_URL} className="btn-primary" target="_blank" rel="noopener">
@@ -89,64 +89,62 @@ function DemoSection() {
           <div className="demo-pr-header">
             <span className="demo-pr-icon">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                <path d="M1.5 3.25a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zm5.677-.177L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm0 9.5a.75.75 0 100 1.5.75.75 0 000-1.5z" />
+                <path d="M11.93 8.5a4.002 4.002 0 0 1-7.86 0H.75a.75.75 0 0 1 0-1.5h3.32a4.002 4.002 0 0 1 7.86 0h3.32a.75.75 0 0 1 0 1.5Zm-1.43-.75a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z" />
               </svg>
             </span>
-            <span className="demo-pr-title">PR #457: Add block-no-verify PreToolUse hook</span>
-            <span className="demo-pr-number">tupe12334 &middot; add-block-no-verify</span>
+            <span className="demo-pr-title">Add a rate limiter</span>
+            <span className="demo-pr-number">working copy &middot; waiting on your review</span>
           </div>
 
-          {/* Diff view mock */}
           <div className="demo-diff-view">
             <div className="demo-diff-file">
               <span className="demo-diff-file-icon">M</span>
-              <span>.claude/settings.json</span>
-              <span className="demo-diff-stats"><span className="demo-stat-add">+12</span> <span className="demo-stat-del">-0</span></span>
+              <span>src/rate-limit.ts</span>
+              <span className="demo-diff-stats"><span className="demo-stat-add">+8</span> <span className="demo-stat-del">-2</span></span>
             </div>
             <div className="demo-diff-lines">
-              <div className="demo-diff-line demo-diff-context">
+              <div className="demo-diff-line demo-diff-add">
+                <span className="demo-line-num"></span>
                 <span className="demo-line-num">3</span>
-                <span className="demo-line-num">3</span>
-                <code>{"  \"hooks\": {"}</code>
+                <code>{"export function allow(user: string, limit = 10, windowMs = 60_000) {"}</code>
               </div>
               <div className="demo-diff-line demo-diff-add">
                 <span className="demo-line-num"></span>
                 <span className="demo-line-num">4</span>
-                <code>{"    \"PreToolUse\": ["}</code>
+                <code>{"  const now = Date.now();"}</code>
               </div>
               <div className="demo-diff-line demo-diff-add">
                 <span className="demo-line-num"></span>
                 <span className="demo-line-num">5</span>
-                <code>{"      {"}</code>
-              </div>
-              <div className="demo-diff-line demo-diff-add">
-                <span className="demo-line-num"></span>
-                <span className="demo-line-num">6</span>
-                <code>{'        "matcher": "Bash(--no-verify)",'}</code>
-              </div>
-              <div className="demo-diff-line demo-diff-add">
-                <span className="demo-line-num"></span>
-                <span className="demo-line-num">7</span>
-                <code>{'        "action": "block"'}</code>
+                <code>{"  const recent = (hits.get(user) ?? []).filter((t) => now - t < windowMs);"}</code>
               </div>
             </div>
 
-            {/* AI annotation inline */}
-            <div className="demo-ai-annotation">
-              <div className="demo-ai-annotation-header">
-                <span className="demo-ai-badge">AI</span>
-                <span className="demo-ai-label">ai-reviewer via add_review_comment</span>
+            {/* A thread on the line: the reviewer asks, the agent answers */}
+            <div className="demo-thread">
+              <div className="demo-thread-msg">
+                <span className="demo-thread-author demo-thread-you">You</span>
+                <p>Why keep every timestamp instead of a simple counter?</p>
               </div>
-              <p>
-                This hook blocks <code>--no-verify</code> in Bash commands, which prevents
-                skipping git hooks. Good security practice. Consider also blocking{" "}
-                <code>--no-gpg-sign</code> to enforce commit signing.
-              </p>
+              <div className="demo-thread-msg demo-thread-reply">
+                <span className="demo-thread-author demo-thread-agent">
+                  <span className="demo-ai-badge">AI</span>
+                  claude-code
+                </span>
+                <p>
+                  A counter resets on the minute, so a user could send 10 requests at 0:59 and
+                  10 more at 1:00. Timestamps give a true sliding window: never more
+                  than <code>limit</code> in the last 60 seconds.
+                </p>
+              </div>
+              <div className="demo-thread-msg demo-thread-reply">
+                <span className="demo-thread-author demo-thread-you">You</span>
+                <p>Makes sense. Add a test for the edge of the window.</p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Terminal mock below */}
         <div className="demo-terminal">
           <div className="demo-terminal-header">
             <div className="demo-terminal-dots">
@@ -155,66 +153,94 @@ function DemoSection() {
             <span className="demo-terminal-title">Claude Code</span>
           </div>
           <div className="demo-terminal-body">
-            <div className="demo-terminal-line">
-              <span className="demo-prompt">{">"}</span>
-              <span className="demo-input">Is the hook matcher pattern correct?</span>
+            <div className="demo-terminal-line demo-terminal-tool">
+              <span className="demo-tool-icon">{"~>"}</span>
+              <span>diffprism <span className="demo-tool-name">open_review</span> <span className="demo-tool-args">(title: "Add a rate limiter")</span></span>
+            </div>
+            <div className="demo-terminal-line demo-terminal-response">
+              <span>The reviewer asked about <code>src/rate-limit.ts:5</code> before deciding.</span>
             </div>
             <div className="demo-terminal-line demo-terminal-tool">
               <span className="demo-tool-icon">{"~>"}</span>
-              <span>diffprism <span className="demo-tool-name">get_file_context</span> <span className="demo-tool-args">(file: ".claude/settings.json")</span></span>
+              <span>diffprism <span className="demo-tool-name">reply</span> <span className="demo-tool-args">(explains the sliding window)</span></span>
+            </div>
+            <div className="demo-terminal-line demo-terminal-tool">
+              <span className="demo-tool-icon">{"~>"}</span>
+              <span>diffprism <span className="demo-tool-name">get_review_result</span> <span className="demo-tool-args">(wait: true)</span></span>
             </div>
             <div className="demo-terminal-line demo-terminal-response">
-              <span>The matcher <code>"Bash(--no-verify)"</code> will match any Bash tool use containing
-              the <code>--no-verify</code> flag. This correctly catches <code>git commit --no-verify</code>,
-              <code>git push --no-verify</code>, and similar.</span>
+              <span>Changes requested: add a test for the edge of the window. Writing it now.</span>
             </div>
           </div>
         </div>
 
         <p className="demo-caption">
-          You see the diff. Your AI sees the full codebase. Review together.
+          You ask in the diff. The agent answers in the diff. Nobody copies text between a browser and a terminal.
         </p>
       </div>
     </section>
   );
 }
 
-function HowItWorks() {
+function Workflows() {
   return (
     <section className="how-it-works" id="how-it-works">
       <div className="container">
-        <span className="section-label">How it works</span>
-        <h2>From PR URL to AI-powered review</h2>
-        <div className="steps">
-          <div className="step">
-            <div className="step-number">1</div>
-            <h3>Install & setup</h3>
-            <p>
-              Install DiffPrism globally and run setup to register the MCP server
-              with Claude Code or Cursor. One command.
+        <span className="section-label">Two workflows</span>
+        <h2>One review loop, wherever the code is</h2>
+        <div className="workflows">
+          <div className="workflow">
+            <span className="workflow-tag">Before it&apos;s committed</span>
+            <h3>Review your agent&apos;s changes locally</h3>
+            <p className="workflow-lede">
+              The cheapest place to catch a wrong turn is before it becomes a commit, a CI run,
+              and a teammate&apos;s review. When your agent commits, DiffPrism opens the diff in your
+              browser and holds the commit until you decide.
             </p>
-            <code>diffprism setup</code>
+            <ol className="workflow-steps">
+              <li>
+                <strong>Your agent runs <code>git commit</code>.</strong> The commit gate opens the
+                staged diff for review.
+              </li>
+              <li>
+                <strong>You read it and ask.</strong> Question a line, and the agent answers in the
+                thread while you keep reading.
+              </li>
+              <li>
+                <strong>Request changes or approve.</strong> Your feedback goes straight back to the
+                agent that wrote the code. When you approve, the commit goes through.
+              </li>
+            </ol>
+            <code className="workflow-cmd">diffprism hook install</code>
           </div>
-          <div className="step">
-            <div className="step-number">2</div>
-            <h3>Open a PR</h3>
-            <p>
-              Paste any GitHub PR URL. DiffPrism fetches the diff, auto-detects
-              your local clone via <code>git remote</code> matching, and opens the
-              browser UI.
+
+          <div className="workflow">
+            <span className="workflow-tag">Before it&apos;s merged</span>
+            <h3>Review pull requests with an agent that read the code</h3>
+            <p className="workflow-lede">
+              Open any GitHub PR. Your agent reads whole files from your local clone, not just the
+              hunks. It points out what matters and answers your questions on any line.
             </p>
-            <code>diffprism review {"<PR URL>"}</code>
-          </div>
-          <div className="step">
-            <div className="step-number">3</div>
-            <h3>Ask your AI</h3>
-            <p>
-              Your AI tool calls MCP tools to get PR context, read full files from
-              your local repo, and post findings that appear inline on the diff.
-            </p>
-            <code>14 MCP tools</code>
+            <ol className="workflow-steps">
+              <li>
+                <strong>Open the PR.</strong> DiffPrism fetches the diff and finds your local clone
+                on its own.
+              </li>
+              <li>
+                <strong>Ask about any line.</strong> The agent replies in the thread, with the
+                context of the whole codebase behind it.
+              </li>
+              <li>
+                <strong>Approve, request changes, or comment.</strong> It posts to GitHub as a real
+                review, and you choose which of your threads go public.
+              </li>
+            </ol>
+            <code className="workflow-cmd">diffprism review owner/repo#123</code>
           </div>
         </div>
+        <p className="workflows-note">
+          New to reviewing agent code? <Link to="/why">Why review locally, before the push &rarr;</Link>
+        </p>
       </div>
     </section>
   );
@@ -225,58 +251,58 @@ function WhatMakesItDifferent() {
     <section className="differentiators">
       <div className="container">
         <span className="section-label">Why DiffPrism</span>
-        <h2>Your AI sees the whole codebase, not just the diff.</h2>
+        <h2>Review is a conversation, not a handoff.</h2>
         <p className="differentiators-sub">
-          GitHub shows you the changed lines. DiffPrism gives your AI tool the full context
-          to understand why those lines changed and whether they're correct.
+          Most AI review tools leave a pile of comments and walk away. DiffPrism keeps the agent
+          in the room, so it can explain, defend, or fix what it wrote while you&apos;re still reading.
         </p>
         <div className="diff-grid">
           <div className="diff-card">
-            <span className="diff-icon">{"~>"}</span>
-            <h3>MCP-powered</h3>
+            <span className="diff-icon">{"<>"}</span>
+            <h3>Threads on every line</h3>
             <p>
-              14 tools for your AI to explore PRs: get file diffs, read full files
-              from your local clone, post inline findings, track user focus.
+              Ask on any line of a local diff or a PR. The agent answers in the thread, and you
+              can reply back. It works the same in both workflows.
+            </p>
+          </div>
+          <div className="diff-card">
+            <span className="diff-icon">{"||"}</span>
+            <h3>A commit gate that waits for you</h3>
+            <p>
+              <code>git commit</code> opens the review and waits for your decision. Your
+              questions and requested changes go straight to the agent that made them.
             </p>
           </div>
           <div className="diff-card">
             <span className="diff-icon">{"><"}</span>
-            <h3>Local repo context</h3>
+            <h3>Whole-codebase context</h3>
             <p>
-              Your AI reads the full file via <code>git show</code>, not just the
-              diff hunks. It understands imports, function signatures, and surrounding code.
+              Your agent reads full files from your local clone with <code>git show</code>, not just
+              diff hunks: imports, callers, and the code around the change.
             </p>
           </div>
           <div className="diff-card">
-            <span className="diff-icon">{"!!"}</span>
-            <h3>Live annotations</h3>
+            <span className="diff-icon">{"ok"}</span>
+            <h3>Decisions that land on GitHub</h3>
             <p>
-              AI findings appear as inline annotations on the diff in real-time.
-              Your AI calls <code>add_review_comment</code> and it shows up instantly.
-            </p>
-          </div>
-          <div className="diff-card">
-            <span className="diff-icon">{"<>"}</span>
-            <h3>Syntax-highlighted diffs</h3>
-            <p>
-              Unified or split view with full syntax highlighting via refractor.
-              Keyboard shortcuts for file navigation.
+              Approve, request changes, or comment from the dashboard, and it posts a real GitHub
+              review. Your back-and-forth with the agent stays private unless you pick it.
             </p>
           </div>
           <div className="diff-card">
             <span className="diff-icon">{"[]"}</span>
-            <h3>No vendor lock-in</h3>
+            <h3>Bring your own AI</h3>
             <p>
-              No Anthropic SDK baked in. Works with Claude Code, Cursor, or
-              any MCP-compatible AI tool. Bring your own AI.
+              No model API keys and no vendor SDK. Works with Claude Code, Cursor, or any MCP
+              client, through the plan you already pay for.
             </p>
           </div>
           <div className="diff-card">
             <span className="diff-icon">{"++"}</span>
-            <h3>Auto-detect local repo</h3>
+            <h3>Runs on your machine</h3>
             <p>
-              Run the server from your clone. DiffPrism matches <code>git remote -v</code>
-              against the PR's repo and connects automatically.
+              The server, dashboard, and analysis all run locally. DiffPrism only contacts GitHub to
+              fetch a PR you open or to post a review you submit.
             </p>
           </div>
         </div>
@@ -290,37 +316,37 @@ const features = [
     icon: "/",
     title: "One-command setup",
     description:
-      "diffprism setup registers the MCP server, configures permissions, and installs the /review skill. Works globally or per-project.",
+      "diffprism setup registers the MCP server, grants its tool permissions, and installs the /review skill for Claude Code.",
+  },
+  {
+    icon: "||",
+    title: "Commit gate",
+    description:
+      "diffprism hook install holds large commits for a human review. Small commits pass straight through, and you set the threshold.",
+  },
+  {
+    icon: "<>",
+    title: "Conversation threads",
+    description:
+      "The agent answers with reply and listens with wait_for_comments. A question you ask mid-review interrupts its wait, so it can answer right away.",
   },
   {
     icon: "PR",
     title: "GitHub PR review",
     description:
-      "Paste any PR URL — full or shorthand (owner/repo#123). The diff loads in the browser with syntax highlighting, file browser, and briefing bar.",
-  },
-  {
-    icon: "{}",
-    title: "14 MCP tools",
-    description:
-      "get_pr_context, get_file_diff, get_file_context, add_review_comment, get_user_focus, analyze_diff, and more. Your AI has everything it needs.",
+      "Full or shorthand PR refs. A syntax-highlighted diff, file browser, and briefing bar, with your local clone found automatically.",
   },
   {
     icon: "AI",
-    title: "AI annotations",
+    title: "Agent annotations",
     description:
-      "Your AI posts findings via MCP. They appear as inline annotations on the diff in real-time — concerns, suggestions, and questions right on the code.",
+      "annotate puts findings inline on the diff in real time. Warnings flag the session in the sidebar so nothing slips by.",
   },
   {
     icon: "[]",
     title: "Multi-session dashboard",
     description:
-      "Also works for local agent review. Run multiple Claude Code sessions, review them all from one persistent dashboard.",
-  },
-  {
-    icon: "->",
-    title: "Watch mode",
-    description:
-      "Diffs update in real-time as agents iterate. The review UI stays in sync via WebSocket. No refresh needed.",
+      "Every agent and every PR you're reviewing, in one persistent dashboard. Diffs update live as agents keep working.",
   },
 ];
 
@@ -329,9 +355,9 @@ function Features() {
     <section className="features" id="features">
       <div className="container">
         <span className="section-label">Features</span>
-        <h2>Everything you need. Nothing you don't.</h2>
+        <h2>Everything you need. Nothing you don&apos;t.</h2>
         <p className="features-sub">
-          PR review with AI context. Local agent review. One tool.
+          Local agent review and GitHub PR review. One tool, one loop, 14 MCP tools.
         </p>
         <div className="features-grid">
           {features.map((f) => (
@@ -354,7 +380,7 @@ function Architecture() {
         <span className="section-label">Architecture</span>
         <h2>Under the hood</h2>
         <p className="arch-subtitle">
-          Your browser shows the diff. Your AI reads the code. MCP connects them.
+          Your browser shows the diff. Your agent reads the code. MCP connects them.
         </p>
         <div className="arch-diagram">
           <div className="arch-actor">
@@ -378,13 +404,13 @@ function Architecture() {
           <div className="arch-actor">
             <div className="arch-actor-icon">UI</div>
             <h4>Browser UI</h4>
-            <p>Diff viewer + annotations</p>
+            <p>Diff viewer, threads and decisions</p>
           </div>
         </div>
         <div className="arch-details">
           <div>
             <code>GitHub API</code>
-            <p>Fetches PR metadata and unified diff from any public or private repo</p>
+            <p>Fetches the PRs you open, and posts your review when you decide</p>
           </div>
           <div>
             <code>Local repo</code>
@@ -392,7 +418,7 @@ function Architecture() {
           </div>
           <div>
             <code>Real-time sync</code>
-            <p>AI findings, user focus, and diff updates stream over WebSocket</p>
+            <p>Threads, findings, focus and diff updates stream over WebSocket</p>
           </div>
         </div>
       </div>
@@ -405,31 +431,31 @@ function CLI() {
     <section className="cli-section" id="cli">
       <div className="container">
         <span className="section-label">CLI</span>
-        <h2>Works how you'd expect</h2>
+        <h2>Works how you&apos;d expect</h2>
         <div className="cli-grid">
           <div className="cli-example">
-            <code className="cli-cmd">diffprism review https://github.com/org/repo/pull/123</code>
-            <p>Review a GitHub PR with full AI context</p>
+            <code className="cli-cmd">diffprism setup</code>
+            <p>Connect DiffPrism to Claude Code in one command</p>
+          </div>
+          <div className="cli-example">
+            <code className="cli-cmd">diffprism hook install</code>
+            <p>Hold your agent&apos;s large commits for a human review</p>
+          </div>
+          <div className="cli-example">
+            <code className="cli-cmd">diffprism review</code>
+            <p>Review everything uncommitted, staged and unstaged</p>
           </div>
           <div className="cli-example">
             <code className="cli-cmd">diffprism review owner/repo#123</code>
-            <p>Shorthand PR format works too</p>
-          </div>
-          <div className="cli-example">
-            <code className="cli-cmd">diffprism review --staged</code>
-            <p>Review staged local changes</p>
+            <p>Review a GitHub PR with your agent</p>
           </div>
           <div className="cli-example">
             <code className="cli-cmd">diffprism review HEAD~3..HEAD</code>
-            <p>Review a commit range</p>
+            <p>Review a range of commits</p>
           </div>
           <div className="cli-example">
-            <code className="cli-cmd">diffprism setup</code>
-            <p>One-command MCP integration with Claude Code</p>
-          </div>
-          <div className="cli-example">
-            <code className="cli-cmd">diffprism server</code>
-            <p>Start the background server (or let it auto-start)</p>
+            <code className="cli-cmd">diffprism feedback</code>
+            <p>Share feedback or report a bug. You see the issue before anything is sent.</p>
           </div>
         </div>
       </div>
@@ -440,27 +466,27 @@ function CLI() {
 const faqItems = [
   {
     q: "What is DiffPrism?",
-    a: "A code review tool that connects your AI assistant to GitHub PRs. Paste a PR URL, see the diff in a browser UI, and use Claude Code or Cursor to ask questions. Your AI gets full codebase context via MCP tools.",
+    a: "A local code review tool for AI-written code. It opens your agent's changes before they're committed, or any GitHub PR, in a browser diff view. It connects your AI assistant to that review over MCP, so the agent can point out problems, answer your questions, and fix what you ask for.",
   },
   {
-    q: "How does the AI integration work?",
-    a: "DiffPrism runs an MCP server with 14 tools. Your AI tool (Claude Code, Cursor) calls these tools to get PR context, read files, and post findings. No Anthropic SDK — it works with any MCP-compatible client.",
+    q: "What are the two workflows?",
+    a: "Local: your agent's uncommitted changes, opened by the commit gate or the /review skill, with your decision going back to the agent. PR: any GitHub pull request, opened with diffprism review, with your decision posted to GitHub. Threads work in both.",
+  },
+  {
+    q: "How can the agent answer while it waits for my decision?",
+    a: "In a local review, asking a question ends the agent's wait. It answers in the thread, then goes back to waiting for your decision. On a PR, the agent listens for new comments with wait_for_comments.",
+  },
+  {
+    q: "Does it cost anything to run the AI?",
+    a: "DiffPrism never calls a model itself. Your own Claude Code or Cursor does the thinking, through MCP, on the plan you already have. There are no API keys to configure and no per-token bills from DiffPrism.",
   },
   {
     q: "Does my code leave my machine?",
-    a: "No. DiffPrism runs entirely locally. The server, UI, and analysis all run on your machine. The only external calls are to GitHub's API to fetch PR data.",
-  },
-  {
-    q: "How does local repo context work?",
-    a: "Run the server from within your local clone. DiffPrism matches git remote -v against the PR's repo. Your AI can then read full files via git show — not just diff hunks.",
-  },
-  {
-    q: "Does it work for local changes too?",
-    a: "Yes. DiffPrism also supports reviewing local git diffs (staged, unstaged, commit ranges) with a multi-session dashboard. The original agent review workflow is fully supported.",
+    a: "No. The server, dashboard, and analysis run locally. DiffPrism only talks to GitHub to fetch a PR you open and, when you decide, to post your review. Your threads with the agent are only posted if you tick them.",
   },
   {
     q: "What AI tools are supported?",
-    a: "Any MCP-compatible tool: Claude Code, Cursor, or custom MCP clients. No vendor lock-in. DiffPrism provides the context layer — bring your own AI.",
+    a: "Any MCP-compatible tool: Claude Code, Cursor, or a custom MCP client. DiffPrism provides the review. You bring the AI.",
   },
   {
     q: "Is it free?",
@@ -468,7 +494,7 @@ const faqItems = [
   },
   {
     q: "What languages are supported?",
-    a: "DiffPrism works with any language that git can diff. Syntax highlighting covers all major languages. The analysis has enhanced support for TypeScript, JavaScript, Python, Go, and Rust.",
+    a: "Anything git can diff. Syntax highlighting covers all major languages, and the analysis has extra support for TypeScript, JavaScript, Python, Go, and Rust.",
   },
 ];
 
@@ -496,8 +522,8 @@ function CTA() {
     <section className="cta">
       <div className="container">
         <div className="cta-box">
-          <h2>Review PRs like you have a second brain</h2>
-          <p>Install DiffPrism and let your AI read the code you're reviewing.</p>
+          <h2>Keep a human in the loop without slowing it down</h2>
+          <p>Review your agent&apos;s work before the commit and before the merge, and talk it through right on the diff.</p>
           <div className="hero-actions">
             <a href={NPM_URL} className="btn-primary" target="_blank" rel="noopener">
               <TerminalIcon />
@@ -522,7 +548,7 @@ function Footer() {
     <footer className="footer">
       <div className="container">
         <p>
-          DiffPrism &mdash; AI-powered code review for GitHub PRs.{" "}
+          DiffPrism &mdash; human review for AI-written code.{" "}
           <a href={GITHUB_URL} target="_blank" rel="noopener">
             GitHub
           </a>
@@ -538,7 +564,7 @@ export function App() {
       <Nav />
       <Hero />
       <DemoSection />
-      <HowItWorks />
+      <Workflows />
       <WhatMakesItDifferent />
       <Features />
       <Architecture />

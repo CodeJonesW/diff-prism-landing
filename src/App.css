@@ -521,6 +521,58 @@
   font-weight: 500;
 }
 
+/* ── Demo Thread ── */
+
+.demo-thread {
+  margin: 0.75rem 1.5rem 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-dim);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.demo-thread-reply {
+  margin-left: 1rem;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--border);
+}
+
+.demo-thread-author {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.72rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.demo-thread-you {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.demo-thread-agent {
+  color: var(--text-tertiary);
+}
+
+.demo-thread-msg p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.demo-thread-msg code {
+  font-size: 0.78rem;
+  padding: 0.12rem 0.4rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--accent);
+}
+
 /* ── Demo Terminal ── */
 
 .demo-terminal {
@@ -835,6 +887,113 @@
   font-size: 0.8rem;
   color: var(--green-text);
   font-weight: 500;
+}
+
+/* ── Workflows ── */
+
+.workflows {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  position: relative;
+}
+
+.workflow {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  transition: all 0.3s;
+}
+
+.workflow:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.workflow-tag {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--green-text);
+  background: var(--green-dim);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  margin-bottom: 1rem;
+}
+
+.workflow h3 {
+  font-size: 1.35rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.workflow-lede {
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+}
+
+.workflow-steps {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-left: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.workflow-steps li::marker {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.workflow-steps strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.workflow-steps code,
+.workflow-cmd {
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--accent);
+}
+
+.workflow-steps code {
+  font-size: 0.85em;
+}
+
+.workflow-cmd {
+  align-self: flex-start;
+  font-size: 0.85rem;
+  padding: 0.45rem 0.8rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.workflows-note {
+  position: relative;
+  text-align: center;
+  margin-top: 2.5rem;
+  color: var(--text-secondary);
+}
+
+.workflows-note a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.workflows-note a:hover {
+  text-decoration: underline;
 }
 
 /* ── Differentiators ── */
@@ -1323,9 +1482,18 @@
     border-radius: 14px;
   }
 
-  .steps {
+  .steps,
+  .workflows {
     grid-template-columns: 1fr;
     gap: 1.25rem;
+  }
+
+  .workflow {
+    padding: 1.5rem;
+  }
+
+  .demo-thread {
+    margin: 0.75rem;
   }
 
   .nav-links a:not(.btn-github) {
