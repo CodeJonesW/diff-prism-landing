@@ -84,11 +84,49 @@ export const posts: BlogPost[] = [
 
         <h2>Ask on the Line</h2>
         <p>
-          You click into the Find fix. The header gives you a quick briefing
-          first: how many modules the change touches, and what's untested. Then
-          in <code>MapScreen.tsx</code> you hit a deleted block, and it isn't
-          obvious why it's gone. So you leave a comment on the line: why are we
-          removing this?
+          You click into the backend session. The header gives you a quick
+          briefing first: three modules touched, one new dependency, two
+          untested changes. The files are sorted by how much attention they
+          need. The new signup endpoint is marked critical. The README and
+          config changes are notable. A new <code>tsconfig.json</code> is
+          mechanical, and you could approve that whole group at once.
+        </p>
+        <p>
+          But one line in that tsconfig isn't obvious to you:{" "}
+          <code>"noEmit": true</code>. So you leave a comment on it: what does
+          this key/value pair do?
+        </p>
+        <p>
+          The agent that wrote the change is still waiting on your decision.
+          Your question interrupts that wait, so it reads the thread and answers
+          right there. It explains that <code>noEmit</code> tells{" "}
+          <code>tsc</code> to type-check only and write no JavaScript. The
+          tsconfig only exists so <code>npm run typecheck</code> can check the
+          signup function against the Cloudflare Workers types. Wrangler does
+          the real build at deploy, so any output from <code>tsc</code> would
+          just be clutter.
+        </p>
+        <figure className="blog-figure">
+          <img
+            src="/blog/parallel-agent-workflow/agent-reply.png"
+            alt="A pre-commit review in DiffPrism with a question on functions/tsconfig.json line 10 and the agent's reply explaining noEmit in the thread"
+            loading="lazy"
+          />
+          <figcaption>
+            A question on the line, and the agent's answer in the same thread.
+          </figcaption>
+        </figure>
+        <div className="blog-callout">
+          <p>
+            You don't copy the line into a terminal. You don't go hunt for the
+            session that wrote it. You ask in the diff and the answer shows up
+            in the diff.
+          </p>
+        </div>
+        <p>
+          Pull requests work the same way. In the Find fix, a block in{" "}
+          <code>MapScreen.tsx</code> got deleted, and it isn't obvious why. So
+          you ask on that line too, and the question waits there for the agent.
         </p>
         <figure className="blog-figure">
           <img
@@ -97,24 +135,9 @@ export const posts: BlogPost[] = [
             loading="lazy"
           />
           <figcaption>
-            The question sits on the line it's about, waiting on the agent that
-            wrote it.
+            The same thread on a pull request, waiting on the agent.
           </figcaption>
         </figure>
-        <p>
-          The agent that wrote the change is still around. Your question
-          interrupts its wait, so it reads the thread and answers right there.
-          Turns out the block didn't go away. It moved a few lines down, out of
-          the state updater, so the same branch can close the shell's sheets
-          too.
-        </p>
-        <div className="blog-callout">
-          <p>
-            You don't copy the line into a terminal. You don't go hunt for the
-            session that wrote it. You ask in the diff and the answer shows up
-            in the diff.
-          </p>
-        </div>
 
         <h2>Comments, Fixes, Approve</h2>
         <p>
