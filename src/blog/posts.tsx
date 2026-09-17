@@ -10,134 +10,197 @@ export interface BlogPost {
 
 export const posts: BlogPost[] = [
   {
-    slug: "diffprism-is-now-a-github-app",
-    title: "DiffPrism is now a GitHub App",
-    date: "2026-03-08",
+    slug: "reviewing-a-day-of-parallel-agents",
+    title: "Reviewing a day of parallel agents",
+    date: "2026-09-16",
     summary:
-      "We rebuilt DiffPrism from the ground up as a GitHub App. Pattern-aware code reviews that reference your actual codebase — directly on your pull requests.",
+      "I planned three tasks in Claude Code, handed them to agents, and went back to Slack. DiffPrism put their local commits and a GitHub pull request in one sidebar, and the agents answered my questions right on the diff.",
     content: () => (
       <>
         <p>
-          Today we're launching DiffPrism as a GitHub App. Comment{" "}
-          <code>/review</code> on any pull request, and DiffPrism posts
-          a structured review with inline comments that reference patterns
-          from your actual codebase. No CLI. No browser tab. Reviews land
-          directly on the PR.
+          My coding days don't look like one long session anymore. They look
+          like three agents running at once while I do other stuff. Here's what
+          one of those days looked like in my Radius repo, with DiffPrism in the
+          loop.
         </p>
 
-        <h2>Why we rebuilt</h2>
+        <h2>Plans First</h2>
         <p>
-          DiffPrism started as a local-first diff viewer for agent-generated
-          code. You'd run <code>npx diffprism</code>, a browser tab would open,
-          and you'd review changes before committing. It worked — but it was
-          solving the wrong problem.
+          I opened Claude Code with three things on the list. A signup form on
+          the landing page. The backend that form needs. And a bug where opening
+          Find closed the help sheet.
         </p>
         <p>
-          The real pain isn't viewing diffs locally. Every IDE already does
-          that. The real pain is that AI code review tools don't know your
-          codebase. They see the diff in isolation. They give you generic
-          advice like "consider adding error handling" when your repo already
-          has a specific error handling pattern that every other file follows.
-        </p>
-        <p>
-          We wanted reviews that could say: "this error handling differs from
-          the pattern in <code>src/api/auth.ts:42</code>." That requires
-          indexing the repo. And if you're indexing the repo, the natural
-          surface is GitHub — where the code already lives and where reviews
-          already happen.
+          I didn't start with code. I went task by task and made a plan with
+          Claude for each one. Switching between tasks is cheap at this point,
+          since a plan is just text. I read it, pushed back on the parts that
+          were wrong, and moved on to the next one.
         </p>
 
-        <h2>How it works</h2>
+        <h2>Handing It Off</h2>
         <p>
-          Install the DiffPrism GitHub App on your repo. We automatically index
-          your codebase using AST-aware chunking — splitting code at function
-          and class boundaries, not arbitrary character counts. Each chunk gets
-          a vector embedding and lands in a per-repo index.
-        </p>
-        <p>
-          When you comment <code>/review</code> on a PR, DiffPrism:
-        </p>
-        <ol>
-          <li>Fetches the diff and parses the changed files</li>
-          <li>Builds a semantic query from the changes</li>
-          <li>Queries the vector index for related code patterns in your repo</li>
-          <li>Queries the import graph for connected files</li>
-          <li>Sends the diff + context to Claude</li>
-          <li>Posts inline comments tagged by severity — critical, suggestion, or praise</li>
-        </ol>
-        <p>
-          The whole process takes about 10 seconds. The webhook responds
-          immediately, and the review runs asynchronously via Cloudflare Queues.
+          Once the plans looked right, I started an agent session for each task.
+          Each one got its own branch. Three agents, three branches. Then I left
+          them alone.
         </p>
 
-        <h2>Pattern-aware, not just correct</h2>
+        <h2>While They Worked</h2>
         <p>
-          Most AI review tools check if your code is correct. DiffPrism checks
-          if your code is <em>consistent</em>. There's a difference.
+          I had Slack messages waiting, so I answered those. A deploy had gone
+          out earlier, so I opened the canary logs and made sure it was healthy.
         </p>
         <p>
-          Correct code might handle errors with a try/catch. Consistent code
-          handles errors with <em>your</em> try/catch wrapper — the one defined
-          in your utils, the one every other module imports. When a new
-          contributor (or an AI agent) skips that pattern, DiffPrism catches it
-          and tells you exactly where the established pattern lives.
+          None of that meant watching a terminal. The agents didn't need me
+          until they were done. And DiffPrism is how I found out they were done.
         </p>
+
+        <h2>Agents Finishing One by One</h2>
+        <p>
+          I'd already run <code>diffprism hook install</code> in the repo. So
+          when an agent finished and ran <code>git commit</code>, the pre-commit
+          hook held the commit. It opened the staged diff in DiffPrism and
+          waited for my decision. The agent waited too. Small commits pass
+          straight through, and you set that threshold.
+        </p>
+        <p>
+          They didn't finish at the same time. One landed, then a few minutes
+          later another. Each one showed up in the sidebar marked In Review. I
+          didn't have to catch the moment. When I was done with Slack, I
+          switched to the DiffPrism tab in Chrome and they were sitting there.
+        </p>
+
+        <h2>Two Kinds of Sessions, One Sidebar</h2>
+        <p>
+          DiffPrism has two workflows. The difference is where my review goes.
+        </p>
+        <p>
+          <strong>Local agent changes.</strong> This is code on my machine that
+          hasn't been committed yet. The commit gate opens it, and the agent
+          that wrote it is waiting on me. Everything I send goes to that agent.
+          Questions, feedback, requested changes. Nothing leaves my machine. I
+          can approve, approve with comments, request changes, or dismiss. When
+          I approve, the commit goes through.
+        </p>
+        <p>
+          <strong>Remote pull requests.</strong> This is code that's already up
+          on GitHub. I open one with{" "}
+          <code>diffprism review owner/repo#123</code>. DiffPrism fetches the
+          diff and finds my local clone, so the agent can read whole files and
+          not just the changed lines. I can still ask the agent questions on
+          any line. But my decision goes to GitHub. Approve, request changes, or
+          comment posts a real review on the PR. My threads with the agent stay
+          private unless I tick the ones I want posted as inline comments.
+        </p>
+        <p>
+          The Find fix was already up as a pull request, so I opened it that
+          way. That meant the sidebar had both kinds at once. Two pre-commit
+          reviews for the signup work, and PR #362 for the Find fix. Same list,
+          same diff view, same threads. The review bar at the bottom is what
+          changes, since one decision goes back to an agent and the other goes
+          to GitHub.
+        </p>
+        <figure className="blog-figure">
+          <img
+            src="/blog/parallel-agent-workflow/sessions-ready.png"
+            alt="DiffPrism dashboard with two pre-commit reviews and one pull request review in the sidebar, with the pull request open"
+            loading="lazy"
+          />
+          <figcaption>
+            Two local pre-commit reviews and one GitHub pull request, side by
+            side.
+          </figcaption>
+        </figure>
+
+        <h2>Asking on the Line</h2>
+        <p>
+          I clicked into the backend session first. The header gives a quick
+          briefing. Three modules touched, one new dependency, two untested
+          changes. The files are sorted by how much attention they need. The
+          signup endpoint was marked critical. The README and config changes
+          were notable. A new <code>tsconfig.json</code> was mechanical, and I
+          could've approved that whole group at once.
+        </p>
+        <p>
+          But one line in that tsconfig wasn't obvious to me,{" "}
+          <code>"noEmit": true</code>. So I left a comment on it asking what it
+          does.
+        </p>
+        <p>
+          The agent was still waiting on my decision. My question interrupted
+          that wait, so it read the thread and answered right there.{" "}
+          <code>noEmit</code> tells <code>tsc</code> to type-check only and
+          write no JavaScript. The tsconfig only exists so{" "}
+          <code>npm run typecheck</code> can check the signup function against
+          the Cloudflare Workers types. Wrangler does the real build at deploy,
+          so anything <code>tsc</code> wrote out would just be clutter.
+        </p>
+        <figure className="blog-figure">
+          <img
+            src="/blog/parallel-agent-workflow/agent-reply.png"
+            alt="A pre-commit review in DiffPrism with a question on functions/tsconfig.json line 10 and the agent's reply explaining noEmit in the thread"
+            loading="lazy"
+          />
+          <figcaption>
+            I asked on the line. The agent answered in the same thread.
+          </figcaption>
+        </figure>
         <div className="blog-callout">
           <p>
-            Generic AI review: "Consider adding error handling."
-            <br />
-            DiffPrism: "This bypasses the tryCatch() wrapper used in every
-            other route handler. See src/middleware/error.ts:24."
+            I didn't copy the line into a terminal. I didn't go find the session
+            that wrote it. I asked in the diff and the answer showed up in the
+            diff.
           </p>
         </div>
+        <p>
+          Then I switched over to PR #362. Threads work the same way there. A
+          block in <code>MapScreen.tsx</code> got deleted and I couldn't tell
+          why. So I asked on that line too, and the question sat there waiting
+          for the agent.
+        </p>
+        <figure className="blog-figure">
+          <img
+            src="/blog/parallel-agent-workflow/question-thread.png"
+            alt="A comment on a removed line in MapScreen.tsx asking why it was removed, waiting for the agent to reply"
+            loading="lazy"
+          />
+          <figcaption>Same kind of thread, on a pull request.</figcaption>
+        </figure>
 
-        <h2>Zero noise</h2>
+        <h2>Comments, Fixes, Approve</h2>
         <p>
-          We're allergic to filler. If the code is clean, DiffPrism approves
-          with a short summary and moves on. No "great job!" on every function.
-          No restating what the code does. No suggesting improvements to code
-          that's already fine.
+          Back in the backend review, I left a few more comments. Some
+          were questions and some were changes I wanted. Requested changes go
+          straight back to the agent that made them. It makes the fixes, and the
+          diff updates live while it works.
         </p>
         <p>
-          Comments are tagged by severity. Red for critical issues — bugs,
-          security problems, broken patterns. Yellow for suggestions —
-          consistency improvements, better approaches. Green for praise, used
-          sparingly and only for genuinely good patterns worth calling out.
-        </p>
-
-        <h2>What we deprecated</h2>
-        <p>
-          The original DiffPrism — the local CLI, the MCP tools, the
-          browser-based review UI, the multi-session dashboard — is deprecated.
-          The npm package still exists but won't receive updates.
-        </p>
-        <p>
-          We learned a lot building it. The daemon architecture, the
-          WebSocket-based live updates, the agent self-review loop — all of
-          that informed how we think about review workflows. But the GitHub App
-          is the product now, and we're putting all our energy there.
-        </p>
-
-        <h2>Pricing</h2>
-        <p>
-          Free tier: 10 reviews per month, 1 repo. Enough to try it on a real
-          project. Pro: 100 reviews, unlimited repos. Team: unlimited
-          everything. We wanted the free tier to be genuinely useful, not a
-          demo.
+          Once the fixes looked right, I approved and the commit went through.
+          Then I went back to PR #362, and the review I submitted there landed
+          on GitHub. Then I moved on to the next session in the sidebar.
         </p>
 
-        <h2>Try it</h2>
+        <h2>Keeping Track of Three Agents</h2>
         <p>
-          Install the{" "}
-          <a
-            href="https://github.com/apps/diffprism"
-            target="_blank"
-            rel="noopener"
-          >
-            DiffPrism GitHub App
-          </a>
-          , open a PR, and comment <code>/review</code>. Your first 10 reviews
-          are free every month.
+          For me, running a few agents at once isn't the hard part. Keeping
+          track of what each one did is. The commit gate means nothing lands
+          without me reading it. The sidebar holds local changes and pull
+          requests together, so I review when I'm ready, not whenever an agent
+          happens to finish. And the agent that wrote the code is still around
+          to explain it.
+        </p>
+
+        <h2>How to Try It</h2>
+        <p>
+          Install with <code>npm install -g diffprism</code>. Run{" "}
+          <code>diffprism setup</code> to connect Claude Code, then{" "}
+          <code>diffprism hook install</code> in your repo. The next big commit
+          your agent makes will open in DiffPrism. For pull requests, run{" "}
+          <code>diffprism review owner/repo#123</code>.
+        </p>
+        <p>
+          Cheers,
+          <br />
+          Will
         </p>
       </>
     ),
@@ -150,17 +213,6 @@ export const posts: BlogPost[] = [
       "PR-layer tools wait too long. CLI tools show too little. There's a gap between agent output and pull request — and it's a UI problem.",
     content: () => (
       <>
-        <div className="blog-callout">
-          <p>
-            <strong>Update (March 2026):</strong> DiffPrism has since evolved
-            into a GitHub App that delivers pattern-aware reviews directly on
-            pull requests. The local CLI tool described below has been
-            deprecated. Read the{" "}
-            <a href="/blog/diffprism-is-now-a-github-app">launch post</a> for
-            the full story.
-          </p>
-        </div>
-
         <p>
           The AI code review space has exploded. If you're shipping software in
           2026, you've probably used — or at least evaluated — at least one tool
