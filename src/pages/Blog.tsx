@@ -3,7 +3,6 @@ import { posts } from "../blog/posts";
 import "./Blog.css";
 
 const GITHUB_URL = "https://github.com/CodeJonesW/diffprism";
-const GITHUB_APP_URL = "https://github.com/apps/diffprism";
 
 function GitHubIcon() {
   return (
@@ -53,11 +52,7 @@ function Footer() {
     <footer className="footer">
       <div className="container">
         <p>
-          DiffPrism &mdash; pattern-aware code reviews for GitHub.{" "}
-          <a href={GITHUB_APP_URL} target="_blank" rel="noopener">
-            Install
-          </a>
-          {" · "}
+          DiffPrism &mdash; human review for AI-written code.{" "}
           <a href={GITHUB_URL} target="_blank" rel="noopener">
             GitHub
           </a>

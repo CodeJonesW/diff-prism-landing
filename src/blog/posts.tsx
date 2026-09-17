@@ -339,13 +339,15 @@ export const posts: BlogPost[] = [
           If you're using coding agents and want to actually understand what
           they're writing,{" "}
           <a
-            href="https://github.com/apps/diffprism"
+            href="https://www.npmjs.com/package/diffprism"
             target="_blank"
             rel="noopener"
           >
             try DiffPrism
           </a>
-          . Install the GitHub App and comment /review on your next PR.
+          . Install it with <code>npm install -g diffprism</code>, run{" "}
+          <code>diffprism setup</code>, and review your agent&apos;s next
+          commit before it lands.
         </p>
       </>
     ),
