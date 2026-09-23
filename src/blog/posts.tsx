@@ -10,6 +10,207 @@ export interface BlogPost {
 
 export const posts: BlogPost[] = [
   {
+    slug: "a-week-of-diffprism-changes",
+    title: "A week of DiffPrism changes",
+    date: "2026-09-22",
+    summary:
+      "We started writing a short note for every DiffPrism change as it ships. Here's what the first week of notes adds up to: reviews that say where they came from, feedback that reaches the agent, and questions on a line that get answered.",
+    content: () => (
+      <>
+        <p>
+          Last week we started keeping a build journal for DiffPrism. Every
+          change now comes with a short note. What changed, why, and what we
+          decided along the way. A pull request without one can't merge.
+        </p>
+        <p>
+          That gave me 29 notes from September 16 to 22. This post is a summary
+          of them. Most of these changes came from using DiffPrism to review
+          DiffPrism, and from using it in my other projects. The numbers in
+          parentheses are{" "}
+          <a
+            href="https://github.com/CodeJonesW/diffprism/pulls?q=is%3Apr+is%3Amerged"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            pull requests in the DiffPrism repo
+          </a>
+          .
+        </p>
+
+        <h2>Knowing Which Review You're Looking At</h2>
+        <p>
+          I usually have a few agents running, each in its own checkout. With
+          several reviews open, the review pane didn't say which branch you were
+          looking at. We sent a decision to the wrong review while testing an
+          earlier fix. Now the header shows the checkout and branch, like{" "}
+          <code>radius / main</code> (#162).
+        </p>
+        <p>
+          There were also about nine ways to open a review, and they didn't
+          agree with each other. Some waited for a decision and some didn't. Two
+          of them could open separate reviews of the same repo, and a commit
+          could update the wrong one. Now each repo has one review, and every
+          way of opening it follows the same rules (#167). They all show the
+          same changes by default too, which is your uncommitted work (#169).
+        </p>
+
+        <h2>Making Sure Feedback Reaches the Agent</h2>
+        <p>
+          DiffPrism can hold <code>git commit</code> until I approve the change.
+          That only helps if my feedback gets back to the agent. A few times it
+          didn't.
+        </p>
+        <p>
+          I rejected a commit with a note that said "what is this?????" and the
+          agent only saw "Commit blocked." DiffPrism printed my comments on
+          lines, but not the note at the top. Now it prints both. And a
+          rejection with no feedback at all says there's nothing to act on
+          (#158).
+        </p>
+        <p>
+          Agents usually run commands with a two minute time limit. A longer
+          review would end the commit partway through. When the agent tried
+          again, the approval I'd just given got thrown away. Now a decision
+          stays with the review, so running the same commit again goes through
+          (#168).
+        </p>
+        <p>
+          Clicking Approve also used to clear the screen whether or not the
+          server got the decision. If it didn't, the commit stayed blocked and
+          nothing said why. Now the button says "Sending…" until the server
+          confirms, and shows an error if it can't (#207).
+        </p>
+        <p>
+          And when a line gets replaced, the old line and the new one can have
+          the same number. A comment on the deleted line could show up under the
+          new one. Now each comment remembers which side of the change it's on,
+          and the agent is told which one it means (#202).
+        </p>
+
+        <h2>Asking Questions on a Line</h2>
+        <p>
+          This was the biggest set of changes. I wanted to click a line, ask
+          the agent about it, and get an answer in the same spot.
+        </p>
+        <p>
+          It started with pull requests. You could ask on a line, and the agent
+          replied in a thread under it (#173). Then local reviews got the same
+          thing, so you can ask a question while the agent is still waiting on
+          your decision (#178). An agent working in the terminal can answer with{" "}
+          <code>diffprism reply</code> (#180).
+        </p>
+        <p>
+          Then we kept finding ways a question went unanswered. If no agent was
+          running, the thread said "Waiting for the agent to reply" forever. Now
+          after 5 seconds it says nobody's listening and gives you a prompt to
+          paste into Claude Code (#190). That paste used to get one answer and
+          then stop. Now the agent keeps listening after it replies. It also
+          gets the file, the branch and the code with each question, so it
+          doesn't have to go look them up (#194).
+        </p>
+        <p>
+          Even after that, someone's agent kept stopping after one answer. Turns
+          out the instructions DiffPrism installed on their machine were six
+          months old, and upgrading never replaced them. Now DiffPrism checks
+          those files when it starts and updates them if they're out of date
+          (#213).
+        </p>
+        <p>
+          The last change is the one we'd been working toward. Run{" "}
+          <code>diffprism review</code> on a pull request and it starts Claude
+          Code for you. Ask on a line and it answers, reading from your local
+          copy of the repo. It can read files, but it can't edit anything or run
+          commands. Ask a follow-up and it remembers what it said before. No
+          second window and no pasting (#218).
+        </p>
+
+        <h2>Finishing a Pull Request Review</h2>
+        <p>
+          Pull request reviews didn't have a way to finish. Now there are
+          Approve, Request changes and Comment buttons that post a real review
+          to GitHub. Your threads with the agent stay private unless you tick
+          the ones you want posted (#176).
+        </p>
+        <p>
+          Using it on my own pull requests, GitHub refused my Approve. GitHub
+          doesn't let you approve your own pull request. Now DiffPrism checks
+          which account you're posting as, and only offers Comment when the pull
+          request is yours (#208).
+        </p>
+        <p>
+          Two smaller fixes came with this. A pull request review now reads
+          files from the copy of the repo you ran the command in (#210). And the{" "}
+          <code>--title</code> and <code>--reasoning</code> options were being
+          ignored without a word. Now they show up on the review (#212).
+        </p>
+
+        <h2>Smaller Fixes Along the Way</h2>
+        <ul>
+          <li>
+            A new build now replaces an older DiffPrism server that's still
+            running, so you don't end up testing old code (#183).
+          </li>
+          <li>
+            After the server restarts, the dashboard tab you already have open
+            reconnects. Before, every restart opened a new tab (#189).
+          </li>
+          <li>
+            Reviews nobody is looking at check for changes much less often. Ten
+            quiet reviews went from 300 <code>git diff</code> runs a minute to
+            about 2 (#171).
+          </li>
+          <li>Closed reviews stay closed after a reload (#166).</li>
+          <li>
+            Clicking a thread in the side panel scrolls to it, even in the file
+            you already have open (#185).
+          </li>
+          <li>
+            Code after a hidden part of the diff no longer turns comment grey
+            when a comment starts above the hidden lines (#187).
+          </li>
+          <li>
+            The side panels can be resized and hidden, and they stay that way
+            after a reload (#205).
+          </li>
+          <li>
+            A leftover setting from early versions made every Claude Code turn
+            end with an error. DiffPrism now removes it (#216).
+          </li>
+          <li>
+            <code>diffprism feedback</code> opens a prefilled GitHub issue.
+            Nothing gets sent until you read it and submit it yourself (#172).
+          </li>
+        </ul>
+
+        <h2>Keeping the Docs Up to Date</h2>
+        <p>
+          Agents do a lot of the work on DiffPrism, and they read the docs too.
+          So a doc that's out of date gives them wrong instructions. Every pull
+          request now checks the docs against the code: tool names, commands
+          and options. The first run found 15 mistakes on main (#192).
+        </p>
+        <p>
+          The build journal came from the same idea (#201). It's also why this
+          post was easy to write. I didn't have to go back through pull
+          requests to remember why something changed.
+        </p>
+
+        <h2>How to Try It</h2>
+        <p>
+          Install with <code>npm install -g diffprism</code> and run{" "}
+          <code>diffprism setup</code> to connect Claude Code. For a pull
+          request, run <code>diffprism review owner/repo#123</code> from inside
+          your copy of the repo, then ask a question on any line.
+        </p>
+        <p>
+          Cheers,
+          <br />
+          Will
+        </p>
+      </>
+    ),
+  },
+  {
     slug: "reviewing-a-day-of-parallel-agents",
     title: "Reviewing a day of parallel agents",
     date: "2026-09-16",
