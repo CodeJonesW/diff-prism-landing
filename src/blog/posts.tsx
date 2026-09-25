@@ -10,6 +10,178 @@ export interface BlogPost {
 
 export const posts: BlogPost[] = [
   {
+    slug: "every-coding-agent-in-one-review",
+    title: "Every coding agent in one review",
+    date: "2026-09-24",
+    summary:
+      "A lot of developers pay for more than one coding agent. This week DiffPrism started putting them in the same pull request review. You pick which agent answers your questions, and the new review dojo has several agents review a pull request and vote on each other's findings.",
+    content: () => (
+      <>
+        <p>
+          I pay for more than one coding agent. I think a lot of developers do.
+          Claude Code for most things, Cursor for others, and maybe a ChatGPT or
+          Grok subscription on the side. Each one runs in its own window. Each
+          one only knows what you told it in that window.
+        </p>
+        <p>
+          What I want is for all of them to work in one place. One pull
+          request, one set of threads on the diff, and every agent you already
+          pay for looking at it. This week DiffPrism started on that.
+          Here's what shipped, pulled from the build journal. The
+          numbers in parentheses are{" "}
+          <a
+            href="https://github.com/CodeJonesW/diffprism/pulls?q=is%3Apr+is%3Amerged"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            pull requests in the DiffPrism repo
+          </a>
+          .
+        </p>
+
+        <h2>Starting With One Agent</h2>
+        <p>
+          Last week, running <code>diffprism review</code> on a pull request
+          started Claude Code for you (#218). You ask a question on a line and
+          it answers in the thread. It can read your local copy of the repo, but
+          it can't edit files or run commands.
+        </p>
+        <p>
+          But the agent lived inside that command. The command had to keep
+          running the whole time, and a pull request opened from the dashboard
+          got no agent at all. So now the DiffPrism server starts the agent
+          instead (#227). Every pull request review gets one, however you open
+          it, and the command gives you your terminal back.
+        </p>
+        <p>
+          That change mattered for more than convenience. The server is the one
+          place that sees every review. So it's also the place that can start
+          more than one agent.
+        </p>
+
+        <h2>Choosing the Agent and the Model</h2>
+        <p>
+          Next, the agent that answers doesn't have to be Claude Code anymore
+          (#233). You can pick Cursor, and you can pick the model for each one.
+          Set it in the dashboard, set it with{" "}
+          <code>diffprism config set agent cursor</code>, or pass{" "}
+          <code>--agent cursor --model gpt-5</code> for a single review.
+        </p>
+        <p>
+          Each agent keeps its own model setting. "opus" isn't a Cursor model
+          and "gpt-5" isn't a Claude one. So if you switch to Cursor for a week
+          and then back, your Claude model is still there.
+        </p>
+        <p>
+          Getting Cursor to work took two tries. Its read-only mode looked like
+          the right fit, so we built that first. Then we tried it. Cursor
+          treated posting a reply as a write and refused, so its answer ended
+          up somewhere nobody would see it. Now DiffPrism gives Cursor a
+          permissions file instead. It can read your code and use DiffPrism's
+          tools. It can't write files or run commands.
+        </p>
+        <p>
+          The part I care about most is how an agent gets added. DiffPrism does
+          all the waiting for new comments. Each agent only has to describe two
+          things: how to start a conversation, and how to answer once. So
+          adding the next one should be a small change.
+        </p>
+
+        <h2>The Review Dojo</h2>
+        <p>
+          Then we put more than one agent on the same pull request (#234). A
+          pull request review now has a Review dojo panel on the right. You
+          tick the agents installed on your machine, which today means Claude
+          Code and Cursor, and start it.
+        </p>
+        <p>
+          Each agent reviews the pull request on its own. Then each one votes
+          on what the others found. Agree or disagree, how much it matters, and
+          why. You get one list of findings in four groups: agreed, disputed,
+          not every agent voted, and found by only one reviewer. Under each
+          finding you can see who raised it and how everyone else voted. Each
+          finding also shows up as a thread on its line in the diff, so you can
+          reply to it there.
+        </p>
+        <p>
+          One agent's review is one opinion. When two agents on different
+          models flag the same line, it's probably a real problem. When one
+          flags something and the other says it doesn't matter, that's where I
+          should spend my time.
+        </p>
+        <p>
+          We made a few choices here. No agent writes up the result of the
+          vote. DiffPrism counts the votes itself, because an agent summarizing
+          the others could get it wrong and you'd have no way to tell. Each
+          agent reviews once and votes once, so a dojo takes a predictable
+          amount of time. And if an agent isn't installed or sends back
+          something DiffPrism can't read, it drops out, the panel says why, and
+          the others keep going.
+        </p>
+
+        <h2>Where This Is Going</h2>
+        <p>
+          Right now, when you reply to a dojo finding, only one agent answers.
+          The next step is having every agent in the dojo read the thread and
+          answer each other.
+        </p>
+        <p>
+          Past that, the goal is more agents. Claude Code and Cursor are what
+          work today. We want the other subscriptions a developer already pays
+          for, like ChatGPT or Grok, to take part in the same thread.
+        </p>
+        <p>
+          The idea is pretty simple. You already pay for these agents, and each
+          one is good at different things. A code review is a good place to use
+          all of them at once. They each review the diff, and you read one thread
+          and make the call.
+        </p>
+
+        <h2>A Few Other Changes</h2>
+        <ul>
+          <li>
+            A pull request review opens its own browser tab if you don't have
+            one open (#225).
+          </li>
+          <li>
+            A pull request you enter in the dashboard's Review PR form opens
+            right away, instead of leaving you on an empty dashboard (#229).
+          </li>
+          <li>
+            The review bar at the bottom of a pull request folds down to one
+            line while you read (#220).
+          </li>
+          <li>
+            Text is easier to read in both themes. We measured the contrast
+            against GitHub's and brightened every color that fell short (#230).
+          </li>
+          <li>
+            <code>diffprism doctor</code> lists everything DiffPrism installed
+            on your machine and whether it matches the version you're running.{" "}
+            <code>--fix</code> updates whatever is out of date (#232).
+          </li>
+          <li>
+            DiffPrism now has an Apache 2.0 license and a contributing guide
+            (#235).
+          </li>
+        </ul>
+
+        <h2>How to Try It</h2>
+        <p>
+          Install with <code>npm install -g diffprism</code> and run{" "}
+          <code>diffprism setup</code>. From inside your copy of the repo, run{" "}
+          <code>diffprism review owner/repo#123</code>. Open the Review dojo
+          panel on the right, tick the agents you have installed, and start it.
+        </p>
+        <p>
+          Cheers,
+          <br />
+          Will
+        </p>
+      </>
+    ),
+  },
+  {
     slug: "a-week-of-diffprism-changes",
     title: "A week of DiffPrism changes",
     date: "2026-09-22",
