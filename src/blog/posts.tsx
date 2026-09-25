@@ -146,8 +146,10 @@ export const posts: BlogPost[] = [
         </p>
         <p>
           Past that, the goal is more agents. Claude Code and Cursor are what
-          work today. We want the other subscriptions a developer already pays
-          for, like ChatGPT or Grok, to take part in the same thread.
+          work today. Most subscriptions a developer already pays for come with
+          a coding agent of their own. ChatGPT has Codex, Grok has Grok Build,
+          and Gemini has Antigravity. We want those to take part in the same
+          thread.
         </p>
         <p>
           The idea is pretty simple. You already pay for these agents, and each
