@@ -1073,6 +1073,44 @@
   line-height: 1.55;
 }
 
+/* ── Multi-agent ── */
+
+.agents {
+  position: relative;
+}
+
+.agents::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-section);
+  pointer-events: none;
+}
+
+.agents .container {
+  position: relative;
+}
+
+.agents-shot {
+  margin: 0 0 2.5rem;
+}
+
+.agents-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.agents .diff-card code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.85em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
 /* ── Features ── */
 
 .features {
