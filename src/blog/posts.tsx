@@ -111,6 +111,17 @@ export const posts: BlogPost[] = [
           finding also shows up as a thread on its line in the diff, so you can
           reply to it there.
         </p>
+        <figure className="blog-figure">
+          <img
+            src="/blog/every-coding-agent-in-one-review/review-dojo.png"
+            alt="DiffPrism reviewing pull request #235 with the Review dojo panel open. The panel shows 22 findings from Claude Code and Cursor, 17 of them agreed. In the diff, a finding Cursor raised about the NOTICE file is shown as a thread on its line, marked as one every agent agrees with, with Claude Code's vote and reason below it."
+            loading="lazy"
+          />
+          <figcaption>
+            Claude Code and Cursor reviewing DiffPrism's own license pull
+            request (#235). They agreed on 17 of 22 findings.
+          </figcaption>
+        </figure>
         <p>
           One agent's review is one opinion. When two agents on different
           models flag the same line, it's probably a real problem. When one
