@@ -38,6 +38,14 @@ export const posts: BlogPost[] = [
           </a>
           .
         </p>
+        <figure className="blog-figure">
+          <img
+            src="/blog/every-coding-agent-in-one-review/agents-holding-diffprism.jpg"
+            alt="Meme: Grok, Claude, ChatGPT, Gemini and Cursor stacked into one warrior, all holding a rainbow prism sword labeled DiffPrism over a pull request monster. The caption reads: When you pay for multiple AI subscriptions just to use them together."
+            loading="lazy"
+          />
+          <figcaption>Made with Grok.</figcaption>
+        </figure>
 
         <h2>Starting With One Agent</h2>
         <p>
