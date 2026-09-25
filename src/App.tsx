@@ -37,6 +37,7 @@ function Nav() {
           <Link to="/why">Why DiffPrism</Link>
           <Link to="/blog">Blog</Link>
           <a href="#how-it-works">Workflows</a>
+          <a href="#agents">Multi-agent</a>
           <a href="#features">Features</a>
           <a href={GITHUB_URL} className="btn-github" target="_blank" rel="noopener">
             <GitHubIcon />
@@ -218,17 +219,18 @@ function Workflows() {
             <span className="workflow-tag">Before it&apos;s merged</span>
             <h3>Review pull requests with an agent that read the code</h3>
             <p className="workflow-lede">
-              Open any GitHub PR. Your agent reads whole files from your local clone, not just the
-              hunks. It points out what matters and answers your questions on any line.
+              Open any GitHub PR and DiffPrism starts an agent for it. The agent reads whole files
+              from your local clone, not just the hunks, and answers your questions on any line.
             </p>
             <ol className="workflow-steps">
               <li>
-                <strong>Open the PR.</strong> DiffPrism fetches the diff and finds your local clone
-                on its own.
+                <strong>Open the PR.</strong> DiffPrism fetches the diff, finds your local clone,
+                and starts Claude Code or Cursor, whichever you picked.
               </li>
               <li>
                 <strong>Ask about any line.</strong> The agent replies in the thread, with the
-                context of the whole codebase behind it.
+                context of the whole codebase behind it. It can read your code, but it can&apos;t
+                edit files or run commands.
               </li>
               <li>
                 <strong>Approve, request changes, or comment.</strong> It posts to GitHub as a real
@@ -240,6 +242,60 @@ function Workflows() {
         </div>
         <p className="workflows-note">
           New to reviewing agent code? <Link to="/why">Why review locally, before the push &rarr;</Link>
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function MultiAgent() {
+  return (
+    <section className="differentiators agents" id="agents">
+      <div className="container">
+        <span className="section-label">More than one agent</span>
+        <h2>Every coding agent you pay for, on one review.</h2>
+        <p className="differentiators-sub">
+          Put Claude Code and Cursor on the same pull request. Each one reviews it, then votes on
+          what the others found, and you read one list sorted by how much they agree.
+        </p>
+        <figure className="agents-shot">
+          <img
+            src="/blog/every-coding-agent-in-one-review/review-dojo.png"
+            alt="DiffPrism reviewing a pull request with the Review dojo panel open, showing 22 findings from Claude Code and Cursor, 17 of them agreed, with each agent's vote under every finding."
+            loading="lazy"
+          />
+        </figure>
+        <div className="diff-grid">
+          <div className="diff-card">
+            <span className="diff-icon">{"vs"}</span>
+            <h3>The review dojo</h3>
+            <p>
+              Tick the agents installed on your machine. Each reviews the PR on its own, then
+              votes on the others&apos; findings: agreed, disputed, or raised by one reviewer. Every
+              finding also lands as a thread on its line.
+            </p>
+          </div>
+          <div className="diff-card">
+            <span className="diff-icon">{"=="}</span>
+            <h3>Counted, not summarized</h3>
+            <p>
+              DiffPrism counts the votes itself. No agent writes up the others, so what you see
+              is what each one actually said.
+            </p>
+          </div>
+          <div className="diff-card">
+            <span className="diff-icon">{"->"}</span>
+            <h3>Pick who answers</h3>
+            <p>
+              Choose Claude Code or Cursor to answer your questions, with a model for each. Set it
+              in the dashboard, or for one review with <code>--agent cursor --model gpt-5</code>.
+            </p>
+          </div>
+        </div>
+        <p className="workflows-note">
+          Works with Claude Code and Cursor today. Codex, Grok Build and Antigravity are next on
+          the list.{" "}
+          <Link to="/blog/every-coding-agent-in-one-review">Read how it came together &rarr;</Link>
         </p>
       </div>
     </section>
@@ -450,8 +506,16 @@ function CLI() {
             <p>Review a GitHub PR with your agent</p>
           </div>
           <div className="cli-example">
+            <code className="cli-cmd">diffprism review owner/repo#123 --agent cursor</code>
+            <p>Pick the agent that answers on this review</p>
+          </div>
+          <div className="cli-example">
             <code className="cli-cmd">diffprism review HEAD~3..HEAD</code>
             <p>Review a range of commits</p>
+          </div>
+          <div className="cli-example">
+            <code className="cli-cmd">diffprism doctor</code>
+            <p>Check that what DiffPrism installed matches the version you run</p>
           </div>
           <div className="cli-example">
             <code className="cli-cmd">diffprism feedback</code>
@@ -474,11 +538,15 @@ const faqItems = [
   },
   {
     q: "How can the agent answer while it waits for my decision?",
-    a: "In a local review, asking a question ends the agent's wait. It answers in the thread, then goes back to waiting for your decision. On a PR, the agent listens for new comments with wait_for_comments.",
+    a: "In a local review, asking a question ends the agent's wait. It answers in the thread, then goes back to waiting for your decision. On a PR, DiffPrism starts an agent for the review and runs it each time a new question comes in.",
+  },
+  {
+    q: "What is the review dojo?",
+    a: "A panel on PR reviews that puts several agents on the same pull request. Each one reviews it on its own, then votes on what the others found. You get one list grouped by agreement, with every agent's vote under each finding.",
   },
   {
     q: "Does it cost anything to run the AI?",
-    a: "DiffPrism never calls a model itself. Your own Claude Code or Cursor does the thinking, through MCP, on the plan you already have. There are no API keys to configure and no per-token bills from DiffPrism.",
+    a: "DiffPrism never calls a model API itself. It runs the Claude Code or Cursor you already have installed, on the plan you already pay for. There are no API keys to configure and no per-token bills from DiffPrism.",
   },
   {
     q: "Does my code leave my machine?",
@@ -486,7 +554,7 @@ const faqItems = [
   },
   {
     q: "What AI tools are supported?",
-    a: "Any MCP-compatible tool: Claude Code, Cursor, or a custom MCP client. DiffPrism provides the review. You bring the AI.",
+    a: "Claude Code and Cursor can answer your questions on a PR and take part in the review dojo, each with a model you choose. Any MCP-compatible tool can use DiffPrism's review tools. DiffPrism provides the review. You bring the AI.",
   },
   {
     q: "Is it free?",
@@ -565,6 +633,7 @@ export function App() {
       <Hero />
       <DemoSection />
       <Workflows />
+      <MultiAgent />
       <WhatMakesItDifferent />
       <Features />
       <Architecture />
