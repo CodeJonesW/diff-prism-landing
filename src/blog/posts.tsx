@@ -5,14 +5,208 @@ export interface BlogPost {
   title: string;
   date: string;
   summary: string;
+  /** Path under public/ used as the link-preview image. Defaults to the site image. */
+  image?: string;
   content: () => ReactNode;
 }
 
 export const posts: BlogPost[] = [
   {
+    slug: "the-dojo-reviews-your-commits",
+    title: "The dojo reviews your commits",
+    date: "2026-09-27",
+    summary:
+      "The review dojo used to run only on pull requests. Now it runs when your agent tries to commit, and its findings go back to the agent that wrote the code. On its first real run it found a bug in its own change.",
+    content: () => (
+      <>
+        <p>
+          Last week DiffPrism started putting more than one coding agent on a
+          pull request. Claude Code and Cursor each review it, then vote on each
+          other's findings. We called it the review dojo.
+        </p>
+        <p>
+          But a pull request is late. By then the code is committed, pushed,
+          and waiting on a teammate. The cheapest place to catch a mistake is
+          before the commit. So this week the dojo moved there. Here's what
+          shipped, pulled from the build journal. The numbers in parentheses
+          are{" "}
+          <a
+            href="https://github.com/CodeJonesW/diffprism/pulls?q=is%3Apr+is%3Amerged"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            pull requests in the DiffPrism repo
+          </a>
+          .
+        </p>
+
+        <h2>Watching the Dojo Work</h2>
+        <p>
+          A dojo on a real pull request takes a few minutes. The panel used to
+          show one spinner the whole time. That's long enough to wonder if
+          anything's happening at all.
+        </p>
+        <p>
+          Now each agent gets its own row (#237). You see its stage (starting,
+          reviewing, voting, done, or dropped out) and how long it's been
+          there. You also see what it's doing right now, like "Reading the diff
+          of src/cache.ts" or "Searching for ttl." Claude Code and Cursor both
+          stream their work as events, and DiffPrism turns each tool call into
+          a sentence. So it's a report of what the agent did, not a guess.
+        </p>
+        <p>
+          Before building any of this, we timed where the minutes go. Both
+          agents start in under two seconds. The time is the agents working
+          through the code. One early measurement said startup took 30 to 60
+          seconds. Turns out our test script was launching the wrong MCP
+          server, and the agent sat waiting for a connection that never came.
+          Measure the thing you'll ship, not a stand-in for it.
+        </p>
+
+        <h2>The Dojo on Your Commits</h2>
+        <p>
+          DiffPrism's commit gate stops an agent's <code>git commit</code> and
+          opens the staged change for you to review. Until now the dojo refused
+          to run there. Now it doesn't (#239). Open the Dojo pane on a commit
+          review and Claude Code and Cursor review the staged change and vote,
+          the same as on a pull request.
+        </p>
+        <p>
+          The more useful part is what happens next. Each finding has a
+          checkbox, and the ones the agents agreed on start ticked. You have
+          two ways to send them back to the agent that made the commit:
+        </p>
+        <ul>
+          <li>
+            <strong>Ask the agent.</strong> This puts a question on each ticked
+            finding's thread. The blocked commit ends, the agent gets the
+            finding and your question, and it fixes the code or replies. The
+            review stays open for another round.
+          </li>
+          <li>
+            <strong>Add to request for changes.</strong> This turns them into
+            inline comments on your Request Changes, which ends the review.
+          </li>
+        </ul>
+        <p>
+          Both use channels the waiting agent already listens to. We didn't
+          add a new one. The dojo agents stay read-only reviewers. The agent
+          that wrote the code is the one that fixes it.
+        </p>
+        <p>
+          Each finding card also says where it stands: sent, picked up,
+          answered, or in your request for changes. DiffPrism works that out
+          from the thread itself, from who spoke last and when the agent last
+          read the review. Nothing's stored beside it, so it can't drift from
+          what happened.
+        </p>
+        <p>
+          One bug nearly broke the whole loop. A commit review gets reopened
+          every time the agent commits again. The dashboard reset when that
+          happened, and the server re-sent the threads but not the dojo. So
+          the exact loop this feature exists for, where the agent fixes things
+          and commits again, blanked the pane that sent the findings. We fixed
+          it. The lesson was to test the loop, not just its first step.
+        </p>
+
+        <h2>The Dojo Found a Bug in Its Own Change</h2>
+        <p>
+          Agents read whole files during a review with a tool called{" "}
+          <code>get_file_context</code>. For commit reviews it now reads the
+          staged version of each file, since a commit is what's staged, not
+          what's on disk. That change came with #239.
+        </p>
+        <p>
+          It also came with a hole. The new path for reading files had no
+          check that the file stayed inside the repo. A path like{" "}
+          <code>../../.ssh/id_rsa</code> would have been read and returned. The
+          code under review is untrusted, so a prompt injection in a diff could
+          have used this to pull a secret into a review thread.
+        </p>
+        <p>
+          The dojo found it. Claude Code and Cursor both flagged it on the
+          dojo's first real run on a commit. And the change merged anyway,
+          before the fix, so the bug sat on main for a short time. Now the
+          tool refuses absolute paths, paths that climb out with{" "}
+          <code>..</code>, and symlinks that lead outside the repo (#260). It
+          refuses them with a reason instead of quietly trimming the path back
+          inside. An agent asking for one is either confused or being steered,
+          and either way it should see a no.
+        </p>
+        <p>
+          A finding two agents agree on, on your own change, is worth fixing
+          before the merge. Not after.
+        </p>
+
+        <h2>Pull Request Reviews Read the Pull Request</h2>
+        <p>
+          Reviewing a pull request without checking it out is kind of the
+          point of DiffPrism. It only half worked. Code was read from whatever
+          folder you ran the command in. Run it from anywhere else, and the
+          agent couldn't open a whole file. Run it from your clone, and the
+          agent read your clone. When you're reviewing someone else's pull
+          request, that's usually your branch, not theirs. So you could ask
+          about a function the pull request changed and get an answer about
+          the version without the change.
+        </p>
+        <p>
+          Now DiffPrism fetches the pull request's code itself (#241). It pulls
+          the exact head commit, and the base it's compared against, into a
+          copy of the repo under <code>~/.diffprism/repos/</code>. The agent
+          and <code>get_file_context</code> both read from there. It works from
+          any folder, from the dashboard, and for pull requests from forks.
+          Your own clone isn't touched.
+        </p>
+        <p>
+          The old code also had a fallback. If git couldn't find the branch, it
+          read your working tree instead. That looked like harmless
+          robustness. But it fired exactly when the branch was missing, which
+          was exactly when your working tree was the wrong code. Now if the
+          fetch fails, the review doesn't open and it says why. An agent that
+          can't read the code would give confident answers about code it never
+          saw.
+        </p>
+
+        <h2>A Few Other Changes</h2>
+        <ul>
+          <li>
+            Releases don't commit to main anymore (#236). Main now only takes
+            changes through pull requests, and the release job used to push
+            the new version number straight to it. Three features merged and
+            none of them reached npm. Now the job reads the last version from
+            npm, bumps it in its own workspace, publishes, and tags the merge
+            commit.
+          </li>
+          <li>
+            Something we learned along the way: a pull request title used in a
+            GitHub Actions script should go through an environment variable.
+            Pasted straight into <code>run:</code>, it becomes part of the
+            shell command, and anyone who can open a pull request picks what
+            it says.
+          </li>
+        </ul>
+
+        <h2>How to Try It</h2>
+        <p>
+          Install with <code>npm install -g diffprism</code>, run{" "}
+          <code>diffprism setup</code>, then <code>diffprism hook install</code>{" "}
+          in your repo to turn on the commit gate. Next time your agent
+          commits, open the Dojo pane on the review, tick the agents you have
+          installed, and start it.
+        </p>
+        <p>
+          Cheers,
+          <br />
+          Will
+        </p>
+      </>
+    ),
+  },
+  {
     slug: "every-coding-agent-in-one-review",
     title: "Every coding agent in one review",
     date: "2026-09-24",
+    image: "/blog/every-coding-agent-in-one-review/agents-holding-diffprism.jpg",
     summary:
       "A lot of developers pay for more than one coding agent. This week DiffPrism started putting them in the same pull request review. You pick which agent answers your questions, and the new review dojo has several agents review a pull request and vote on each other's findings.",
     content: () => (
