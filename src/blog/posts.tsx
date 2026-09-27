@@ -236,7 +236,7 @@ export const posts: BlogPost[] = [
           several reviews open, the review pane didn't say which branch you were
           looking at. We sent a decision to the wrong review while testing an
           earlier fix. Now the header shows the checkout and branch, like{" "}
-          <code>radius / main</code> (#162).
+          <code>diffprism-landing / main</code> (#162).
         </p>
         <p>
           There were also about nine ways to open a review, and they didn't
@@ -414,15 +414,16 @@ export const posts: BlogPost[] = [
         <p>
           My coding days don't look like one long session anymore. They look
           like three agents running at once while I do other stuff. Here's what
-          one of those days looked like in my Radius repo, with DiffPrism in the
-          loop.
+          that looks like with DiffPrism in the loop. The examples come from
+          this site's own repo, so every diff here is public on GitHub.
         </p>
 
         <h2>Plans First</h2>
         <p>
-          I opened Claude Code with three things on the list. A signup form on
-          the landing page. The backend that form needs. And a bug where opening
-          Find closed the help sheet.
+          I opened Claude Code with three things on the list. A section on the
+          home page for the review dojo. A blog post about it. And a fix to the
+          FAQ, which said your code never leaves your machine. That stopped
+          being true once an agent started answering your questions.
         </p>
         <p>
           I didn't start with code. I went task by task and made a plan with
@@ -486,9 +487,10 @@ export const posts: BlogPost[] = [
           private unless I tick the ones I want posted as inline comments.
         </p>
         <p>
-          The Find fix was already up as a pull request, so I opened it that
+          The FAQ fix was already up as a pull request, so I opened it that
           way. That meant the sidebar had both kinds at once. Two pre-commit
-          reviews for the signup work, and PR #362 for the Find fix. Same list,
+          reviews, one for the home page section and one for the blog post, and
+          PR #16 for the FAQ fix. Same list,
           same diff view, same threads. The review bar at the bottom is what
           changes, since one decision goes back to an agent and the other goes
           to GitHub.
@@ -507,31 +509,29 @@ export const posts: BlogPost[] = [
 
         <h2>Asking on the Line</h2>
         <p>
-          I clicked into the backend session first. The header gives a quick
-          briefing. Three modules touched, one new dependency, two untested
-          changes. The files are sorted by how much attention they need. The
-          signup endpoint was marked critical. The README and config changes
-          were notable. A new <code>tsconfig.json</code> was mechanical, and I
-          could've approved that whole group at once.
+          I clicked into the home page session first. The header gives a quick
+          briefing. One module touched, one untested change, and the checkout
+          and branch it came from. Two files, <code>App.tsx</code> and{" "}
+          <code>App.css</code>.
         </p>
         <p>
-          But one line in that tsconfig wasn't obvious to me,{" "}
-          <code>"noEmit": true</code>. So I left a comment on it asking what it
-          does.
+          But one line in the new section wasn't obvious to me,{" "}
+          <code>loading="lazy"</code> on the review dojo screenshot. So I left a
+          comment on it asking what it does.
         </p>
         <p>
           The agent was still waiting on my decision. My question interrupted
-          that wait, so it read the thread and answered right there.{" "}
-          <code>noEmit</code> tells <code>tsc</code> to type-check only and
-          write no JavaScript. The tsconfig only exists so{" "}
-          <code>npm run typecheck</code> can check the signup function against
-          the Cloudflare Workers types. Wrangler does the real build at deploy,
-          so anything <code>tsc</code> wrote out would just be clutter.
+          that wait, so it read the thread and answered right there. Lazy
+          loading tells the browser to hold off on fetching the image until
+          the reader scrolls near it. The screenshot is a 520 KB PNG, and the
+          section sits below the hero, the demo and the two workflows. Without
+          it, the image would download with everything above the fold and slow
+          the first paint for something nobody's looking at yet.
         </p>
         <figure className="blog-figure">
           <img
             src="/blog/parallel-agent-workflow/agent-reply.png"
-            alt="A pre-commit review in DiffPrism with a question on functions/tsconfig.json line 10 and the agent's reply explaining noEmit in the thread"
+            alt="A pre-commit review in DiffPrism with a question on src/App.tsx line 265 and the agent's reply explaining loading=&quot;lazy&quot; in the thread"
             loading="lazy"
           />
           <figcaption>
@@ -546,15 +546,16 @@ export const posts: BlogPost[] = [
           </p>
         </div>
         <p>
-          Then I switched over to PR #362. Threads work the same way there. A
-          block in <code>MapScreen.tsx</code> got deleted and I couldn't tell
-          why. So I asked on that line too, and the question sat there waiting
-          for the agent.
+          Then I switched over to PR #16. Threads work the same way there. The
+          answer to "Does my code leave my machine?" got rewritten, and I
+          wanted to know why. So I asked on that line too. I'd opened this one
+          with <code>--no-agent</code>, so nothing was listening. The thread
+          says so and gives me the one line to paste into Claude Code instead.
         </p>
         <figure className="blog-figure">
           <img
             src="/blog/parallel-agent-workflow/question-thread.png"
-            alt="A comment on a removed line in MapScreen.tsx asking why it was removed, waiting for the agent to reply"
+            alt="A comment on the rewritten FAQ answer in src/App.tsx asking why it changed. The thread notes no agent is listening and offers a prompt to paste into Claude Code."
             loading="lazy"
           />
           <figcaption>Same kind of thread, on a pull request.</figcaption>
@@ -562,14 +563,14 @@ export const posts: BlogPost[] = [
 
         <h2>Comments, Fixes, Approve</h2>
         <p>
-          Back in the backend review, I left a few more comments. Some
+          Back in the home page review, I left a few more comments. Some
           were questions and some were changes I wanted. Requested changes go
           straight back to the agent that made them. It makes the fixes, and the
           diff updates live while it works.
         </p>
         <p>
           Once the fixes looked right, I approved and the commit went through.
-          Then I went back to PR #362, and the review I submitted there landed
+          Then I went back to PR #16, and the review I submitted there landed
           on GitHub. Then I moved on to the next session in the sidebar.
         </p>
 
