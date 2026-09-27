@@ -357,8 +357,8 @@ function WhatMakesItDifferent() {
             <span className="diff-icon">{"++"}</span>
             <h3>Runs on your machine</h3>
             <p>
-              The server, dashboard, and analysis all run locally. DiffPrism only contacts GitHub to
-              fetch a PR you open or to post a review you submit.
+              The server, dashboard, and analysis all run locally, and DiffPrism collects no
+              telemetry. It only contacts GitHub, to fetch a PR you open or post a review you submit.
             </p>
           </div>
         </div>
@@ -451,7 +451,7 @@ function Architecture() {
           <div className="arch-actor">
             <div className="arch-actor-icon">DP</div>
             <h4>DiffPrism Server</h4>
-            <p>HTTP + WebSocket + MCP server</p>
+            <p>HTTP + WebSocket + MCP, and starts the agent for each PR review</p>
           </div>
           <div className="arch-arrow">
             <span className="arch-arrow-label">WS</span>
@@ -550,7 +550,7 @@ const faqItems = [
   },
   {
     q: "Does my code leave my machine?",
-    a: "No. The server, dashboard, and analysis run locally. DiffPrism only talks to GitHub to fetch a PR you open and, when you decide, to post your review. Your threads with the agent are only posted if you tick them.",
+    a: "DiffPrism itself only talks to GitHub: to fetch a PR you open and, when you decide, to post your review. The server, dashboard, and analysis run locally, and there's no telemetry. The agent that answers is Claude Code or Cursor, which sends the code it reads to its own model provider, the same as when you use it in your editor. Your threads with the agent only reach GitHub if you tick them.",
   },
   {
     q: "What AI tools are supported?",
@@ -558,7 +558,7 @@ const faqItems = [
   },
   {
     q: "Is it free?",
-    a: "Yes. DiffPrism is open source and free to use. Install it with npm install -g diffprism.",
+    a: "Yes. DiffPrism is open source under the Apache 2.0 license and free to use. Install it with npm install -g diffprism.",
   },
   {
     q: "What languages are supported?",
