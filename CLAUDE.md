@@ -44,8 +44,16 @@ Edit) and `CLOUDFLARE_ACCOUNT_ID`.
 
 To deploy by hand: `npm run build && npx wrangler pages deploy dist --project-name=diffprism-landing`
 
-`public/_redirects` (`/*  /index.html  200`) is what makes the react-router
-routes (`/why`, `/context`, `/blog`) work on deep links. Do not delete it.
+Deep links to react-router routes (`/why`, `/context`, `/blog/...`) work
+through Pages' built-in SPA fallback: with no top-level `404.html`, Pages serves
+`index.html` for any path that has no file. Don't add a `404.html`. Don't add a
+catch-all `_redirects` rule either. `_redirects` rules win over static files, so
+`/*  /index.html  200` would hide the per-post pages below.
+
+Each blog post gets its own `dist/blog/<slug>.html` at build time
+(`blogMetaPages` in `vite.config.ts`). It's `index.html` with the post's title,
+summary and `image` in the Open Graph and Twitter tags, so link previews show
+the post. Pages serves it at `/blog/<slug>`.
 
 ## Conventions
 
