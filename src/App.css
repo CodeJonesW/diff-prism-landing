@@ -1091,17 +1091,68 @@
   position: relative;
 }
 
-.agents-shot {
+/* Three panels from one dojo run: the two short ones stack beside the tall findings list. */
+.dojo-steps {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  /* The findings panel is taller than the other two together; the leftover height goes below step 2. */
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "reviewing findings"
+    "voting findings";
+  align-items: start;
+  gap: 1.5rem 2rem;
   margin: 0 0 2.5rem;
 }
 
-.agents-shot img {
+.dojo-step-reviewing { grid-area: reviewing; }
+.dojo-step-voting { grid-area: voting; }
+.dojo-step-findings { grid-area: findings; }
+
+.dojo-step {
+  margin: 0;
+}
+
+.dojo-step img {
   display: block;
   width: 100%;
   height: auto;
   border: 1px solid var(--border);
   border-radius: 14px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.dojo-step figcaption {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.dojo-step figcaption span {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .dojo-steps {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas:
+      "reviewing"
+      "voting"
+      "findings";
+  }
 }
 
 .agents .diff-card code {
