@@ -255,24 +255,43 @@ function MultiAgent() {
         <span className="section-label">More than one agent</span>
         <h2>Every coding agent you pay for, on one review.</h2>
         <p className="differentiators-sub">
-          Put Claude Code and Cursor on the same pull request. Each one reviews it, then votes on
-          what the others found, and you read one list sorted by how much they agree.
+          Put Claude Code and Cursor on the same pull request, or on a commit your agent is about
+          to make. Each one reviews it, then votes on what the others found.
         </p>
-        <figure className="agents-shot">
-          <img
-            src="/blog/every-coding-agent-in-one-review/review-dojo.png"
-            alt="DiffPrism reviewing a pull request with the Review dojo panel open, showing 22 findings from Claude Code and Cursor, 17 of them agreed, with each agent's vote under every finding."
-            loading="lazy"
-          />
-        </figure>
+        <div className="dojo-steps">
+          <figure className="dojo-step dojo-step-reviewing">
+            <img
+              src="/dojo/1-reviewing.png"
+              alt="The Review dojo panel ten seconds in. Claude Code is reading the diff of packages/core/src/types.ts and Cursor is thinking."
+              loading="lazy"
+            />
+            <figcaption><span>1</span>Each agent reviews the change on its own.</figcaption>
+          </figure>
+          <figure className="dojo-step dojo-step-voting">
+            <img
+              src="/dojo/2-voting.png"
+              alt="The Review dojo panel at 1:37. Claude Code is done after raising 6 findings, and Cursor is voting on the others' findings after raising 1."
+              loading="lazy"
+            />
+            <figcaption><span>2</span>Then each one votes on what the others found.</figcaption>
+          </figure>
+          <figure className="dojo-step dojo-step-findings">
+            <img
+              src="/dojo/3-findings.png"
+              alt="The finished Review dojo: 7 findings from Claude Code and Cursor, 6 of them agreed and ticked, ready to send to the agent that made the change. The top finding, raised by Claude Code with Cursor agreeing, is a major issue in global-server.ts."
+              loading="lazy"
+            />
+            <figcaption><span>3</span>Agreed findings go back to the agent that wrote the code.</figcaption>
+          </figure>
+        </div>
         <div className="diff-grid">
           <div className="diff-card">
             <span className="diff-icon">{"vs"}</span>
             <h3>The review dojo</h3>
             <p>
-              Tick the agents installed on your machine. Each reviews the PR on its own, then
-              votes on the others&apos; findings: agreed, disputed, or raised by one reviewer. Every
-              finding also lands as a thread on its line.
+              Tick the agents installed on your machine. Each reviews the PR or commit on its own,
+              then votes on the others&apos; findings: agreed, disputed, or raised by one reviewer.
+              Every finding also lands as a thread on its line.
             </p>
           </div>
           <div className="diff-card">
