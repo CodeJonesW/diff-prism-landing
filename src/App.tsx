@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { HeroStage } from "./hero/HeroStage";
 import "./App.css";
 
 const GITHUB_URL = "https://github.com/CodeJonesW/diffprism";
@@ -78,6 +79,7 @@ function Hero() {
           <code>{INSTALL_CMD}</code>
         </div>
       </div>
+      <HeroStage />
     </section>
   );
 }
