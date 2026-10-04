@@ -2,7 +2,7 @@
 // (ms since the loop started), read from the times and data below. Changing the
 // story means editing this file, not the components.
 
-export const LOOP_MS = 23600;
+export const LOOP_MS = 26200;
 /** The frame shown when motion is reduced: the finished review, every finding fixed. */
 export const STILL_MS = 21500;
 /** The dojo's clock runs faster than ours, so the times it shows look like a real run. */
@@ -20,7 +20,10 @@ export const T = {
   diffUpdated: 18200,
   approveClick: 19800,
   committed: 20300,
-  fadeOut: 23000,
+  /** The review fades out, and the brand card holds before the loop starts again. */
+  stageOut: 22000,
+  brandIn: 22400,
+  brandOut: 25600,
 } as const;
 
 export type Chapter = { label: string; at: number };

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
+import { BrandMark } from "../BrandMark";
 import {
   CHAPTERS,
   DIFF,
@@ -25,6 +26,10 @@ import "./HeroStage.css";
 const WIDE = { w: 1160, h: 640 };
 const COMPACT = { w: 420, h: 720 };
 const COMPACT_BELOW = 720;
+// Height the section spends around the stage: the fixed nav, padding and the chapter strip.
+const CHROME_H = 64 + 32 + 64 + 24;
+// On a very short screen, scroll rather than shrink the stage past readable.
+const MIN_SCALE = 0.6;
 
 // Where the "sent" pill flies, from the Send button to the author's terminal, in stage pixels.
 const FLY = {
@@ -81,18 +86,30 @@ function useStageClock(ref: RefObject<HTMLElement | null>): number {
   return t;
 }
 
+/**
+ * Fits the stage to the section's width and to the viewport's height, so the
+ * whole review is in view on the first screen. `ref` is the element whose width
+ * the stage may use.
+ */
 function useStageLayout(ref: RefObject<HTMLElement | null>) {
   const [width, setWidth] = useState(WIDE.w);
+  const [viewportH, setViewportH] = useState(() => window.innerHeight);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const ro = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
     ro.observe(el);
-    return () => ro.disconnect();
+    const onResize = () => setViewportH(window.innerHeight);
+    window.addEventListener("resize", onResize);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", onResize);
+    };
   }, [ref]);
   const compact = width < COMPACT_BELOW;
   const size = compact ? COMPACT : WIDE;
-  return { compact, size, scale: Math.min(1, width / size.w) };
+  const fitHeight = (viewportH - CHROME_H) / size.h;
+  return { compact, size, scale: Math.max(MIN_SCALE, Math.min(1, width / size.w, fitHeight)) };
 }
 
 // ── Helpers ──
@@ -489,7 +506,7 @@ function Chapters({ t }: { t: number }) {
   return (
     <ol className="hs-chapters" aria-hidden>
       {CHAPTERS.map((c, i) => {
-        const end = CHAPTERS[i + 1]?.at ?? T.fadeOut;
+        const end = CHAPTERS[i + 1]?.at ?? T.stageOut;
         const p = clamp01((t - c.at) / (end - c.at));
         return (
           <li key={c.label} className={t >= c.at && t < end ? "is-active" : t >= end ? "is-done" : ""}>
@@ -505,38 +522,77 @@ function Chapters({ t }: { t: number }) {
   );
 }
 
+/** The card the loop ends on: the mark, the name and the line, in that order, then out. */
+function BrandCard({ t }: { t: number }) {
+  if (t < T.brandIn) return null;
+  const out = 1 - clamp01((t - T.brandOut) / 500);
+  const part = (delay: number) => {
+    const p = 1 - (1 - clamp01((t - T.brandIn - delay) / 700)) ** 3;
+    return { opacity: p * out, transform: `translateY(${(1 - p) * 14}px) scale(${0.96 + p * 0.04})` };
+  };
+  return (
+    <div className="hs-brand">
+      <span className="hs-brand-mark" style={part(0)}>
+        <BrandMark size={72} />
+      </span>
+      <span className="hs-brand-name" style={part(150)}>
+        DiffPrism
+      </span>
+      <span className="hs-brand-line" style={part(450)}>
+        Human review for AI-written code.
+      </span>
+    </div>
+  );
+}
+
 export function HeroStage() {
+  const fitRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const t = useStageClock(frameRef);
-  const { compact, size, scale } = useStageLayout(frameRef);
-  const opacity = t < 400 ? t / 400 : t > T.fadeOut ? 1 - clamp01((t - T.fadeOut) / 500) : 1;
+  const { compact, size, scale } = useStageLayout(fitRef);
+  // 0 while the review plays, rising to 1 as it gives way to the brand card.
+  const leaving = clamp01((t - T.stageOut) / 500);
+  const opacity = (t < 400 ? t / 400 : 1) * (1 - leaving);
 
   return (
-    <div className="hs">
-      <div
-        ref={frameRef}
-        className="hs-frame"
-        style={{ height: size.h * scale }}
-        role="img"
-        aria-label="Claude Code commits a rate limiter. DiffPrism holds the commit and opens a review. Claude Code and Cursor each review the change, reading files and raising findings on the diff, then vote on each other's findings. The two agreed findings go back to the agent that wrote the code, which fixes them, and the commit goes through once approved."
-      >
-        <div
-          className={[
-            "hs-stage",
-            compact ? "is-compact" : "is-wide",
-            t >= T.windowIn && "is-gate",
-            t < 120 && "is-reset",
-          ]
-            .filter(Boolean)
-            .join(" ")}
-          style={{ width: size.w, height: size.h, transform: `scale(${scale})`, opacity }}
-        >
-          <Terminal t={t} />
-          <DiffPrismWindow t={t} />
-          <FlyingFindings t={t} compact={compact} />
+    <section className="hs" aria-label="How a DiffPrism review works">
+      <div ref={fitRef} className="hs-fit">
+        <div className="hs-inner" style={{ width: size.w * scale }}>
+          <div
+            ref={frameRef}
+            className="hs-frame"
+            style={{ height: size.h * scale }}
+            role="img"
+            aria-label="Claude Code commits a rate limiter. DiffPrism holds the commit and opens a review. Claude Code and Cursor each review the change, reading files and raising findings on the diff, then vote on each other's findings. The two agreed findings go back to the agent that wrote the code, which fixes them, and the commit goes through once approved."
+          >
+            <div
+              className={[
+                "hs-stage",
+                compact ? "is-compact" : "is-wide",
+                t >= T.windowIn && "is-gate",
+                t < 120 && "is-reset",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              style={{
+                width: size.w,
+                height: size.h,
+                transform: `scale(${scale * (1 - leaving * 0.03)})`,
+                filter: leaving > 0 ? `blur(${leaving * 6}px)` : undefined,
+                opacity,
+              }}
+            >
+              <Terminal t={t} />
+              <DiffPrismWindow t={t} />
+              <FlyingFindings t={t} compact={compact} />
+            </div>
+            <BrandCard t={t} />
+          </div>
+          <div style={{ opacity }}>
+            <Chapters t={t} />
+          </div>
         </div>
       </div>
-      <Chapters t={t} />
-    </div>
+    </section>
   );
 }

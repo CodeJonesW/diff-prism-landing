@@ -6,16 +6,71 @@
   --hs-cursor: var(--purple);
   --hs-orange: #f0883e;
   --hs-panel: #0b0e15;
+  /* The first screen: below the fixed 64px nav, the review fills what's left. */
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding: calc(64px + 2rem) 1rem 1.5rem;
+  background: var(--gradient-hero);
+}
+
+.hs-fit {
+  width: 100%;
   max-width: 1160px;
-  margin: 3rem auto 0;
-  padding: 0 1rem;
-  text-align: left;
-  animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+  margin: 0 auto;
+  animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.hs-inner {
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .hs-frame {
   position: relative;
   width: 100%;
+}
+
+/* ── Brand card the loop ends on ── */
+
+.hs-brand {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.hs-brand > span {
+  display: block;
+  will-change: transform, opacity;
+}
+
+.hs-brand-mark svg {
+  display: block;
+  filter: drop-shadow(0 0 40px rgba(99, 171, 255, 0.35));
+}
+
+.hs-brand-name {
+  font-size: clamp(3rem, 9vw, 6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-bright) 50%, var(--purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding-bottom: 0.08em;
+}
+
+.hs-brand-line {
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  color: var(--text-secondary);
 }
 
 .hs-stage {
@@ -899,7 +954,7 @@
 
 @media (max-width: 640px) {
   .hs {
-    margin-top: 2.5rem;
+    padding-top: calc(64px + 1rem);
   }
 
   .hs-chapters {
