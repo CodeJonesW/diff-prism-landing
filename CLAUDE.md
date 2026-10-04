@@ -55,6 +55,12 @@ Each blog post gets its own `dist/blog/<slug>.html` at build time
 summary and `image` in the Open Graph and Twitter tags, so link previews show
 the post. Pages serves it at `/blog/<slug>`.
 
+The site-wide link-preview image is `public/og-image.png` (1200x630), rendered
+from `og/og-image.html` by `og/render.sh` (headless Chrome). When the hero copy
+or the screenshot it shows changes, edit the template, re-run the script, and
+bump the `?v=` on the image URL in `index.html` and `DEFAULT_IMAGE` in
+`vite.config.ts` so X, Slack and LinkedIn fetch the new one.
+
 ## Conventions
 
 - Single-page app, all content in `src/App.tsx`

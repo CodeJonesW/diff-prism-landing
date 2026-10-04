@@ -1,0 +1,66 @@
+<!doctype html>
+<!-- Link-preview image for diffprism.com. Render with og/render.sh; it writes public/og-image.png. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: #07090e radial-gradient(ellipse 80% 70% at 20% -10%, rgba(99,171,255,0.14) 0%, transparent 60%);
+    color: #e8ecf4;
+    font-family: "Outfit", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+  }
+  .copy { width: 720px; padding: 60px 0 60px 64px; display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 14px; font-size: 30px; font-weight: 700; letter-spacing: -0.01em; }
+  .badge {
+    margin-top: 40px; align-self: flex-start;
+    font-size: 17px; font-weight: 500; color: #8ac4ff;
+    border: 1px solid rgba(99,171,255,0.25); background: rgba(99,171,255,0.08);
+    padding: 6px 14px; border-radius: 999px;
+  }
+  h1 { margin-top: 24px; font-size: 47px; line-height: 1.08; font-weight: 800; letter-spacing: -0.03em; }
+  h1 .accent { color: #63abff; }
+  .sub { margin-top: 24px; font-size: 23px; line-height: 1.4; color: #9aa3b8; max-width: 560px; }
+  .install {
+    margin-top: auto; align-self: flex-start;
+    font-family: "IBM Plex Mono", monospace; font-size: 20px; color: #7ee787;
+    background: #111520; border: 1px solid #1e2536; border-radius: 10px; padding: 10px 18px;
+  }
+  .install::before { content: "$ "; color: #4e5670; }
+  .shot { flex: 1; position: relative; }
+  .shot-frame {
+    position: absolute; top: 60px; left: 8px; width: 600px; height: 640px;
+    border: 1px solid #1e2536; border-radius: 14px; overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(99,171,255,0.08);
+  }
+  .shot-frame img { display: block; width: 100%; }
+  .shot-frame::after {
+    content: ""; position: absolute; inset: auto 0 0 0; height: 160px;
+    background: linear-gradient(to bottom, transparent, #07090e);
+  }
+</style>
+</head>
+<body>
+  <div class="copy">
+    <div class="brand">
+      <svg width="44" height="44" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="8" fill="#111520" />
+        <path d="M8 10h16M8 16h12M8 22h8" stroke="#63abff" stroke-width="2.5" stroke-linecap="round" />
+        <circle cx="26" cy="16" r="3" fill="#7ee787" opacity="0.9" />
+      </svg>
+      DiffPrism
+    </div>
+    <span class="badge">Open source &middot; Runs on your machine &middot; Claude Code &amp; Cursor</span>
+    <h1>Catch it before the commit.<br /><span class="accent">Discuss it before the merge.</span></h1>
+    <p class="sub">Review your agent's commits and GitHub PRs. Put every coding agent on the same review, and see where they agree.</p>
+    <code class="install">npm install -g diffprism</code>
+  </div>
+  <div class="shot">
+    <div class="shot-frame"><img src="../public/dojo/3-findings.png" alt="" /></div>
+  </div>
+</body>
+</html>

@@ -4,7 +4,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 const SITE_URL = 'https://diffprism.com'
-const DEFAULT_IMAGE = '/gh-review-1.png'
+const DEFAULT_IMAGE = '/og-image.png?v=1'
 
 // The fields of BlogPost (src/blog/posts.tsx) that go into link previews.
 interface PostMeta {
