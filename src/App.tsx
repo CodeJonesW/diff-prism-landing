@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { BrandMark } from "./BrandMark";
+import { HeroStage } from "./hero/HeroStage";
 import "./App.css";
 
 const GITHUB_URL = "https://github.com/CodeJonesW/diffprism";
@@ -26,11 +28,7 @@ function Nav() {
     <nav className="nav">
       <div className="container nav-inner">
         <a href="/" className="nav-brand">
-          <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-            <rect width="32" height="32" rx="8" fill="#111520" />
-            <path d="M8 10h16M8 16h12M8 22h8" stroke="#63abff" strokeWidth="2.5" strokeLinecap="round" />
-            <circle cx="26" cy="16" r="3" fill="#7ee787" opacity="0.9" />
-          </svg>
+          <BrandMark />
           DiffPrism
         </a>
         <div className="nav-links">
@@ -649,6 +647,7 @@ export function App() {
   return (
     <>
       <Nav />
+      <HeroStage />
       <Hero />
       <DemoSection />
       <Workflows />
